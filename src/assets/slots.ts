@@ -1,0 +1,47 @@
+import A from "./index";
+
+/** Semantic names for the artwork, so pages never depend on file names. */
+export const IMG = {
+  blobTR: A.blobTopRight,
+  blobDL: A.blobDownLeft,
+  /** dark navy/purple aurora – used behind call-to-action bands */
+  ctaAurora: A.aboutReadyToStartAConversation,
+  ctaAuroraTall: A.homeGetStartedImg,
+  /** dark teal wave – used behind dark feature sections */
+  waveTeal: A.aboutRectangle206,
+  waveTealWide: A.rdResearcgThemesImg,
+  waveSoft: A.homeFourPillarImg,
+  wavePartners: A.homePartnersImg,
+  thosArch: A.homeThosSectionImg,
+  /** photography / product shots */
+  heroCare: A.cmHeroImage,
+  careManager: A.cmToolsEnablementImg,
+  careMgmt: A.cmCareManagementImg,
+  carePlanHero: A.planHeroSec,
+  carePlanBenefits: A.planBenefitsOfMembershipImg,
+  carePlanServices: A.planServicesForOurMembersImg,
+  homeCarePlan: A.homeCarePlanImg,
+  app1: A.homeApp1Img,
+  app2: A.homeApp2Img,
+  app3: A.homeApp3Img,
+  tdocHome: A.tdocHomeImg,
+  ecoHub: A.ecoCoreSolutionsImg,
+  ecoPhysicians: A.ecoForPhysiciansImg,
+  ecoPatients: A.ecoForPatientsImg,
+  ecoCareTeams: A.ecoForCareTeamsImg,
+  ecoMarketplace: A.ecoMarketplaceImg,
+  ecoNatlife: A.ecoExperienceNatlifeProductImg,
+  ecoTmart: A.ecoExperienceTheTMartImg,
+  techHero: A.techHeroSecImg,
+  techHome: A.techConnectedCareDeliveredAtHome,
+  techKiosk: A.techConnectedScreeningWhereverPeopleNeedIt,
+  techHub: A.techMoreHealthcareUnderOneRoof,
+  techAgeing: A.techTechnologyForHealthierAgeing,
+  techAesthetics: A.techTechnologyEnabledAestheticsWellness,
+  techSmarter: A.techASmarterWayToBringCareTogether,
+  techHubs: A.techTelthHubsKiosks,
+  techTwban: A.techTwbanMonitoringDevices,
+  techGmed: A.techGMedId,
+  techP3dsc: A.techP3dsc,
+  techFuture: A.techTheFutureOfConnectedHealthcareImg,
+} as const;
