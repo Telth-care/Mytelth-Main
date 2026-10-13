@@ -6,9 +6,9 @@ import { IMG } from "../assets/slots";
 import { ROUTES } from "../lib/links";
 
 const VALUES = [
-  { t: "We build technology that serves people — not the other way around.", p: "At Telth, your work directly contributes to making healthcare more connected, more accessible and more human for individuals and families around the world." },
-  { t: "We are honest about what we know and transparent about what we do not.", p: "We are a team of people who care — about the quality of what we build, about the people who use it, and about doing the right thing even when it is harder." },
-  { t: "We move thoughtfully — with ambition and responsibility in equal measure." },
+  { t: "We build technology that serves people not the other way around.", p: "At Telth, your work directly contributes to making healthcare more connected, more accessible and more human for individuals and families around the world." },
+  { t: "We are honest about what we know and transparent about what we do not.", p: "We are a team of people who care about the quality of what we build, about the people who use it, and about doing the right thing even when it is harder." },
+  { t: "We move thoughtfully with ambition and responsibility in equal measure." },
   { t: "We build diverse, inclusive teams that reflect the communities we serve." },
 ];
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Linkedin, Twitter } from "lucide-react";
-import logo from "../assets/telth-logo-name.png";
+import logo from "../assets/Layer 2.png";
 import { EXTERNAL, FOOTER_COLUMNS, LEGAL, ROUTES, isExternal } from "../lib/links";
 
 const linkCls = "foot-link font-open text-[14px] leading-[21px] text-slate-200/90";

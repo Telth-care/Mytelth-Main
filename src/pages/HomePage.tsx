@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   Activity,
   ArrowRight,
@@ -42,8 +42,6 @@ import {
   Server,
   Boxes,
   Workflow,
-  Inbox,
-  Route,
   Boxes as BoxesIcon,
 } from "lucide-react";
 import CtaBand from "../components/CtaBand";
@@ -110,48 +108,209 @@ const PILLARS = [
   },
 ];
 
-/* ---------- ENRICHED LANE DATA (icons + accent per lane) ---------- */
-const LANES = [
-  {
-    label: "Data In",
-    tagline: "Signals captured everywhere",
-    icon: Inbox,
-    accent: "from-sky-500 to-blue-600",
-    soft: "from-sky-50 to-blue-50",
-    ring: "ring-sky-100",
-    dot: "bg-sky-500",
-    text: "text-sky-700",
-    border: "border-sky-300",       // ← ADD
-    hoverBorder: "hover:border-sky-400", // optional
-    items: ["Personal Gadget Data", "Care @ Home HES", "Clinical Data Collection", "P³DSC"],
-  },
-  {
-    label: "Care Journey",
-    tagline: "Every step, orchestrated",
-    icon: Route,
-    accent: "from-indigo-500 to-violet-600",
-    soft: "from-indigo-50 to-violet-50",
-    ring: "ring-indigo-100",
-    dot: "bg-indigo-500",
-    text: "text-indigo-700",
-    border: "border-indigo-300",     // ← ADD
-    hoverBorder: "hover:border-indigo-400",
-    items: ["Intake", "G-Med ID", "Physician", "Medicine's Delivery", "Follow-up Care"],
-  },
-  {
-    label: "Care Network",
-    tagline: "One connected ecosystem",
-    icon: Network,
-    accent: "from-emerald-500 to-teal-600",
-    soft: "from-emerald-50 to-teal-50",
-    ring: "ring-emerald-100",
-    dot: "bg-emerald-500",
-    text: "text-emerald-700",
-    border: "border-emerald-300",    // ← ADD
-    hoverBorder: "hover:border-emerald-400",
-    items: ["Care Team / CM/CCM", "Telth AI Medical Centers", "Advance Labs", "Telth Hospital", "Telth Powered Hospitals & Clinics"],
-  },
+/**
+ * Telth care Infrastructure — Figma flow diagram
+ *
+ * Fully visible by default. The "hover" effect (lift + blue glow) plays on each
+ * block automatically, one by one, left → right, then loops forever.
+ * Hovering the diagram with the mouse pauses the auto-play and uses the normal hover.
+ */
+
+const DATA_ITEMS = [
+  "Personal Gadget Data",
+  "Care @ Home HES",
+  "Telth AI Medical Centers",
+  "Telth Powered Hospitals & Clinics",
 ];
+const TEAM_ITEMS = ["Physician", "CM/CCM"];
+const NETWORK_ITEMS = ["Perception", "Advance Labs", "Telth Hospital"];
+
+// blocks in auto-play order
+const I_INTAKE = 0;
+const I_DATA = 1;
+const I_CIRCLE = 2;
+const I_TEAM = 3;
+const I_NET = 4;
+const I_FOLLOW = 5;
+const TOTAL = 6;
+
+const STEP_MS = 1100; // how long each block stays "hovered" before the next one
+
+function InfrastructureFlow() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [step, setStep] = useState(-1);
+
+  // run only while visible
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.25,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // endless loop: block 0 → 1 → … → 5 → 0 …
+  useEffect(() => {
+    if (!inView || paused) {
+      setStep(-1);
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let i = 0;
+    setStep(0);
+    const id = setInterval(() => {
+      i = (i + 1) % TOTAL;
+      setStep(i);
+    }, STEP_MS);
+    return () => clearInterval(id);
+  }, [inView, paused]);
+
+  const on = (i: number) => (step === i ? "true" : "false");
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="tf relative mx-auto w-full max-w-[1240px] px-2"
+    >
+      <style>{`
+        .tf-item{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,background-color .45s ease,border-color .45s ease}
+        .tf-item:hover,.tf-item[data-on="true"]{transform:translateY(-6px)}
+
+        /* pills */
+        .tf-pill{box-shadow:0 8px 20px -8px rgba(37,99,235,.55)}
+        .tf-pill:hover,.tf-pill[data-on="true"]{background-color:#1d4ed8;
+          box-shadow:0 0 0 4px rgba(37,99,235,.18),0 0 28px rgba(37,99,235,.6)}
+
+        /* boxes */
+        .tf-box{box-shadow:0 10px 28px -14px rgba(15,23,42,.28)}
+        .tf-box:hover,.tf-box[data-on="true"]{border-color:rgba(37,99,235,.4);background-color:#DCE6FA;
+          box-shadow:0 0 0 1px rgba(37,99,235,.3),0 22px 48px -14px rgba(37,99,235,.5)}
+
+        /* circle */
+        .tf-core{transition:box-shadow .45s ease}
+        .tf-circle:hover,.tf-circle[data-on="true"]{transform:translateY(-4px) scale(1.04)}
+        .tf-circle:hover .tf-core,.tf-circle[data-on="true"] .tf-core{box-shadow:0 0 0 8px rgba(37,99,235,.2),0 0 40px rgba(37,99,235,.7)}
+        .tf-circle:hover .tf-halo,.tf-circle[data-on="true"] .tf-halo{animation:tf-pulse 1.1s ease-out infinite}
+        .tf-ring{animation:tf-spin 24s linear infinite}
+
+        @keyframes tf-pulse{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+        @keyframes tf-spin{to{transform:rotate(360deg)}}
+
+        @media (prefers-reduced-motion:reduce){
+          .tf-item,.tf-core{transition:none}
+          .tf-item:hover,.tf-item[data-on="true"]{transform:none}
+          .tf-ring,.tf-halo{animation:none!important}
+        }
+      `}</style>
+
+      <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between lg:gap-4">
+        {/* ---------- 1. Intake pill ---------- */}
+        <Pill on={on(I_INTAKE)} kicker="Intake" label="Clinical Data Collection" />
+
+        {/* ---------- 2. Data box ---------- */}
+        <Box
+          on={on(I_DATA)}
+          items={DATA_ITEMS}
+          className="w-full max-w-[290px] lg:w-[270px]"
+          padded
+        />
+
+        {/* ---------- 3. G-Med ID circle ---------- */}
+        <div
+          data-on={on(I_CIRCLE)}
+          className="tf-item tf-circle relative flex h-[132px] w-[132px] flex-none cursor-pointer items-center justify-center"
+        >
+          <span className="tf-ring absolute inset-0 rounded-full border border-dashed border-blue-400/70" />
+          <span className="tf-halo pointer-events-none absolute inset-2 rounded-full bg-blue-400/40 opacity-0" />
+          <span className="absolute inset-[7px] rounded-full bg-blue-100/80" />
+          <div className="tf-core relative flex h-[108px] w-[108px] flex-col items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-center text-white shadow-[0_0_0_5px_rgba(147,197,253,.55)]">
+            <span className="font-franklin text-[15px] font-bold leading-tight">G-Med ID</span>
+            <span className="font-franklin text-[15px] font-bold leading-tight">P³DSC</span>
+          </div>
+        </div>
+
+        {/* ---------- 4. Care Team box ---------- */}
+        <Box
+          on={on(I_TEAM)}
+          title="Care Team"
+          items={TEAM_ITEMS}
+          className="w-full max-w-[220px] lg:w-[185px]"
+          indent
+        />
+
+        {/* ---------- 5. Network box ---------- */}
+        <Box
+          on={on(I_NET)}
+          items={NETWORK_ITEMS}
+          className="w-full max-w-[240px] lg:w-[212px]"
+          padded
+        />
+
+        {/* ---------- 6. Follow-up pill ---------- */}
+        <Pill on={on(I_FOLLOW)} kicker="Follow-up Care" label="Medicine's Delivery" />
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+function Pill({ on, kicker, label }: { on: string; kicker: string; label: string }) {
+  return (
+    <div
+      data-on={on}
+      className="tf-item tf-pill w-full max-w-[220px] flex-none cursor-pointer rounded-[12px] bg-blue-600 px-4 py-3 text-left text-white lg:w-[175px]"
+    >
+      <p className="text-[13px] font-medium leading-tight text-blue-100">{kicker}</p>
+      <p className="mt-0.5 text-[13.5px] font-bold leading-tight">{label}</p>
+    </div>
+  );
+}
+
+function Box({
+  on,
+  items,
+  title,
+  className = "",
+  padded,
+  indent,
+}: {
+  on: string;
+  items: string[];
+  title?: string;
+  className?: string;
+  padded?: boolean;
+  indent?: boolean;
+}) {
+  return (
+    <div
+      data-on={on}
+      className={`tf-item tf-box flex-none cursor-pointer rounded-[14px] border border-white/70 bg-[#E6ECF8] ${
+        padded ? "p-[22px]" : "p-4"
+      } ${className}`}
+    >
+      {title && (
+        <p className="mb-2.5 pl-1 text-[13.5px] font-medium text-slate-600">{title}</p>
+      )}
+      <div className={`flex flex-col gap-3 ${indent ? "pl-2" : ""}`}>
+        {items.map((it) => (
+          <div
+            key={it}
+            className="rounded-[8px] bg-white px-3 py-[11px] text-center text-[13.5px] font-semibold leading-snug text-slate-800 shadow-[0_2px_6px_-2px_rgba(15,23,42,.12)]"
+          >
+            {it}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const APPS = [
   {
@@ -278,6 +437,92 @@ const PARTNERS = [
   [Landmark, "Governments", "National and regional health authorities"],
 ] as const;
 
+// Three overlapping phones (T-DOC left, Patient centre, CM/CCM right) as in the Figma.
+// Positions are % of the stack box, measured from the Figma frame.
+const PHONE_STACK = [
+  { src: IMG.app1, alt: "T-DOC app", left: "0%", top: "16.2%", z: 2, delay: 200, fx: "-36px", fy: "24px", hx: "5.4%", hy: "-4%" },
+  { src: IMG.app2, alt: "Telth patient app", left: "28.1%", top: "0%", z: 1, delay: 0, fx: "0px", fy: "48px", hx: "0%", hy: "3.4%" },
+  { src: IMG.app3, alt: "CM/CCM app", left: "60.1%", top: "12.6%", z: 2, delay: 400, fx: "36px", fy: "24px", hx: "-5.4%", hy: "-2.6%" },
+];
+
+function PhoneStack() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setOn(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      data-on={on}
+      className="phone-stack relative mx-auto aspect-[441/469] w-full max-w-[300px] sm:max-w-[440px]"
+    >
+      <style>{`
+        .phone-stack__glow{opacity:0;transition:opacity 1.2s ease}
+        .phone-stack[data-on="true"] .phone-stack__glow{opacity:1}
+        .phone-stack__item{opacity:0;transform:translate(var(--fx),var(--fy)) scale(.96);
+          transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1);transition-delay:var(--d)}
+        .phone-stack[data-on="true"] .phone-stack__item{opacity:1;transform:none}
+        .phone-stack__hover{transition:transform .7s cubic-bezier(.22,1,.36,1)}
+        .phone-stack[data-on="true"]:hover .phone-stack__hover{transform:translate(var(--hx),var(--hy))}
+        .phone-stack[data-on="true"] .phone-stack__img{animation:phone-float 6s ease-in-out infinite;
+          animation-delay:calc(var(--d) + 1.2s)}
+        @keyframes phone-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @media (prefers-reduced-motion:reduce){
+          .phone-stack__item{opacity:1;transform:none;transition:none}
+          .phone-stack__glow{opacity:1;transition:none}
+          .phone-stack__hover{transition:none}
+          .phone-stack[data-on="true"] .phone-stack__img{animation:none}
+        }
+      `}</style>
+
+      {/* soft purple glow behind the phones (as in Figma) */}
+      <div className="phone-stack__glow pointer-events-none absolute inset-[6%] rounded-full bg-purple-400/30 blur-3xl" />
+
+      {PHONE_STACK.map((p) => (
+        <div
+          key={p.alt}
+          className="phone-stack__item absolute w-[40.3%]"
+          style={
+            {
+              left: p.left,
+              top: p.top,
+              zIndex: p.z,
+              "--d": `${p.delay}ms`,
+              "--fx": p.fx,
+              "--fy": p.fy,
+              "--hx": p.hx,
+              "--hy": p.hy,
+            } as CSSProperties
+          }
+        >
+          <div className="phone-stack__hover">
+            <img
+              src={p.src}
+              alt={p.alt}
+              className="phone-stack__img w-full drop-shadow-[0_20px_30px_rgba(15,23,42,.25)]"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [appId, setAppId] = useState("patient");
   const app = APPS.find((a) => a.id === appId)!;
@@ -301,7 +546,7 @@ export default function HomePage() {
                 through one intelligent healthcare ecosystem.
               </p>
             </Reveal>
-            <Reveal delay={220}>
+            {/* <Reveal delay={220}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Btn to={`${ROUTES.enquiry}`} arrow>
                   Book a Demo
@@ -310,7 +555,7 @@ export default function HomePage() {
                   Explore Ecosystem
                 </Btn>
               </div>
-            </Reveal>
+            </Reveal> */}
           </div>
           <Reveal dir="zoom" delay={150}>
             <div className="img-zoom relative overflow-hidden rounded-[24px] shadow-lift">
@@ -345,21 +590,13 @@ export default function HomePage() {
                   ecosystem that simplifies every stage of the care journey.
                 </p>
                 <div className="mt-7">
-                  <Btn to={ROUTES.ecosystem} arrow>
+                  <Btn to={ROUTES.ecosystem}>
                     Explore Ecosystem
                   </Btn>
                 </div>
               </Reveal>
             </div>
-            <Reveal dir="zoom" delay={100}>
-              <div className="mx-auto max-w-[250px] sm:max-w-[360px]">
-                <img
-                  src={IMG.app2}
-                  alt="Telth patient app"
-                  className="w-full drop-shadow-[0_30px_50px_rgba(37,99,235,.28)]"
-                />
-              </div>
-            </Reveal>
+            <PhoneStack />
           </div>
 
           {/* ================= REDESIGNED: Telth care Infrastructure ================= */}
@@ -386,92 +623,12 @@ export default function HomePage() {
                   Telth care{" "}
                   <span className="text-gradient">Infrastructure</span>
                 </h3>
-                <p className="mx-auto mt-4 max-w-[560px] text-[15.5px] leading-[1.7] text-slate-600">
-                  Three connected layers — data, journey, and network —
-                  orchestrated into one continuous flow of care.
-                </p>
               </Reveal>
             </div>
 
-            {/* Lane cards */}
-            <div className="mt-14 space-y-6">
-              {LANES.map((l, li) => {
-                const Icon = l.icon;
-                const isLast = li === LANES.length - 1;
-                return (
-                  <Reveal key={l.label} delay={li * 120}>
-                    <div className="group relative">
-                      {/* connector line to next card */}
-                      {!isLast && (
-                        <div className="pointer-events-none absolute left-1/2 -bottom-6 hidden h-6 w-px -translate-x-1/2 bg-gradient-to-b from-slate-300 to-transparent sm:block" />
-                      )}
-
-                      <div
-                        className={`lane-card-v2 relative overflow-hidden rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_10px_40px_-20px_rgba(15,23,42,0.15)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-25px_rgba(37,99,235,0.35)] sm:p-8`}
-                      >
-                        {/* colored top accent bar */}
-                        <div
-                          className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${l.accent}`}
-                        />
-
-                        {/* corner decorative gradient blob */}
-                        <div
-                          className={`pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br ${l.soft} opacity-70 blur-2xl`}
-                        />
-
-                        <div className="relative grid gap-6 lg:grid-cols-[260px_1fr] lg:items-center lg:gap-10">
-                          {/* LEFT: lane header */}
-                          <div className="flex items-start gap-4">
-                            <div
-                              className={`flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-gradient-to-br ${l.accent} text-white shadow-lg shadow-blue-500/20 ring-4 ring-white`}
-                            >
-                              <Icon className="h-6 w-6" strokeWidth={2.2} />
-                            </div>
-                            <div>
-                              {/* <div className="flex items-center gap-2">
-                                <span className={`text-[11px] font-bold uppercase tracking-[0.14em] ${l.text}`}>
-                                  Layer {String(li + 1).padStart(2, "0")}
-                                </span>
-                              </div> */}
-                              <h4 className="mt-1 font-franklin text-[20px] font-bold leading-tight text-slate-900">
-                                {l.label}
-                              </h4>
-                              <p className="mt-1 text-[13px] leading-snug text-slate-500">
-                                {l.tagline}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* RIGHT: items flow */}
-                          <div className="flex flex-wrap items-center gap-2.5">
-                            {l.items.map((it, i) => (
-                              <span
-                                key={it}
-                                className="inline-flex items-center gap-2.5"
-                              >
-                                <span
-                                  className={`pill-v2 group/pill relative inline-flex items-center gap-2 rounded-full border ${l.border} bg-white px-3.5 py-2 text-[13px] font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:bg-gradient-to-r ${l.accent} hover:text-white hover:shadow-lg`}
-                                >
-                                  <span
-                                    className={`h-1.5 w-1.5 rounded-full ${l.dot} transition-colors group-hover/pill:bg-white`}
-                                  />
-                                  {it}
-                                </span>
-                                {i < l.items.length - 1 && (
-                                  <ArrowRight
-                                    className="h-3.5 w-3.5 flex-shrink-0 text-black"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
+            {/* Figma flow diagram */}
+            <div className="mt-14">
+              <InfrastructureFlow />
             </div>
           </div>
           {/* ================= END REDESIGNED ================= */}
@@ -590,7 +747,7 @@ export default function HomePage() {
             center
             light
             eyebrow="Platform"
-            title="Four Purpose-Built Applications"
+            title="Purpose-Built Applications"
           />
           <div
             role="tablist"
@@ -667,7 +824,7 @@ export default function HomePage() {
             eyebrow="Why Telth"
             title={
               <>
-                Why Healthcare Organizations{" "}
+                Why Healthcare Organizations Choose{" "}
                 <span className="text-brand">Telth</span>
               </>
             }

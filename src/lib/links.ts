@@ -65,7 +65,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "THOS", to: R.thos },
       { label: "Patient App", to: X.playstore },
-      { label: "Doctor App", to: R.tdoc },
+      { label: "T-Doc App", to: R.tdoc },
       { label: "CM/CCM App", to: R.cmccm },
       { label: "T-Mart", to: X.tmart },
       { label: "Natlife", to: X.natlife },
