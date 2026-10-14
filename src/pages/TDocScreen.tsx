@@ -26,14 +26,22 @@ const HUB = [
   ["The physician reviews and consults", "Use the available information to support appropriate clinical decisions."],
 ] as const;
 
-function Flow({ items }: { items: readonly (readonly [string, string])[] }) {
+function Flow({ items, variant = "light" }: { items: readonly (readonly [string, string])[]; variant?: "light" | "hes" | "hub" }) {
+  const isDark = variant === "hes" || variant === "hub";
+  const colors = {
+    light: { num: "bg-brand text-white", title: "text-ink", desc: "text-muted" },
+    hes: { num: "bg-teal-500 text-white", title: "text-teal-900", desc: "text-teal-700" },
+    hub: { num: "bg-violet-500 text-white", title: "text-violet-900", desc: "text-violet-700" },
+  };
+  const c = colors[variant];
+
   return (
     <ol className="mt-6 space-y-3">
       {items.map(([t, d], i) => (
         <Reveal as="li" key={t} delay={i * 80}>
           <div className="card-hover flex gap-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-card sm:p-5">
-            <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-brand text-[13px] font-bold text-white">{i + 1}</span>
-            <div><h4 className="font-franklin text-[15.5px] font-semibold text-ink">{t}</h4><p className="mt-1 text-[14px] leading-[1.6] text-muted">{d}</p></div>
+            <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[13px] font-bold ${c.num}`}>{i + 1}</span>
+            <div><h4 className={`font-franklin text-[15.5px] font-semibold ${c.title}`}>{t}</h4><p className={`mt-1 text-[14px] leading-[1.6] ${c.desc}`}>{d}</p></div>
           </div>
         </Reveal>
       ))}
@@ -84,61 +92,98 @@ export default function TDocScreen() {
         </Container>
       </Section>
 
-      {/* care families */}
+      {/* UPDATED: Care Families Section - Image Based Colour Design */}
       <Section>
         <Container>
           <SectionTitle center eyebrow="Care Families" title={<>Explore the <span className="text-brand">TELTH</span> care plan</>} text="Four care families help organize the different patient journeys you may support." />
-          <FeatureGrid cols={4}>
-            {FAMILIES.map(([n, t, tag, d], i) => (
-              <Reveal key={t} delay={i * 90} className="h-full">
-                <div className="card-hover h-full rounded-[20px] border border-slate-100 bg-white p-6 shadow-card">
-                  <span className="font-franklin text-[13px] font-bold text-brand">{n}</span>
-                  <h3 className="mt-3 text-[18px] font-bold">{t}</h3>
-                  <p className="mt-1 text-[11.5px] font-bold uppercase tracking-wider text-violet-600">{tag}</p>
-                  <p className="mt-3 text-[14.5px] leading-[1.7] text-muted">{d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </FeatureGrid>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {FAMILIES.map(([n, t, tag, d], i) => {
+              const themes = [
+                { bg: "bg-purple-100", border: "border-purple-200", title: "text-purple-900", tag: "text-purple-600", desc: "text-purple-700", icon: "text-purple-500" },
+                { bg: "bg-teal-100", border: "border-teal-200", title: "text-teal-900", tag: "text-teal-600", desc: "text-teal-700", icon: "text-teal-500" },
+                { bg: "bg-pink-100", border: "border-pink-200", title: "text-pink-900", tag: "text-pink-600", desc: "text-pink-700", icon: "text-pink-500" },
+                { bg: "bg-amber-100", border: "border-amber-200", title: "text-amber-900", tag: "text-amber-600", desc: "text-amber-700", icon: "text-amber-500" },
+              ];
+              const theme = themes[i % themes.length];
+              const Icon = [HomeIcon, Layers, Eye][i] || HomeIcon;
+
+              return (
+                <Reveal key={t} delay={i * 90} className="h-full">
+                  <div className={`card-hover relative h-full overflow-hidden rounded-[20px] border ${theme.border} ${theme.bg} p-6 shadow-card`}>
+                    {/* Decorative number in background */}
+                    {/* <span className={`pointer-events-none absolute -right-2 -top-2 font-franklin text-[80px] font-bold leading-none opacity-10 ${theme.title}`}>{n}</span> */}
+                    
+                    <div className="relative z-10">
+                      <Icon className={`h-6 w-6 ${theme.icon}`} />
+                      <p className={`mt-4 text-[11.5px] font-bold uppercase tracking-wider ${theme.tag}`}>{t}</p>
+                      <h3 className={`mt-1 text-[18px] font-bold ${theme.title}`}>{tag}</h3>
+                      <p className="mt-3 text-[12.5px] font-bold leading-[1.7]">{d}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
         </Container>
       </Section>
 
-      {/* care environments */}
+      {/* UPDATED: Care Environments Section - Image Based Colour Design */}
       <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="Care Environments" title={<>How <span className="text-brand">HES</span> and <span className="text-brand">HUB</span> support connected care</>} text="Two connected care environments designed to extend physician reach while TELTH's CM and CCM support permitted assessment and coordination workflows." />
 
           <div className="mt-14 space-y-8">
             <Reveal>
-              <article className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-card sm:p-10">
+              <article className="rounded-[24px] border border-teal-100 bg-[#E6F7F5] p-6 shadow-card sm:p-10">
                 <Split center={false}
                   left={<div>
-                    <p className="text-[12.5px] font-bold uppercase tracking-wide text-brand">HES · Health Examine System · CM</p>
-                    <h3 className="mt-2 text-[26px] font-semibold sm:text-[30px]">Care can travel to the patient.</h3>
-                    <p className="mt-3 text-[15.5px] leading-[1.75]">A portable, delivery-box-style field-care kit with approved basic medical examination tools that a Care Manager can carry for eligible C@H services.</p>
-                    <p className="mt-4 rounded-xl bg-soft px-4 py-3 text-[12.5px] font-bold tracking-wide text-slate-600">HES KIT → PATIENT HOME → CM ASSESSMENT → TELTH APP → PHYSICIAN</p>
-                    <div className="mt-6 rounded-2xl bg-brand/[0.06] p-5">
-                      <h4 className="font-franklin text-[16px] font-semibold">How This Helps You</h4>
-                      <p className="mt-1.5 text-[14.5px] leading-[1.7]">Extend eligible care beyond the clinic while TELTH supports field coordination. You stay focused on consultation, clinical decisions, prescriptions and referrals.</p>
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500 text-white"><Check className="h-3.5 w-3.5" strokeWidth={3} /></span>
+                      <p className="text-[12.5px] font-bold uppercase tracking-wide text-teal-700">HES · Health Examine System · CM</p>
+                    </div>
+                    <h3 className="mt-4 text-[26px] font-semibold text-teal-900 sm:text-[30px]">Care can travel to the patient.</h3>
+                    <p className="mt-3 text-[15.5px] leading-[1.75] text-black">A portable, delivery-box-style field-care kit with approved basic medical examination tools that a Care Manager can carry for eligible C@H services.</p>
+                    
+                    <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-white/60 px-4 py-3 text-[12.5px] font-bold tracking-wide text-teal-700">
+                      <span>HES KIT</span> <span className="text-teal-400">→</span>
+                      <span>PATIENT HOME</span> <span className="text-teal-400">→</span>
+                      <span>CM ASSESSMENT</span> <span className="text-teal-400">→</span>
+                      <span>TELTH APP</span> <span className="text-teal-400">→</span>
+                      <span>PHYSICIAN</span>
+                    </div>
+
+                    <div className="mt-6 rounded-2xl bg-white/80 p-5">
+                      <h4 className="font-franklin text-[16px] font-semibold text-teal-900">How This Helps You</h4>
+                      <p className="mt-1.5 text-[14.5px] leading-[1.7] text-teal-700">Extend eligible care beyond the clinic while TELTH supports field coordination. You stay focused on consultation, clinical decisions, prescriptions and referrals.</p>
                     </div>
                   </div>}
-                  right={<Flow items={HES} />} />
+                  right={<Flow items={HES} variant="hes" />} />
               </article>
             </Reveal>
             <Reveal>
-              <article className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-card sm:p-10">
+              <article className="rounded-[24px] border border-violet-100 bg-[#F3EEFF] p-6 shadow-card sm:p-10">
                 <Split center={false} reverse
                   left={<div>
-                    <p className="text-[12.5px] font-bold uppercase tracking-wide text-brand">HUB · Clinical Care Environment · CCM</p>
-                    <h3 className="mt-2 text-[26px] font-semibold sm:text-[30px]">Advanced connected care, in one place.</h3>
-                    <p className="mt-3 text-[15.5px] leading-[1.75]">A structured clinical environment with approved advanced examination capabilities, a Clinical Care Manager and physician access.</p>
-                    <p className="mt-4 rounded-xl bg-soft px-4 py-3 text-[12.5px] font-bold tracking-wide text-slate-600">APP / KIOSK BOOKING → HUB → CCM + CHECKUP → PHYSICIAN</p>
-                    <div className="mt-6 rounded-2xl bg-brand/[0.06] p-5">
-                      <h4 className="font-franklin text-[16px] font-semibold">How This Helps You</h4>
-                      <p className="mt-1.5 text-[14.5px] leading-[1.7]">The CCM supports preparation, assessments and coordination so physician time can stay focused on medical review and decision-making.</p>
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-white"><Layers className="h-3.5 w-3.5" strokeWidth={3} /></span>
+                      <p className="text-[12.5px] font-bold uppercase tracking-wide text-violet-700">HUB · Clinical Care Environment · CCM</p>
+                    </div>
+                    <h3 className="mt-4 text-[26px] font-semibold text-violet-900 sm:text-[30px]">Advanced connected care, in one place.</h3>
+                    <p className="mt-3 text-[15.5px] leading-[1.75] text-black">A structured clinical environment with approved advanced examination capabilities, a Clinical Care Manager and physician access.</p>
+                    
+                    <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-white/60 px-4 py-3 text-[12.5px] font-bold tracking-wide text-violet-700">
+                      <span>APP / KIOSK BOOKING</span> <span className="text-violet-400">→</span>
+                      <span>HUB</span> <span className="text-violet-400">→</span>
+                      <span>CCM + CHECKUP</span> <span className="text-violet-400">→</span>
+                      <span>PHYSICIAN</span>
+                    </div>
+
+                    <div className="mt-6 rounded-2xl bg-white/80 p-5">
+                      <h4 className="font-franklin text-[16px] font-semibold text-violet-900">How This Helps You</h4>
+                      <p className="mt-1.5 text-[14.5px] leading-[1.7] text-black">The CCM supports preparation, assessments and coordination so physician time can stay focused on medical review and decision-making.</p>
                     </div>
                   </div>}
-                  right={<Flow items={HUB} />} />
+                  right={<Flow items={HUB} variant="hub" />} />
               </article>
             </Reveal>
           </div>
@@ -205,22 +250,33 @@ export default function TDocScreen() {
         </Container>
       </Section>
 
-      {/* join */}
-      <Section>
+      {/* UPDATED: Join the Network Section - Image Based Colour Design */}
+      <Section tone="dark">
         <Container>
-          <SectionTitle center eyebrow="Join the Network" title={<>Ready to explore a <span className="text-brand">partnership?</span></>} text="Start with a few details about your professional profile. TELTH can then guide you through verification and the next steps." />
-          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <SectionTitle center light eyebrow="Join the Network" title={<>Ready to explore a <span className="text-brand-bright">partnership?</span></>} text="Start with a few details about your professional profile. TELTH can then guide you through verification and the next steps." />
+          
+          <ol className="relative mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {[["Connect", "Share your basic physician details."], ["Review", "TELTH reviews your professional profile."], ["Verify", "Required credentials are validated."], ["Configure", "Set approved services, availability and commercial terms."], ["Activate", "Your approved TELTH physician profile goes live."]].map(([t, d], i) => (
-              <Reveal as="li" key={t} delay={i * 90}>
-                <div className="card-hover h-full rounded-2xl border border-slate-100 bg-white p-5 text-center shadow-card">
-                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-brand font-franklin text-[14px] font-bold text-white">0{i + 1}</span>
-                  <h3 className="mt-3 text-[17px] font-bold">{t}</h3>
-                  <p className="mt-1.5 text-[13.5px] leading-[1.6] text-muted">{d}</p>
+              <Reveal as="li" key={t} delay={i * 90} className="relative">
+                {/* Horizontal connecting line (desktop) */}
+                <div className="absolute left-1/2 top-5 hidden h-px w-full -translate-x-1/2 bg-white/20 lg:block" />
+                {/* Vertical connecting line (mobile/tablet fallback) */}
+                <div className="absolute left-1/2 top-5 h-full w-px -translate-x-1/2 bg-white/20 lg:hidden" />
+                
+                <div className="relative flex flex-col items-center">
+                  <span className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full font-franklin text-[14px] font-bold shadow-md ring-4 ring-slate-900 ${i === 0 ? "bg-brand text-white" : "bg-white/10 text-white/50"}`}>
+                    0{i + 1}
+                  </span>
+                  <div className="mt-5 text-center">
+                    <h3 className={`text-[17px] font-bold ${i === 0 ? "text-white" : "text-white/70"}`}>{t}</h3>
+                    <p className={`mt-1.5 text-[13.5px] leading-[1.6] ${i === 0 ? "text-slate-300" : "text-slate-400"}`}>{d}</p>
+                  </div>
                 </div>
               </Reveal>
             ))}
           </ol>
-          <Reveal delay={150}><div className="mt-10 text-center"><Btn to={`${ROUTES.enquiry}?type=Become%20a%20Telth%20Physician`} arrow>I'm Interested - Open Form</Btn></div></Reveal>
+          
+          <Reveal delay={150}><div className="mt-12 text-center"><Btn to={`${ROUTES.enquiry}?type=Become%20a%20Telth%20Physician`} arrow>I'm Interested - Open Form</Btn></div></Reveal>
         </Container>
       </Section>
     </>

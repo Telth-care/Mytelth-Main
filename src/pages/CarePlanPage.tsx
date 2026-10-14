@@ -97,6 +97,7 @@ export default function CarePlanPage() {
         </Container>
       </Section>
 
+      {/* UPDATED: Challenges Section - Image Based Colour Design */}
       <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="The problem. The Telth solution." title="Separate services can feel complicated. One membership brings the steps together." />
@@ -163,20 +164,34 @@ export default function CarePlanPage() {
         </Container>
       </Section>
 
+      {/* UPDATED: Journey Section - Image Based Colour Design */}
       <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="Your membership journey" title="One step connects to the next." />
-          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="relative mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {JOURNEY.map(([t, d], i) => (
-              <Reveal as="li" key={t} delay={(i % 3) * 90}><div className="card-hover h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-card">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#1B5FA8] to-[#0D9E8D] font-franklin text-[13px] font-bold text-white">0{i + 1}</span>
-                <h3 className="mt-3 text-[17px] font-bold">{t}</h3><p className="mt-2 text-[14px] leading-[1.65] text-muted">{d}</p>
-              </div></Reveal>
+              <Reveal as="li" key={t} delay={(i % 3) * 90} className="relative">
+                {/* Horizontal connecting line (desktop) */}
+                <div className="absolute left-1/2 top-5 hidden h-px w-full -translate-x-1/2 bg-blue-200 lg:block" />
+                {/* Vertical connecting line (mobile/tablet fallback) */}
+                <div className="absolute left-1/2 top-5 h-full w-px -translate-x-1/2 bg-blue-200 lg:hidden" />
+                
+                <div className="relative flex flex-col items-center">
+                  <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#1B5FA8] font-franklin text-[13px] font-bold text-white shadow-md ring-4 ring-white">
+                    0{i + 1}
+                  </span>
+                  <div className="mt-5 w-full rounded-[20px] border border-blue-300 bg-[#F4F8FC] p-6 text-center shadow-sm">
+                    <h3 className="text-[17px] font-bold text-slate-800">{t}</h3>
+                    <p className="mt-2 text-[14px] leading-[1.65] text-slate-500">{d}</p>
+                  </div>
+                </div>
+              </Reveal>
             ))}
           </ol>
         </Container>
       </Section>
 
+      {/* UPDATED: Plans Section - Image Based Colour Design */}
       <Section>
         <span id="plans" className="absolute -top-24" />
         <Container>
@@ -189,16 +204,45 @@ export default function CarePlanPage() {
           <p className="mt-4 text-center text-[13.5px] font-semibold text-muted">Care plans · 24 plans &nbsp;|&nbsp; Add-ons · 10 add-ons</p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {shown.length === 0 && <p className="col-span-full rounded-2xl bg-soft p-8 text-center text-muted">No plans match those filters in this preview — try changing them.</p>}
-            {shown.map((p, i) => (
-              <Reveal key={p.name} delay={i * 100}><article className="card-hover flex h-full flex-col rounded-[22px] border border-slate-100 bg-white p-6 shadow-card">
-                <div className="flex items-center justify-between"><span className="text-[11.5px] font-bold tracking-wider text-violet-600">{p.family}</span><span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11.5px] font-bold text-emerald-700"><BadgePercent className="h-3.5 w-3.5" />20% OFF</span></div>
-                <h3 className="mt-4 text-[22px] font-bold">{p.name}</h3><p className="mt-1.5 text-[14.5px] text-muted">{p.text}</p>
-                <p className="mt-5 font-franklin text-[30px] font-bold text-ink">₹{p.price.toLocaleString("en-IN")} <span className="text-[15px] font-medium text-slate-400 line-through">{p.was}</span></p>
-                <p className="mt-1 text-[12.5px] font-bold uppercase tracking-wide text-brand">Validity 180 days</p>
-                <p className="mt-1 text-[12.5px] text-muted">Example expiry 26 Mar 2027 · Illustrative price · Expiry assumes activation today</p>
-                <div className="mt-auto pt-6"><Btn to={`${ROUTES.enquiry}`} variant="ghost" arrow className="w-full">Explore more</Btn></div>
-              </article></Reveal>
-            ))}
+            {shown.map((p, i) => {
+              // Define color themes for the 3 plans based on index
+              const themes = [
+                { bg: "bg-[#0A7B7B]", text: "text-white", accent: "text-teal-100", badge: "bg-[#FFD166] text-slate-900", btn: "bg-white text-white hover:bg-slate-100" },
+                { bg: "bg-[#2E0F6B]", text: "text-white", accent: "text-violet-200", badge: "bg-[#FFD166] text-slate-900", btn: "bg-white text-white hover:bg-slate-100" },
+                { bg: "bg-[#8B1C5A]", text: "text-white", accent: "text-pink-200", badge: "bg-[#FFD166] text-slate-900", btn: "bg-white text-white hover:bg-slate-100" },
+              ];
+              const theme = themes[i % themes.length];
+
+              return (
+                <Reveal key={p.name} delay={i * 100}>
+                  <article className={`card-hover relative flex h-full flex-col overflow-hidden rounded-[22px] p-6 shadow-card ${theme.bg} ${theme.text}`}>
+                    {/* Decorative background curve */}
+                    <div className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full border-[20px] border-white/10" />
+                    
+                    <div className="relative z-10 flex items-center justify-between">
+                      <span className={`text-[11.5px] font-bold tracking-wider ${theme.accent}`}>{p.family}</span>
+                      <span className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-bold ${theme.badge}`}>
+                        <BadgePercent className="h-3.5 w-3.5" />20% OFF
+                      </span>
+                    </div>
+                    
+                    <h3 className="relative z-10 mt-4 text-[22px] font-bold text-white">{p.name}</h3>
+                    <p className={`relative z-10 mt-1.5 text-[14.5px] ${theme.accent}`}>{p.text}</p>
+                    
+                    <p className="relative z-10 mt-5 font-franklin text-[30px] font-bold">
+                      ₹{p.price.toLocaleString("en-IN")} <span className={`text-[15px] font-medium line-through ${theme.accent}`}>{p.was}</span>
+                    </p>
+                    
+                    <p className={`relative z-10 mt-1 text-[12.5px] font-bold uppercase tracking-wide ${theme.accent}`}>Validity 180 days</p>
+                    <p className={`relative z-10 mt-1 text-[12.5px] ${theme.accent}`}>Example expiry 26 Mar 2027 · Illustrative price · Expiry assumes activation today</p>
+                    
+                    <div className="relative z-10 mt-auto pt-6">
+                      <Btn to={`${ROUTES.enquiry}`} className={`w-full border-none ${theme.btn}`} arrow>Explore more</Btn>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
           <div className="mt-10 text-center"><Btn to={ROUTES.enquiry} variant="ghost">View more</Btn></div>
         </Container>
