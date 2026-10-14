@@ -19,11 +19,11 @@ const PRODUCTS = [
 ];
 
 const SUITE = [
-  { icon: CreditCard, name: "T Pay", sub: "Simple. Secure. Connected Payments", tile: "from-sky-100 to-blue-200", dot: "bg-sky-700" },
-  { icon: Wallet, name: "T Care Visa Pay", sub: "Your Healthcare Card", tile: "from-violet-100 to-purple-200", dot: "bg-violet-600" },
-  { icon: ShoppingCart, name: "T Mart", sub: "Health & Wellness Marketplace", tile: "from-cyan-100 to-teal-200", dot: "bg-cyan-600" },
-  { icon: Award, name: "T Gold Rewards", sub: "Earn. Redeem. Live Healthier.", tile: "from-amber-100 to-yellow-200", dot: "bg-amber-600" },
-  { icon: Leaf, name: "Natlife", sub: "Trace Your Organic · Pure. Trace. Better Living.", tile: "from-green-100 to-emerald-200", dot: "bg-green-600" },
+  { icon: CreditCard, name: "T Pay", img: IMG.suiteTPay, sub: "Simple. Secure. Connected Payments", tile: "from-sky-100 to-blue-200", dot: "bg-sky-700" },
+  { icon: Wallet, name: "T Care Visa Pay", img: IMG.suiteTCareVisaPay, sub: "Your Healthcare Card", tile: "from-violet-100 to-purple-200", dot: "bg-violet-600" },
+  { icon: ShoppingCart, name: "T Mart", img: IMG.suiteTMart, sub: "Health & Wellness Marketplace", tile: "from-cyan-100 to-teal-200", dot: "bg-cyan-600" },
+  { icon: Award, name: "T Gold Rewards", img: IMG.suiteTGoldRewards, sub: "Earn. Redeem. Live Healthier.", tile: "from-amber-100 to-yellow-200", dot: "bg-amber-600" },
+  { icon: Leaf, name: "Natlife", img: IMG.suiteNatlife, sub: "Trace Your Organic · Pure. Trace. Better Living.", tile: "from-green-100 to-emerald-200", dot: "bg-green-600" },
 ];
 
 export default function TelthEcosystem() {
@@ -52,7 +52,7 @@ export default function TelthEcosystem() {
             <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px]">
               <div className="absolute inset-[8%] animate-pulse rounded-full bg-violet-400/40 blur-3xl" />
               <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl bg-white shadow-lift sm:h-28 sm:w-28">
-                <img src={logo} alt="Telth logo" className="h-9 w-full object-contain" />
+                <img src={logo} alt="Telth logo" className="h-14 w-14 object-contain sm:h-16 sm:w-16" />
               </div>
               {ORBIT.map((o, i) => (
                 <div key={o.title} className={`absolute ${o.pos} w-[104px] sm:w-[124px]`} style={{ animation: `${i % 2 ? "floatAlt" : "float"} ${8 + i}s ease-in-out infinite` }}>
@@ -102,9 +102,9 @@ export default function TelthEcosystem() {
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {SUITE.map((s, i) => (
               <Reveal key={s.name} delay={i * 80}>
-                <div className="card-hover h-full overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-card">
-                  <div className={`flex h-[130px] items-center justify-center bg-gradient-to-br ${s.tile}`}>
-                    <s.icon className="h-14 w-14 text-ink/70 transition-transform duration-500 group-hover:scale-110" strokeWidth={1.3} aria-hidden="true" />
+                <div className="card-hover group h-full overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-card">
+                  <div className={`img-zoom aspect-[904/620] overflow-hidden bg-gradient-to-br ${s.tile}`}>
+                    <img src={s.img} alt={`${s.name} illustration`} loading="lazy" className="h-full w-full object-cover" />
                   </div>
                   <div className="p-5">
                     <div className="flex items-center gap-2.5">
@@ -127,7 +127,7 @@ export default function TelthEcosystem() {
           { title: "Experience Natlife Product", cta: "Explore Natlife", to: EXTERNAL.natlife, bg: IMG.ecoNatlife },
         ].map((c, i) => (
           <Reveal key={c.title} dir="zoom" delay={i * 120}>
-            <div className="relative flex h-full min-h-[320px] flex-col items-center justify-center overflow-hidden rounded-[24px] bg-[#0F172A] px-6 py-14 text-center sm:rounded-[32px]">
+            <div className="img-zoom relative flex h-full min-h-[320px] flex-col items-center justify-center overflow-hidden rounded-[24px] bg-[#0F172A] px-6 py-14 text-center sm:rounded-[32px]">
               <img src={c.bg} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
               <div className="relative">
                 <p className="font-open text-[13px] font-bold uppercase tracking-[0.12em] text-sky-300">Get Started</p>

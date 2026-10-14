@@ -39,7 +39,7 @@ export default function THOS() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTealWide}>
+      <Section tone="dark" bg={IMG.thosWave}>
         <Container>
           <SectionTitle
             center light eyebrow="Roadmap" title="Four Versions. One Vision."
@@ -78,7 +78,7 @@ export default function THOS() {
       <CtaBand
         title="Ready to Explore THOS?"
         text="Speak with our team about how THOS may serve as the digital foundation for your healthcare organisation or partnership."
-        bg={IMG.ctaAuroraTall}
+        bg={IMG.thosCta}
         primary={{ label: "Discuss THOS", to: ROUTES.enquiry }}
         secondary={{ label: "Explore V1", to: ROUTES.thosV1 }}
       />

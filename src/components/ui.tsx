@@ -77,7 +77,7 @@ export function Section({
     <section id={id} className={`relative overflow-hidden py-16 sm:py-20 lg:py-24 ${base} ${className}`}>
       {bg && (
         <>
-          <img src={bg} alt="" loading="lazy" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90" />
+          <img src={bg} alt="" loading="lazy" className="bg-drift pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#050A18]/70 via-transparent to-[#050A18]/70" />
         </>
       )}

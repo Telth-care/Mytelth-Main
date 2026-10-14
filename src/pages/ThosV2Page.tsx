@@ -39,12 +39,13 @@ export default function ThosV2Page() {
           { icon: Target, title: "Outcome Intelligence", text: "Analytics frameworks designed to support measurement and improvement of care outcomes across the ecosystem." },
         ],
       }}
+      gridBg={IMG.thosV2Wave}
       cta={{
         title: "Explore a Research Partnership",
         text: "Interested in contributing to the responsible development of THOS V2 capabilities?",
         primary: { label: "Enquiry THOS V2", to: ROUTES.enquiry },
         secondary: { label: "Explore THOS V3", to: ROUTES.thosV3 },
-        bg: IMG.ctaAurora,
+        bg: IMG.thosV2Cta,
       }}
     />
   );

@@ -48,7 +48,7 @@ export default function Partners() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.wavePartners}>
+      <Section tone="dark" bg={IMG.partnersWave}>
         <Container>
           <Split
             center={false}
@@ -80,7 +80,7 @@ export default function Partners() {
       <CtaBand
         title="Submit a Partnership Enquiry"
         text="Tell us about your organization and how you'd like to contribute to connected healthcare."
-        bg={IMG.ctaAuroraTall}
+        bg={IMG.partnersCta}
         primary={{ label: "Submit a Partnership Enquiry", to: ROUTES.enquiry }}
       />
     </>

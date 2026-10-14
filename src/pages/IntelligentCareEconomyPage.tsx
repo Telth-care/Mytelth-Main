@@ -61,7 +61,7 @@ export default function IntelligentCareEconomyPage() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark" bg={IMG.iceWave}>
         <Container>
           <SectionTitle center light eyebrow="What the Ecosystem May Connect" title="Partner & Service Connections" />
           <FeatureGrid cols={3}>
@@ -75,6 +75,7 @@ export default function IntelligentCareEconomyPage() {
       <CtaBand
         title="Become an Ecosystem Partner"
         text="Interested in connecting your diagnostics, pharmacy, device or digital health service to the Telth ecosystem?"
+        bg={IMG.iceCta}
         primary={{ label: "Become an Ecosystem Partner", to: ROUTES.enquiry }}
       />
     </>

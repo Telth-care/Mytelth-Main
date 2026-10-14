@@ -23,8 +23,8 @@ export default function CtaBand({
   return (
     <div className="mx-auto w-full max-w-[1280px] px-3 py-14 sm:px-6 sm:py-20">
       <Reveal dir="zoom">
-        <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#0F172A_0%,#1E3A5F_50%,#0F172A_100%)] px-6 py-14 text-center sm:rounded-[32px] sm:px-12 sm:py-20">
-          <img src={bg} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-80" />
+        <div className="cta-card relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#0F172A_0%,#1E3A5F_50%,#0F172A_100%)] px-6 py-14 text-center sm:rounded-[32px] sm:px-12 sm:py-20">
+          <img src={bg} alt="" aria-hidden="true" loading="lazy" className="bg-drift pointer-events-none absolute inset-0 h-full w-full object-cover opacity-80" />
           <div className="pointer-events-none absolute -left-10 bottom-0 h-60 w-60 animate-floatAlt rounded-full bg-emerald-400/15 blur-3xl" />
           <div className="pointer-events-none absolute -right-10 top-0 h-60 w-60 animate-float rounded-full bg-brand/30 blur-3xl" />
           <div className="relative mx-auto max-w-[760px]">

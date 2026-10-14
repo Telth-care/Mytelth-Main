@@ -54,7 +54,7 @@ export default function Careers() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTealWide}>
+      <Section tone="dark" bg={IMG.careersWave}>
         <Container>
           <SectionTitle center light eyebrow="Teams" title="Where You Might Fit" />
           <FeatureGrid cols={3}>
@@ -82,6 +82,7 @@ export default function Careers() {
       <CtaBand
         title="Interested in Joining Telth?"
         text="Send us a note about your background and how you'd like to contribute to connected healthcare."
+        bg={IMG.careersCta}
         primary={{ label: "Enquiry Careers", to: ROUTES.enquiry }}
       />
     </>

@@ -274,7 +274,7 @@ export default function CmCcmScreen() {
       </Section>
 
       {/* UPDATED: Global Pathway Section - Image Based Design with Flags */}
-      <Section tone="dark" bg={IMG.waveTealWide}>
+      <Section tone="dark" bg={IMG.cmGlobalWave}>
         <Container>
           <SectionTitle center light eyebrow="Global Pathway" title="Take Your Healthcare Career Global" />
           
@@ -363,6 +363,7 @@ export default function CmCcmScreen() {
       <CtaBand
         title="Ready to Start Your Journey?"
         text="Build your skills. Serve your community. Grow with Telth."
+        bg={IMG.cmCta}
         primary={{ label: "Apply now", to: ROUTES.cmApplication }}
         secondary={{ label: "Book a orientation", to: ROUTES.bookOrientation }}
       />

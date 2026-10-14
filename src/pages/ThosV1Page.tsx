@@ -1,5 +1,6 @@
 import { Blocks, CalendarClock, ClipboardList, FileHeart, KeyRound, MessagesSquare } from "lucide-react";
 import ThosVersion from "../components/ThosVersion";
+import { IMG } from "../assets/slots";
 import { ROUTES } from "../lib/links";
 
 export default function ThosV1Page() {
@@ -39,6 +40,7 @@ export default function ThosV1Page() {
           { icon: Blocks, title: "Partner & Service Integration", text: "APIs and integration frameworks designed to connect vetted third-party services into the care workflow." },
         ],
       }}
+      gridBg={IMG.thosV1Wave}
       cta={{
         title: "Discuss THOS V1 for Your Organization",
         text: "Speak with our team about how THOS may serve as the digital foundation for your healthcare organisation or partnership.",

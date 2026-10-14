@@ -61,7 +61,7 @@ export default function PersonalCare() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark" bg={IMG.personalWave}>
         <Container>
           <SectionTitle center light eyebrow="What We Offer" title="Personal Health Programm Areas" />
           <FeatureGrid cols={3}>

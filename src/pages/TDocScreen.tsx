@@ -221,7 +221,7 @@ export default function TDocScreen() {
       </Section>
 
       {/* app */}
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark" bg={IMG.tdocAppWave}>
         <Container>
           <Split
             left={<div>
@@ -251,7 +251,7 @@ export default function TDocScreen() {
       </Section>
 
       {/* UPDATED: Join the Network Section - Image Based Colour Design */}
-      <Section tone="dark">
+      <Section tone="dark" bg={IMG.tdocJoinWave}>
         <Container>
           <SectionTitle center light eyebrow="Join the Network" title={<>Ready to explore a <span className="text-brand-bright">partnership?</span></>} text="Start with a few details about your professional profile. TELTH can then guide you through verification and the next steps." />
           

@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Telth connects patients, physicians, care managers and healthcare services through one intelligent care ecosystem." />
     <meta name="theme-color" content="#2563EB" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/src/assets/16x16.png" />
     <title>Telth – One intelligent ecosystem for every stage of care</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="telth-loader" role="status" aria-label="Loading Telth" style="position:fixed;inset:0;background:#fff">
+        <div class="telth-loader__mark"><span class="telth-loader__halo"></span><span class="telth-loader__ring"></span><img class="telth-loader__logo" src="/src/assets/telth-logo.png" alt="" width="58" height="58" /></div>
+        <div class="telth-loader__bar"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -20,6 +20,7 @@ export type ThosVersionProps = {
   grid: { eyebrow: string; title: string; cols?: 2 | 3 | 4; items: { icon: LucideIcon; title: string; text: string }[] };
   principles?: { eyebrow: string; title: string; items: string[] };
   closing?: ReactNode;
+  gridBg?: string;
   cta: { title: string; text: string; primary: { label: string; to: string }; secondary: { label: string; to: string }; bg?: string };
 };
 
@@ -87,7 +88,7 @@ export default function ThosVersion(p: ThosVersionProps) {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTealWide}>
+      <Section tone="dark" bg={p.gridBg ?? IMG.waveTealWide}>
         <Container>
           <SectionTitle center light eyebrow={p.grid.eyebrow} title={p.grid.title} />
           <FeatureGrid cols={p.grid.cols ?? 3}>

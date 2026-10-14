@@ -1,5 +1,6 @@
 import { BellRing, CalendarClock, ClipboardList, Radar } from "lucide-react";
 import ThosVersion from "../components/ThosVersion";
+import { IMG } from "../assets/slots";
 import { ROUTES } from "../lib/links";
 
 export default function ThosV3Page() {
@@ -39,11 +40,13 @@ export default function ThosV3Page() {
           "Systems may be overridden or disabled by authorised clinical staff without restriction",
         ],
       }}
+      gridBg={IMG.thosV3Wave}
       cta={{
         title: "Discuss THOS V3",
         text: "Interested in exploring the responsible development of THOS V3 automation capabilities?",
         primary: { label: "Enquiry THOS V3", to: ROUTES.enquiry },
         secondary: { label: "Explore THOS V4", to: ROUTES.thosV4 },
+        bg: IMG.thosV3Cta,
       }}
     />
   );

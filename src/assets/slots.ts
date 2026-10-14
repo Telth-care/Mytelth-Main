@@ -1,4 +1,9 @@
 import A from "./index";
+import suiteTPay from "./TPay.png";
+import suiteTCareVisaPay from "./TCareVisaPay.png";
+import suiteTMart from "./TMart.png";
+import suiteTGoldRewards from "./TGoldRewards.png";
+import suiteNatlife from "./Natlife.png";
 
 /** Semantic names for the artwork, so pages never depend on file names. */
 export const IMG = {
@@ -13,6 +18,36 @@ export const IMG = {
   waveSoft: A.homeFourPillarImg,
   wavePartners: A.homePartnersImg,
   thosArch: A.homeThosSectionImg,
+  /** page-specific backgrounds (each artwork was exported for one section) */
+  careHomeWave: A.careHomeRectangle206,
+  careHomeCta: A.careHomeRequestACareConversationImg,
+  careersWave: A.careersGroup330,
+  careersCta: A.careersInterestedInJoiningTelth,
+  cmGlobalWave: A.cmGlobalPathwayImg,
+  cmCta: A.cmGetStartedImg,
+  communityWave: A.communityRectangle206,
+  communityCta: A.communityExploreCommunityHealthcarePartnershipsImg,
+  iceWave: A.iceWhatTheEcosystemMayConnect,
+  iceCta: A.iceBecomeAnEcosystemPartner,
+  partnersWave: A.partnersGroup338,
+  partnersCta: A.partnersSubmitAPartnershipEnquiry,
+  personalWave: A.personalWhatWeOffer,
+  rdCta: A.rdProposeAResearchCollaborationImg,
+  tdocAppWave: A.tdocPhysicianRoleImg,
+  tdocJoinWave: A.tdocJoinTheNetworkImg,
+  thosWave: A.thosRoadmapImg,
+  thosCta: A.thosReadyToExploreThosImg,
+  thosV1Wave: A.thosV1ProposedCapabilitiesImg,
+  thosV2Wave: A.thosV2ResearchThemesImg,
+  thosV2Cta: A.thosV2ExploreAResearchPartnershipImg,
+  thosV3Wave: A.thosV3OperatingPrinciplesImg,
+  thosV3Cta: A.thosV3DiscussThosV3Img,
+  /** ecosystem suite tiles */
+  suiteTPay,
+  suiteTCareVisaPay,
+  suiteTMart,
+  suiteTGoldRewards,
+  suiteNatlife,
   /** photography / product shots */
   heroCare: A.cmHeroImage,
   careManager: A.cmToolsEnablementImg,

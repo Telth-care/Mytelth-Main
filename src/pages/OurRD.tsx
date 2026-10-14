@@ -90,7 +90,7 @@ export default function OurRD() {
       <CtaBand
         title="Propose a Research Collaboration"
         text="Interested in contributing to responsible healthcare innovation with Telth?"
-        bg={IMG.ctaAuroraTall}
+        bg={IMG.rdCta}
         primary={{ label: "Propose a Research Collaboration", to: ROUTES.enquiry }}
         secondary={{ label: "Explore THOS", to: ROUTES.thos }}
       />

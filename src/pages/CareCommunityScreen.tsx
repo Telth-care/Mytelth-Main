@@ -71,7 +71,7 @@ export default function CareCommunityScreen() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark" bg={IMG.communityWave}>
         <Container>
           <SectionTitle center light eyebrow="Our Centres" title="Community Healthcare Infrastructure" />
           <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6">
@@ -118,7 +118,7 @@ export default function CareCommunityScreen() {
       <CtaBand
         title="Explore Community Healthcare Partnerships"
         text="Interested in bringing Telth community care services to your area or organisation?"
-        bg={IMG.ctaAuroraTall}
+        bg={IMG.communityCta}
         primary={{ label: "Explore a Research Partnership", to: ROUTES.rd }}
         secondary={{ label: "Contact Us", to: ROUTES.enquiry }}
       />

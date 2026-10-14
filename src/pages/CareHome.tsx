@@ -67,7 +67,7 @@ export default function CareHome() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark" bg={IMG.careHomeWave}>
         <Container>
           <SectionTitle center light eyebrow="Potential Services" title="Connected Home Care Services" />
           <FeatureGrid cols={3}>
@@ -81,6 +81,7 @@ export default function CareHome() {
       <CtaBand
         title="Request a Care Conversation"
         text="Speak with our team about how Telth Care @ Home may support your organisation or individual care needs."
+        bg={IMG.careHomeCta}
         primary={{ label: "Request a Care Conversation", to: ROUTES.enquiry }}
       />
     </>
