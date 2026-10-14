@@ -20,7 +20,7 @@ export default function IntelligentCareEconomyPage() {
       <PageHero
         eyebrow="Intelligent Care Economy"
         title="From a Care Need to Trusted Fulfilment"
-        text="A trusted ecosystem layer designed to connect diagnostics, pharmacy, devices, care services, payments and partner fulfilment — coordinated through one intelligent platform."
+        text="A trusted ecosystem layer designed to connect diagnostics, pharmacy, devices, care services, payments and partner fulfilment coordinated through one intelligent platform."
       />
 
       <Section>
@@ -32,7 +32,7 @@ export default function IntelligentCareEconomyPage() {
                 <SectionTitle eyebrow="Care Orchestration" title="Connecting Need to Delivery" />
                 <Reveal delay={100}>
                   <p className="mt-5 text-[15.5px] leading-[1.8]">
-                    The Intelligent Care Economy is Telth's proposed infrastructure layer for connecting healthcare needs to trusted, coordinated fulfilment. It is designed to work across the ecosystem — linking community care, home care and personal care to the services and partners that can deliver what individuals need.
+                    The Intelligent Care Economy is Telth's proposed infrastructure layer for connecting healthcare needs to trusted, coordinated fulfilment. It is designed to work across the ecosystem linking community care, home care and personal care to the services and partners that can deliver what individuals need.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>

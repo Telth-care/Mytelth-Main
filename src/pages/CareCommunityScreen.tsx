@@ -32,7 +32,7 @@ export default function CareCommunityScreen() {
       <PageHero
         eyebrow="Care @ Community"
         title="Connected Care, Closer to Everyday Life"
-        text="Technology-enabled healthcare designed to bring care closer to where people live, work and spend their time — supporting communities rather than replacing clinical expertise."
+        text="Technology-enabled healthcare designed to bring care closer to where people live, work and spend their time supporting communities rather than replacing clinical expertise."
       />
 
       <Section>
@@ -44,7 +44,7 @@ export default function CareCommunityScreen() {
                 <SectionTitle eyebrow="Our Approach" title="Care That Begins Where People Are" />
                 <Reveal delay={100}>
                   <p className="mt-5 text-[15.5px] leading-[1.8]">
-                    Telth Care @ Community is designed to bring healthcare services closer to the places where people live their daily lives — reducing the barriers of distance, time and complexity that can prevent people from accessing the care they need.
+                    Telth Care @ Community is designed to bring healthcare services closer to the places where people live their daily lives reducing the barriers of distance, time and complexity that can prevent people from accessing the care they need.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
@@ -97,7 +97,7 @@ export default function CareCommunityScreen() {
           <SectionTitle center eyebrow="How It Works" title="How the Journey Works" />
           <Reveal delay={100}>
             <p className="mx-auto mt-5 max-w-3xl text-center text-[15.5px] leading-[1.8]">
-              An individual accesses a Telth community touchpoint — a health hub, partner clinic or the digital platform. From there, they may receive an assessment, be connected to a care plan, and supported with ongoing navigation, monitoring and follow-up across connected services.
+              An individual accesses a Telth community touchpoint a health hub, partner clinic or the digital platform. From there, they may receive an assessment, be connected to a care plan, and supported with ongoing navigation, monitoring and follow-up across connected services.
             </p>
           </Reveal>
           <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

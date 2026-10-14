@@ -18,7 +18,7 @@ const PATH = [
 const THEMES = [
   { icon: Network, title: "Connected Care Systems", text: "Research into the design and effectiveness of integrated, multi-provider care systems for diverse populations." },
   { icon: Brain, title: "Responsible AI in Healthcare", text: "Investigation of appropriate, safe and accountable applications of AI in clinical and care management contexts." },
-  { icon: Globe2, title: "Global Health Equity", text: "Research addressing how connected healthcare technology may reduce — rather than amplify — inequalities in access to care." },
+  { icon: Globe2, title: "Global Health Equity", text: "Research addressing how connected healthcare technology may reduce rather than amplify inequalities in access to care." },
   { icon: BarChart3, title: "Outcomes Measurement", text: "Developing rigorous methodologies for measuring the real-world impact of digital health interventions on patient outcomes." },
   { icon: Database, title: "Data Governance", text: "Research into consent models, data rights and governance frameworks appropriate for multi-stakeholder health ecosystems." },
   { icon: Activity, title: "Prevention & Healthy Ageing", text: "Investigation of technology-enabled preventive care approaches for population-level health improvement." },
@@ -42,12 +42,12 @@ export default function OurRD() {
                 <SectionTitle eyebrow="Our Approach" title="How We Do Research" />
                 <Reveal delay={100}>
                   <p className="text-[15.5px] leading-[1.8]">
-                    Telth's research approach is grounded in intellectual honesty, ethical rigour and a commitment to real-world relevance. We do not pursue research to validate predetermined conclusions — we pursue it to understand what works, for whom, and under what conditions.
+                    Telth's research approach is grounded in intellectual honesty, ethical rigour and a commitment to real-world relevance. We do not pursue research to validate predetermined conclusions we pursue it to understand what works, for whom, and under what conditions.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
                   <p className="text-[15.5px] leading-[1.8]">
-                    Research findings — including findings that challenge our assumptions — are published and made available for independent peer review.
+                    Research findings including findings that challenge our assumptions are published and made available for independent peer review.
                   </p>
                 </Reveal>
               </div>

@@ -27,7 +27,7 @@ export default function Careers() {
       <PageHero
         eyebrow="Careers"
         title="Build Systems of Care That Feel More Human"
-        text="Join a team designing the infrastructure for a more connected, coordinated and human-centered healthcare future — across engineering, clinical, research, partnerships and beyond."
+        text="Join a team designing the infrastructure for a more connected, coordinated and human-centered healthcare future across engineering, clinical, research, partnerships and beyond."
       />
 
       <Section>
@@ -72,7 +72,7 @@ export default function Careers() {
               <p className="font-open text-[12.5px] font-bold uppercase tracking-[0.12em] text-brand">Equal Opportunity</p>
               <h2 className="mt-2.5 text-[26px] font-semibold sm:text-[32px]">Diversity, Inclusion &amp; Safe Recruitment</h2>
               <p className="mt-5 text-[15px] leading-[1.85]">
-                Telth is committed to building a diverse and inclusive team. We do not discriminate on the basis of age, disability, gender, race, religion, sexual orientation or any other protected characteristic. We are also committed to safe recruitment practices — please be cautious of fraudulent job offers purporting to be from Telth. All genuine recruitment will be conducted through official Telth channels.
+                Telth is committed to building a diverse and inclusive team. We do not discriminate on the basis of age, disability, gender, race, religion, sexual orientation or any other protected characteristic. We are also committed to safe recruitment practices please be cautious of fraudulent job offers purporting to be from Telth. All genuine recruitment will be conducted through official Telth channels.
               </p>
             </div>
           </Reveal>

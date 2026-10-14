@@ -80,7 +80,7 @@ export default function CmApplicationFormScreen() {
                   <h3 className="mt-4 text-[18px] font-bold">Identity Verification Required</h3>
                   <p className="mt-2 text-[14px] text-muted">Connect to DigiLocker to verify your Aadhaar and PAN securely.</p>
                   <p className="mx-auto mt-4 max-w-md rounded-lg bg-amber-50 px-3 py-2 text-[12.5px] font-semibold text-amber-800">
-                    Documents must be retrieved via DigiLocker — not uploaded manually.
+                    Documents must be retrieved via DigiLocker not uploaded manually.
                   </p>
                   <ul className="mx-auto mt-5 grid max-w-md gap-2 text-left sm:grid-cols-2">
                     {DIGILOCKER_RULES.map((r) => (

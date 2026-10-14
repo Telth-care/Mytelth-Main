@@ -8,14 +8,14 @@ export default function ThosV2Page() {
     <ThosVersion
       eyebrow="THOS V2 — Planned"
       title="From Connected Information to Responsible Insight"
-      text="Building from the V1 connected foundation toward responsible clinical intelligence — designed with evidence governance, clinical oversight and cross-cultural trust at its core."
+      text="Building from the V1 connected foundation toward responsible clinical intelligence designed with evidence governance, clinical oversight and cross-cultural trust at its core."
       notice={{ tone: "amber", label: "Planned Capability:", text: "THOS V2 represents planned future development. Capabilities described are proposed and subject to research, regulatory review and evidence development before commercial deployment." }}
       overview={{
         eyebrow: "Precision Health Intelligence",
         title: "From Data to Responsible Insight",
         paragraphs: [
-          "THOS V2 is designed to build on the connected infrastructure of V1 — applying analytical and intelligence layers that may support better clinical decision-making, population health management and personalised care planning.",
-          "All intelligence capabilities are designed to support — not replace — clinical judgement. Human oversight remains central to every insight generated.",
+          "THOS V2 is designed to build on the connected infrastructure of V1 applying analytical and intelligence layers that may support better clinical decision-making, population health management and personalised care planning.",
+          "All intelligence capabilities are designed to support not replace clinical judgement. Human oversight remains central to every insight generated.",
         ],
         aside: {
           kind: "check",

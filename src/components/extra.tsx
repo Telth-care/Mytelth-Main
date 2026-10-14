@@ -6,7 +6,7 @@ import { ROUTES } from "../lib/links";
 
 /* ---------- "From first contact to continuous care" (Home + T-DOC) ---------- */
 const STEPS = [
-  { icon: CalendarCheck, title: "Book Appointment", text: "Patients access the Telth app to find providers, check availability, and book appointments in real-time — no phone calls required." },
+  { icon: CalendarCheck, title: "Book Appointment", text: "Patients access the Telth app to find providers, check availability, and book appointments in real-time no phone calls required." },
   { icon: Stethoscope, title: "Physician Consultation", text: "The patient meets the physician in person or by teleconsultation, with relevant context available to support the consultation." },
   { icon: UserCheck, title: "Care Manager Follow-up", text: "Care Managers help coordinate next appointments, reminders and permitted care tasks after the consultation." },
   { icon: HeartPulse, title: "Continuous Monitoring", text: "Connected measurements and follow-up keep the care plan on track between visits." },

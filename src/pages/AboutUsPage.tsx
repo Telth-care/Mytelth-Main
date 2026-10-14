@@ -6,12 +6,12 @@ import { IMG } from "../assets/slots";
 import { ROUTES } from "../lib/links";
 
 const PRINCIPLES = [
-  { icon: Heart, title: "Human-Centered", text: "Every design decision starts with the person receiving care — their needs, dignity and lived experience." },
+  { icon: Heart, title: "Human-Centered", text: "Every design decision starts with the person receiving care their needs, dignity and lived experience." },
   { icon: FlaskConical, title: "Evidence-Aware", text: "Our platform is based on evidence, using responsible language and honestly distinguishing proposed from proven." },
   { icon: HeartHandshake, title: "Collaborative", text: "Telth grows through genuine partnerships with healthcare professionals, organisations and communities." },
   { icon: Globe, title: "Globally Ambitious", text: "Designed from the outset for multinational, multilingual deployment across diverse healthcare contexts." },
   { icon: ShieldCheck, title: "Trustworthy", text: "Data governance, consent, and patient safety are foundational to how we design and operate." },
-  { icon: Compass, title: "Responsible Progress", text: "We advance technology thoughtfully — where it is safe, useful and accountable." },
+  { icon: Compass, title: "Responsible Progress", text: "We advance technology thoughtfully where it is safe, useful and accountable." },
 ];
 
 export default function AboutUsPage() {
@@ -19,8 +19,8 @@ export default function AboutUsPage() {
     <>
       <PageHero
         eyebrow="About Telth"
-        title="Building an intelligent care ecosystem around people — not institutions"
-        text="Telth is building a connected, intelligent and human-centered healthcare ecosystem — designed to make care more accessible, coordinated and continuous for individuals, families and communities."
+        title="Building an intelligent care ecosystem around people not institutions"
+        text="Telth is building a connected, intelligent and human-centered healthcare ecosystem designed to make care more accessible, coordinated and continuous for individuals, families and communities."
       />
 
       <Section>
@@ -41,15 +41,15 @@ export default function AboutUsPage() {
               </Reveal>
               <Reveal delay={180}>
                 <p className="mt-5 text-[15.5px] leading-[1.8]">
-                  We are building the infrastructure to change that — not by replacing the professionals who deliver care, but by connecting the people, information and services that make care work.
+                  We are building the infrastructure to change that not by replacing the professionals who deliver care, but by connecting the people, information and services that make care work.
                 </p>
               </Reveal>
             </div>
 
             <div className="space-y-6">
               {[
-                ["Our Vision", "A world where every person — regardless of geography, language or circumstance — can access connected, coordinated healthcare that supports them across their entire life journey."],
-                ["Our Mission", "To build one intelligent ecosystem that connects community-based care, care at home, personal health, digital infrastructure and healthcare services — making care more connected, coordinated and human."],
+                ["Our Vision", "A world where every person regardless of geography, language or circumstance can access connected, coordinated healthcare that supports them across their entire life journey."],
+                ["Our Mission", "To build one intelligent ecosystem that connects community-based care, care at home, personal health, digital infrastructure and healthcare services making care more connected, coordinated and human."],
               ].map(([t, p], i) => (
                 <Reveal key={t} dir="right" delay={i * 120}>
                   <div className="card-hover rounded-[20px] border border-slate-100 bg-soft p-6 sm:p-8">
@@ -76,7 +76,7 @@ export default function AboutUsPage() {
 
       <CtaBand
         title="Ready to Start a Conversation?"
-        text="Whether you are a healthcare organization, partner or individual — we'd love to hear from you."
+        text="Whether you are a healthcare organization, partner or individual we'd love to hear from you."
         primary={{ label: "Start a Conversation", to: ROUTES.enquiry }}
         secondary={{ label: "Explore Our Solutions", to: ROUTES.ecosystem }}
       />

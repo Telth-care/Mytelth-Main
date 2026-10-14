@@ -49,7 +49,7 @@ export default function ContactScreen() {
       <PageHero
         eyebrow="Contact"
         title="Start the Right Conversation"
-        text="Tell us what brings you here — and we'll make sure your enquiry reaches the right team."
+        text="Tell us what brings you here and we'll make sure your enquiry reaches the right team."
       />
       <Section className="!pt-10 sm:!pt-14">
         <Container>

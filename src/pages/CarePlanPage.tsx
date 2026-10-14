@@ -203,7 +203,7 @@ export default function CarePlanPage() {
           </div></Reveal>
           <p className="mt-4 text-center text-[13.5px] font-semibold text-muted">Care plans · 24 plans &nbsp;|&nbsp; Add-ons · 10 add-ons</p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {shown.length === 0 && <p className="col-span-full rounded-2xl bg-soft p-8 text-center text-muted">No plans match those filters in this preview — try changing them.</p>}
+            {shown.length === 0 && <p className="col-span-full rounded-2xl bg-soft p-8 text-center text-muted">No plans match those filters in this preview try changing them.</p>}
             {shown.map((p, i) => {
               // Define color themes for the 3 plans based on index
               const themes = [

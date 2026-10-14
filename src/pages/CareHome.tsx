@@ -23,7 +23,7 @@ export default function CareHome() {
       <PageHero
         eyebrow="Care @ Home"
         title="Coordinated Support, Delivered With Dignity"
-        text="Care beyond the clinic door — designed to support individuals recovering, managing long-term conditions, or maintaining independence at home through connected services and professional oversight."
+        text="Care beyond the clinic door designed to support individuals recovering, managing long-term conditions, or maintaining independence at home through connected services and professional oversight."
       />
 
       <Section>
@@ -35,7 +35,7 @@ export default function CareHome() {
                 <SectionTitle eyebrow="Our Approach" title="Care Beyond the Clinic Door" />
                 <Reveal delay={100}>
                   <p className="mt-5 text-[15.5px] leading-[1.8]">
-                    For many individuals, the most important moments of care happen outside traditional clinical settings — during recovery, in chronic condition management, or in supporting healthy ageing at home.
+                    For many individuals, the most important moments of care happen outside traditional clinical settings during recovery, in chronic condition management, or in supporting healthy ageing at home.
                   </p>
                 </Reveal>
                 <Reveal delay={170}>
@@ -52,7 +52,7 @@ export default function CareHome() {
             }
             right={
               <div>
-                <SectionTitle eyebrow="Care Management Model" title="Telth Care Management Model" text="A structured care management approach designed to coordinate home-based care across clinical teams, care professionals and the individuals they serve — with a shared care plan at its centre." />
+                <SectionTitle eyebrow="Care Management Model" title="Telth Care Management Model" text="A structured care management approach designed to coordinate home-based care across clinical teams, care professionals and the individuals they serve with a shared care plan at its centre." />
                 <div className="mt-7"><StepList items={MODEL} /></div>
               </div>
             }

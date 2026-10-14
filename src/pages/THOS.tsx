@@ -13,10 +13,10 @@ const OBJECTIVES = [
 ];
 
 const VERSIONS = [
-  { tag: "Foundation", tone: "green", v: "THOS V1", sub: "Intelligent Connected Care", text: "A commercially practical digital foundation — designed to connect people, workflows and services across the Telth ecosystem.", to: ROUTES.thosV1 },
-  { tag: "Planned", tone: "blue", v: "THOS V2", sub: "Precision Health Intelligence", text: "Building from connected data toward responsible clinical insights — with evidence governance and cross-cultural trust in mind.", to: ROUTES.thosV2 },
-  { tag: "Future", tone: "violet", v: "THOS V3", sub: "Assisted & Autonomous Operations", text: "Automation where it is safe, useful and accountable — proposed for specific care workflow functions only.", to: ROUTES.thosV3 },
-  { tag: "Research Stage", tone: "amber", v: "THOS V4", sub: "NeuroAdaptive Intelligence", text: "A research horizon exploring more adaptive, personalised care systems — not commercially proposed at this stage.", to: ROUTES.thosV4 },
+  { tag: "Foundation", tone: "green", v: "THOS V1", sub: "Intelligent Connected Care", text: "A commercially practical digital foundation designed to connect people, workflows and services across the Telth ecosystem.", to: ROUTES.thosV1 },
+  { tag: "Planned", tone: "blue", v: "THOS V2", sub: "Precision Health Intelligence", text: "Building from connected data toward responsible clinical insights with evidence governance and cross-cultural trust in mind.", to: ROUTES.thosV2 },
+  { tag: "Future", tone: "violet", v: "THOS V3", sub: "Assisted & Autonomous Operations", text: "Automation where it is safe, useful and accountable proposed for specific care workflow functions only.", to: ROUTES.thosV3 },
+  { tag: "Research Stage", tone: "amber", v: "THOS V4", sub: "NeuroAdaptive Intelligence", text: "A research horizon exploring more adaptive, personalised care systems not commercially proposed at this stage.", to: ROUTES.thosV4 },
 ] as const;
 
 export default function THOS() {
@@ -25,7 +25,7 @@ export default function THOS() {
       <PageHero
         eyebrow="THOS — Telth Healthcare Operating System"
         title="One Operating Layer. Many Care Journeys"
-        text="THOS is the proposed intelligent digital foundation connecting people, healthcare workflows, devices, services and data across the entire Telth ecosystem — designed with trust, governance and human accountability at its core."
+        text="THOS is the proposed intelligent digital foundation connecting people, healthcare workflows, devices, services and data across the entire Telth ecosystem designed with trust, governance and human accountability at its core."
       />
 
       <Section>
@@ -43,7 +43,7 @@ export default function THOS() {
         <Container>
           <SectionTitle
             center light eyebrow="Roadmap" title="Four Versions. One Vision."
-            text="THOS is designed as a progressive platform — each version building responsibly on the last, with clear distinctions between what is available, planned, future, and at research stage."
+            text="THOS is designed as a progressive platform each version building responsibly on the last, with clear distinctions between what is available, planned, future, and at research stage."
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {VERSIONS.map((v, i) => (
@@ -68,7 +68,7 @@ export default function THOS() {
               <p className="font-open text-[12.5px] font-bold uppercase tracking-[0.12em] text-brand">Human Accountability</p>
               <h2 className="mt-2.5 text-[28px] font-semibold sm:text-[34px]">Technology That Serves People</h2>
               <p className="mt-5 text-[15.5px] leading-[1.85]">
-                THOS is designed with a foundational principle: every intelligent function must have a clear line of human accountability. Technology may assist, recommend or automate — but clinical responsibility always rests with qualified healthcare professionals. This is not a constraint on innovation; it is the foundation of trustworthy healthcare technology.
+                THOS is designed with a foundational principle: every intelligent function must have a clear line of human accountability. Technology may assist, recommend or automate but clinical responsibility always rests with qualified healthcare professionals. This is not a constraint on innovation; it is the foundation of trustworthy healthcare technology.
               </p>
             </div>
           </Reveal>

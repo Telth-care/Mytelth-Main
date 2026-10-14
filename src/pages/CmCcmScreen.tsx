@@ -1,6 +1,7 @@
 import {
   Award, BadgeIndianRupee, Bike, Car, CheckCircle2, Globe2, GraduationCap, HandHeart, HeartHandshake, LifeBuoy,
   MonitorSmartphone, Network, Rocket, ShieldCheck, Smartphone, Sprout, Stethoscope, TrendingUp, UserPlus, Users, Wallet, Check, Plane,
+  User, UsersRound, Medal, Crown, Briefcase, Building2
 } from "lucide-react";
 import CtaBand from "../components/CtaBand";
 import { ConnectedFlow, Faq } from "../components/extra";
@@ -45,8 +46,25 @@ const TRACKS = [
 ];
 
 const EARN = ["Basic Contract Pay", "Care Coordination Fees (per appointment)", "Care Plan Share & Renewals", "T-Mart Earnings", "NatLife Earnings", "ePharmacy Incentives", "Affiliate Marketing Incentives", "Performance Incentives"];
-const LADDER = ["Associate Care Manager", "Care Manager", "Senior Care Manager", "Territory Care Manager", "Regional Care Manager", "International Opportunities"];
-const MARKETS = [["🇬🇧", "United Kingdom"], ["🇪🇺", "European Markets"], ["🇦🇪", "United Arab Emirates"], ["🇸🇦", "Kingdom of Saudi Arabia"], ["🌐", "Other Global Markets"]];
+
+const LADDER = [
+  { label: "Associate Care Manager", icon: User },
+  { label: "Care Manager", icon: UsersRound },
+  { label: "Senior Care Manager", icon: Medal },
+  { label: "Territory Care Manager", icon: Crown },
+  { label: "Regional Care Manager", icon: Briefcase },
+  { label: "International Opportunities", icon: Building2 },
+];
+
+// UPDATED: MARKETS now includes full country names and sub-labels
+const MARKETS = [
+  { flag: "🇬🇧", name: "UK", sub: "United Kingdom" },
+  { flag: "🇪🇺", name: "Europe", sub: "European Markets" },
+  { flag: "🇦🇪", name: "UAE", sub: "United Arab Emirates" },
+  { flag: "🇸🇦", name: "Saudi Arabia", sub: "Kingdom of Saudi Arabia" },
+  { flag: "🌐", name: "GCC & Global", sub: "Other Global Markets" },
+];
+
 const GLOBAL_STEPS = [
   ["Build Your Experience", "Develop your healthcare and technology skills through your Telth journey."],
   ["Upgrade Your Qualifications", "Continue developing your professional qualifications and certifications."],
@@ -232,37 +250,64 @@ export default function CmCcmScreen() {
       <Section>
         <Container>
           <SectionTitle center eyebrow="Career Path" title="Grow With Telth" text="Build your skills. Grow your responsibilities. Shape your healthcare career." />
-          <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-            {LADDER.map((l, i) => (
-              <Reveal as="li" key={l} delay={i * 90}>
-                <div className="card-hover relative h-full rounded-2xl border border-slate-100 bg-white p-5 text-center shadow-card" style={{ marginTop: `${(5 - i) * 6}px` }}>
-                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#1B5FA8] to-[#0D9E8D] font-franklin text-[14px] font-bold text-white">{i + 1}</span>
-                  <p className="mt-3 font-franklin text-[14.5px] font-bold leading-snug">{l}</p>
-                </div>
-              </Reveal>
-            ))}
+          <ol className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {LADDER.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <Reveal as="li" key={item.label} delay={i * 90} className="relative flex flex-col items-center">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-[#1B5FA8]">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="relative flex h-full w-full flex-col items-center rounded-t-xl border border-slate-200 bg-white px-3 pb-8 pt-5 text-center shadow-sm">
+                    <span className="text-[11px] font-bold text-slate-400">0{i + 1}</span>
+                    <p className="mt-1 font-franklin text-[13.5px] font-bold leading-snug text-slate-800">{item.label}</p>
+                    <div className="absolute bottom-0 left-0 h-1 w-full bg-[#1B5FA8]" />
+                  </div>
+                  <span className="absolute -bottom-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#1B5FA8] text-[12px] font-bold text-white ring-4 ring-white">
+                    {i + 1}
+                  </span>
+                </Reveal>
+              );
+            })}
           </ol>
         </Container>
       </Section>
 
-      {/* global */}
+      {/* UPDATED: Global Pathway Section - Image Based Design with Flags */}
       <Section tone="dark" bg={IMG.waveTealWide}>
         <Container>
           <SectionTitle center light eyebrow="Global Pathway" title="Take Your Healthcare Career Global" />
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {MARKETS.map(([f, n], i) => (
-              <Reveal key={n} delay={i * 80}><div className="card-hover rounded-2xl border border-white/10 bg-white/[0.07] p-5 text-center backdrop-blur">
-                <p className="text-[34px]">{f}</p><p className="mt-2 text-[13.5px] font-semibold text-slate-100">{n}</p>
-              </div></Reveal>
-            ))}
+          
+          {/* Flags Horizontal Pill Layout */}
+          <div className="relative mx-auto mt-14 max-w-5xl">
+            {/* Decorative globe glow */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+            
+            <div className="relative flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              {MARKETS.map((m, i) => (
+                <Reveal key={m.name} delay={i * 80} className="w-full sm:w-auto">
+                  <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.07] px-5 py-3.5 backdrop-blur transition hover:bg-white/[0.12]">
+                    <span className="text-[28px] leading-none">{m.flag}</span>
+                    <div className="text-left">
+                      <p className="text-[14px] font-bold text-white">{m.name}</p>
+                      <p className="text-[12px] font-medium text-slate-400">{m.sub}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+          {/* 4 Global Steps */}
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {GLOBAL_STEPS.map(([t, d], i) => (
-              <Reveal key={t} delay={i * 90}><div className="card-hover h-full rounded-2xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur">
-                <span className="font-franklin text-[13px] font-bold text-sky-300">0{i + 1}</span>
-                <h3 className="mt-2 text-[17px] font-bold !text-white">{t}</h3>
-                <p className="mt-2 text-[14px] leading-[1.65] text-slate-300">{d}</p>
-              </div></Reveal>
+              <Reveal key={t} delay={i * 90}>
+                <div className="card-hover h-full rounded-2xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur">
+                  <span className="font-franklin text-[13px] font-bold text-sky-300">0{i + 1}</span>
+                  <h3 className="mt-2 text-[17px] font-bold !text-white">{t}</h3>
+                  <p className="mt-2 text-[14px] leading-[1.65] text-slate-300">{d}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Container>
