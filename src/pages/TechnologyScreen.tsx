@@ -141,7 +141,7 @@ export default function TechnologyScreen() {
       {/* technology → care */}
       <Section tone="dark" bg={IMG.waveTealWide}>
         <Container>
-          <SectionTitle center light title="From Technology to Real-World Care" text="Telth technology is designed to move beyond screens and devices — connecting people, healthcare professionals, Care Managers and communities through practical care environments." />
+          <SectionTitle center light title="From Technology to Real-World Care" text="Telth technology is designed to move beyond screens and devices connecting people, healthcare professionals, Care Managers and communities through practical care environments." />
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             {FLOW.map(([a, b], i) => (
               <Reveal as="li" key={a} delay={i * 90}>

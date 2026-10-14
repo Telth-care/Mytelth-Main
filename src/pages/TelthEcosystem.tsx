@@ -98,7 +98,7 @@ export default function TelthEcosystem() {
       {/* ---------- suite ---------- */}
       <Section>
         <Container>
-          <SectionTitle center eyebrow="Telth Ecosystem" title="Everything Healthcare, All in One Place" text="A unified suite of products designed for modern healthcare — payments, marketplace, rewards, and wellness traceability." />
+          <SectionTitle center eyebrow="Telth Ecosystem" title="Everything Healthcare, All in One Place" text="A unified suite of products designed for modern healthcare payments, marketplace, rewards, and wellness traceability." />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {SUITE.map((s, i) => (
               <Reveal key={s.name} delay={i * 80}>

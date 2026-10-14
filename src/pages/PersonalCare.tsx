@@ -10,7 +10,7 @@ const PROGRAMMES = [
   { icon: Activity, title: "Connected Monitoring", text: "Personalized health tracking via connected devices and apps supports awareness and clinical follow-up." },
   { icon: HeartPulse, title: "Long-term Condition Support", text: "Program supports individuals managing conditions, promoting adherence, self-management, and care coordination." },
   { icon: Ear, title: "Hearing & Rehabilitation", text: "Specialist pathways designed to support hearing health and rehabilitation services within a connected care framework." },
-  { icon: Sprout, title: "Wellbeing & Healthy Ageing", text: "Integrated wellbeing programm’s designed around physical, mental and social health — supporting people across the lifespan." },
+  { icon: Sprout, title: "Wellbeing & Healthy Ageing", text: "Integrated wellbeing programm’s designed around physical, mental and social health supporting people across the lifespan." },
   { icon: Fingerprint, title: "Responsible Personalization", text: "All personalisation features are designed to be consent-based, evidence-aware and subject to appropriate clinical governance." },
 ];
 
@@ -20,7 +20,7 @@ export default function PersonalCare() {
       <PageHero
         eyebrow="Personal Care"
         title="Health Support Shaped Around the Individual"
-        text="Personalized prevention, wellness and long-term health programme’s designed around individual assessment, monitoring and healthy ageing — always with human oversight at the center."
+        text="Personalized prevention, wellness and long-term health programme’s designed around individual assessment, monitoring and healthy ageing always with human oversight at the center."
       />
 
       <Section>
@@ -32,12 +32,12 @@ export default function PersonalCare() {
                 <SectionTitle eyebrow="Our Approach | Responsible Personalisation" title="Health That Fits the Individual" />
                 <Reveal delay={100}>
                   <p className="mt-5 text-[15.5px] leading-[1.8]">
-                    Every individual has a unique health story — shaped by their genetics, lifestyle, environment and aspirations. Telth Personal Care is designed to support that uniqueness through tools that are personalised, evidence-aware and grounded in responsible clinical practice.
+                    Every individual has a unique health story shaped by their genetics, lifestyle, environment and aspirations. Telth Personal Care is designed to support that uniqueness through tools that are personalised, evidence-aware and grounded in responsible clinical practice.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
                   <p className="mt-4 text-[15.5px] leading-[1.8]">
-                    Our approach does not replace clinical care. It is designed to complement it — helping individuals stay more informed, engaged and connected to the support they need.
+                    Our approach does not replace clinical care. It is designed to complement it helping individuals stay more informed, engaged and connected to the support they need.
                   </p>
                 </Reveal>
               </div>
@@ -49,7 +49,7 @@ export default function PersonalCare() {
                   <CheckList
                     items={[
                       "Consent is required for all personal health data use",
-                      "Personalised insights are designed to inform — not replace clinical judgement",
+                      "Personalised insights are designed to inform not replace clinical judgement",
                       "Individuals may modify or withdraw from programmes at any time",
                       "All health information is handled in accordance with applicable data protection and healthcare regulations",
                     ]}
