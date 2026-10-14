@@ -19,12 +19,10 @@ import {
   Smile,
   Stethoscope,
   Store,
-  TrendingUp,
   UserCog,
   Users,
   User,
   Home as HomeIcon,
-  FlaskConical,
   Briefcase,
   Lightbulb,
   Microscope,
@@ -58,6 +56,12 @@ import {
 } from "../components/ui";
 import { IMG } from "../assets/slots";
 import { EXTERNAL, ROUTES } from "../lib/links";
+import partnerImg1 from "../assets/image 43.png";
+import partnerImg2 from "../assets/image 44.png";
+import partnerImg3 from "../assets/image 45.png";
+import partnerImg4 from "../assets/image 46.png";
+import partnerImg5 from "../assets/image 47.png";
+import partnerImg6 from "../assets/image 48.png";
 
 const PILLARS = [
   {
@@ -417,14 +421,61 @@ const STAKEHOLDERS = [
   [HomeIcon, "Home Healthcare"],
 ] as const;
 
+// Partnership photo cards (image 43–48). The text only appears while hovering the image.
 const PARTNERS = [
-  [Stethoscope, "Healthcare Providers", "Clinics, hospitals, and specialists"],
-  [Cpu, "Technology Partners", "Software and device integrations"],
-  [Hospital, "Hospitals", "Large health systems and networks"],
-  [FlaskConical, "Researchers", "Academic and clinical research partners"],
-  [TrendingUp, "Investors", "Strategic and financial partners"],
-  [Landmark, "Governments", "National and regional health authorities"],
-] as const;
+  { img: partnerImg1, title: "Healthcare Providers", desc: "Clinics, hospitals, and specialists" },
+  { img: partnerImg2, title: "Technology Partners", desc: "Software and device integrations" },
+  { img: partnerImg3, title: "Hospitals", desc: "Large health systems and networks" },
+  { img: partnerImg4, title: "Researchers", desc: "Academic and clinical research partners" },
+  { img: partnerImg5, title: "Investors", desc: "Strategic and financial partners" },
+  { img: partnerImg6, title: "Governments", desc: "National and regional health authorities" },
+];
+
+function PartnerGrid() {
+  return (
+    <div className="pc-grid mx-auto mt-12 grid max-w-[930px] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-[35px]">
+      <style>{`
+        .pc{position:relative;overflow:hidden;border-radius:24px;aspect-ratio:287/191;cursor:pointer;
+          background:#0b1230; /* placeholder colour while the photo loads */
+          border:1px solid rgba(255,255,255,.1);outline:none;
+          box-shadow:0 20px 40px -20px rgba(0,0,0,.6);
+          transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s ease}
+        .pc:hover,.pc:focus-visible,.pc:focus{transform:translateY(-6px);
+          box-shadow:0 0 0 1px rgba(59,130,246,.45),0 28px 56px -18px rgba(37,99,235,.55)}
+        .pc-img{display:block;width:100%;height:100%;object-fit:cover;
+          transition:transform .8s cubic-bezier(.22,1,.36,1)}
+        .pc:hover .pc-img,.pc:focus .pc-img{transform:scale(1.07)}
+
+        /* hidden until the image is hovered (or tapped / focused on touch screens) */
+        .pc-label{position:absolute;left:12px;right:12px;bottom:12px;
+          border-radius:14px;padding:.7rem 1rem;
+          background:rgba(8,12,30,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+          opacity:0;transform:translateY(18px);pointer-events:none;
+          transition:opacity .45s ease,transform .5s cubic-bezier(.22,1,.36,1)}
+        .pc:hover .pc-label,.pc:focus .pc-label,.pc:focus-within .pc-label{opacity:1;transform:translateY(0)}
+        .pc-title{font-size:15px;font-weight:700;line-height:1.25;color:#fff}
+        .pc-desc{margin-top:2px;font-size:13px;line-height:1.4;color:#cbd5e1}
+
+        @media (prefers-reduced-motion:reduce){
+          .pc,.pc-img,.pc-label{transition:none}
+          .pc:hover,.pc:focus{transform:none}
+          .pc:hover .pc-img,.pc:focus .pc-img{transform:none}
+        }
+      `}</style>
+      {PARTNERS.map((p, i) => (
+        <Reveal key={p.title} delay={(i % 3) * 100}>
+          <div className="pc" tabIndex={0}>
+            <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="pc-img" />
+            <div className="pc-label">
+              <p className="pc-title">{p.title}</p>
+              <p className="pc-desc">{p.desc}</p>
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
 
 // Three overlapping phones (T-DOC left, Patient centre, CM/CCM right) as in the Figma.
 // Positions are % of the stack box, measured from the Figma frame.
@@ -443,12 +494,13 @@ function PhoneStack() {
     if (!el) return;
     const io = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) {
+        // also true when it was scrolled past too fast to ever "intersect"
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
           setOn(true);
           io.disconnect();
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.25, rootMargin: "0px 0px 15% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -466,6 +518,8 @@ function PhoneStack() {
         .phone-stack__item{opacity:0;transform:translate(var(--fx),var(--fy)) scale(.96);
           transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1);transition-delay:var(--d)}
         .phone-stack[data-on="true"] .phone-stack__item{opacity:1;transform:none}
+        /* purple halo hugging each phone + soft drop shadow underneath (as in Figma) */
+        .phone-stack__img{filter:drop-shadow(0 0 22px rgba(139,92,246,.5)) drop-shadow(0 22px 32px rgba(15,23,42,.28))}
         .phone-stack__hover{transition:transform .7s cubic-bezier(.22,1,.36,1)}
         .phone-stack[data-on="true"]:hover .phone-stack__hover{transform:translate(var(--hx),var(--hy))}
         .phone-stack[data-on="true"] .phone-stack__img{animation:phone-float 6s ease-in-out infinite;
@@ -480,7 +534,7 @@ function PhoneStack() {
       `}</style>
 
       {/* soft purple glow behind the phones (as in Figma) */}
-      <div className="phone-stack__glow pointer-events-none absolute inset-[6%] rounded-full bg-purple-400/30 blur-3xl" />
+      <div className="phone-stack__glow pointer-events-none absolute inset-[2%] rounded-[60px] bg-violet-500/35 blur-[56px]" />
 
       {PHONE_STACK.map((p) => (
         <div
@@ -503,7 +557,7 @@ function PhoneStack() {
             <img
               src={p.src}
               alt={p.alt}
-              className="phone-stack__img w-full drop-shadow-[0_20px_30px_rgba(15,23,42,.25)]"
+              className="phone-stack__img w-full"
             />
           </div>
         </div>
@@ -951,12 +1005,13 @@ function WhyGrid() {
     if (!el) return;
     const io = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) {
+        // also true when it was scrolled past too fast to ever "intersect"
+        if (e.isIntersecting || e.boundingClientRect.top < 0) {
           setSeen(true);
           io.disconnect();
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.15, rootMargin: "0px 0px 15% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -1468,19 +1523,7 @@ export default function HomePage() {
             eyebrow="Partnerships"
             title="Together, We Can Build the Future of Connected Healthcare."
           />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {PARTNERS.map(([I, t, d], i) => (
-              <Reveal key={t} delay={(i % 3) * 100}>
-                <div className="card-hover flex h-full items-start gap-4 rounded-[20px] border border-white/10 bg-white/[0.07] p-6 backdrop-blur">
-                  <IconBadge icon={I} tone="dark" />
-                  <div>
-                    <h3 className="text-[17px] font-bold !text-white">{t}</h3>
-                    <p className="mt-1.5 text-[14px] text-slate-300">{d}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <PartnerGrid />
           <Reveal delay={150}>
             <div className="mt-10 text-center">
               <Btn to={ROUTES.partnership}>Become a Partner</Btn>
