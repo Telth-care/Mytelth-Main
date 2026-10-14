@@ -94,8 +94,11 @@ export default function Navbar() {
     };
   }, [drawer]);
 
+  // Header is transparent with a fixed height of 78px (mobile) / 82px (sm+).
+  // Hero sections pull up under it with `-mt-[78px] pt-[78px] sm:-mt-[82px] sm:pt-[82px]`
+  // so their background covers the navbar.
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+    <header className="sticky top-0 z-50 min-h-[78px] px-3 pt-3 sm:min-h-[82px] sm:px-5 sm:pt-4">
       <div
         className={`mx-auto flex max-w-[1332px] items-center justify-between gap-4 rounded-full border border-sky-200/70 px-4 py-2.5 backdrop-blur-xl transition-shadow duration-300 sm:px-6 lg:px-8 ${
           scrolled ? "bg-white/90 shadow-[0_14px_34px_-16px_rgba(15,23,42,.35)]" : "bg-sky-50/90"

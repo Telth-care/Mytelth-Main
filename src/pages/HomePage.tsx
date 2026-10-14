@@ -14,10 +14,8 @@ import {
   Hospital,
   Landmark,
   LayoutDashboard,
-  LineChart,
   Network,
   Rocket,
-  ShieldCheck,
   Smile,
   Stethoscope,
   Store,
@@ -31,10 +29,8 @@ import {
   Lightbulb,
   Microscope,
   Check,
-  Waypoints,
   HeartPulse,
   UserRound,
-  Sparkles,
   Zap,
   Layers,
   Shield,
@@ -43,15 +39,17 @@ import {
   Boxes,
   Workflow,
   Boxes as BoxesIcon,
+  Smartphone,
+  Lock,
+  CalendarDays,
+  Clock,
+  type LucideIcon,
 } from "lucide-react";
 import CtaBand from "../components/CtaBand";
-import { JourneySteps } from "../components/extra";
 import {
   Btn,
   Container,
   Eyebrow,
-  FeatureCard,
-  FeatureGrid,
   IconBadge,
   Reveal,
   Section,
@@ -408,15 +406,6 @@ const WHY = [
   },
 ];
 
-const THOS = [
-  [Cloud, "Cloud Infrastructure"],
-  [Brain, "AI & Machine Learning"],
-  [Database, "Health Data Layer"],
-  [ShieldCheck, "Enterprise Security"],
-  [LineChart, "Real-time Analytics"],
-  [Waypoints, "Interoperability"],
-] as const;
-
 const STAKEHOLDERS = [
   [Hospital, "Hospitals"],
   [Building2, "Clinics"],
@@ -523,14 +512,692 @@ function PhoneStack() {
   );
 }
 
-export default function HomePage() {
-  const [appId, setAppId] = useState("patient");
+/* ---------------- how it works: animated journey ---------------- */
+type JourneyStep = {
+  n: string;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  hex: string; // theme colour for this step
+  rgb: string; // same colour as "r,g,b" so we can use rgba(var(--rgb), a)
+};
+
+const JOURNEY_STEPS: JourneyStep[] = [
+  {
+    n: "01",
+    title: "Book Appointment",
+    desc: "Patients book in seconds from the mobile app or web. Smart scheduling matches them to the right physician and slot automatically.",
+    icon: Smartphone,
+    hex: "#2563EB",
+    rgb: "37,99,235",
+  },
+  {
+    n: "02",
+    title: "Physician Consultation",
+    desc: "Physicians receive complete patient history and AI-assisted insights before consultations. Notes sync instantly across the care team.",
+    icon: Stethoscope,
+    hex: "#10B981",
+    rgb: "16,185,129",
+  },
+  {
+    n: "03",
+    title: "Care Manager Follow-up",
+    desc: "Care Managers help coordinate next appointments, reminders and permitted care tasks after the consultation.",
+    icon: CalendarDays,
+    hex: "#8B5CF6",
+    rgb: "139,92,246",
+  },
+  {
+    n: "04",
+    title: "Continuous Monitoring",
+    desc: "Remote monitoring devices feed real-time health data into the platform. Alerts notify care teams of anomalies before they become emergencies.",
+    icon: Clock,
+    hex: "#F59E0B",
+    rgb: "245,158,11",
+  },
+  {
+    n: "05",
+    title: "Organization Dashboard",
+    desc: "Leaders see operations, outcomes and utilisation across every location in one live dashboard, ready for confident decisions.",
+    icon: Users,
+    hex: "#0EA5E9",
+    rgb: "14,165,233",
+  },
+];
+
+const JOURNEY_STATS = [
+  { value: "85%", label: "Faster" },
+  { value: "3x", label: "Efficiency" },
+  { value: "99%", label: "Accuracy" },
+];
+
+const JOURNEY_MS = 3200; // time each step stays highlighted before moving on
+
+function JourneyShowcase() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [active, setActive] = useState(0);
+
+  // only animate while the section is on screen
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.3,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // endless loop: 1 → 2 → 3 → 4 → 5 → 1 …  (pauses while the user interacts)
+  useEffect(() => {
+    if (!inView || paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(
+      () => setActive((a) => (a + 1) % JOURNEY_STEPS.length),
+      JOURNEY_MS,
+    );
+    return () => clearInterval(id);
+  }, [inView, paused]);
+
+  const cur = JOURNEY_STEPS[active];
+  const themeOf = (s: JourneyStep) =>
+    ({ "--c": s.hex, "--rgb": s.rgb }) as CSSProperties;
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="jr mx-auto mt-14 w-full max-w-[1240px]"
+    >
+      <style>{`
+        .jr-row{
+          position:relative; overflow:hidden; display:flex; align-items:center; gap:1.1rem;
+          width:100%; text-align:left; cursor:pointer;
+          padding:1rem 1.4rem; border-radius:20px;
+          border:1.5px solid rgba(148,163,184,.18);
+          background:rgba(255,255,255,.6);
+          opacity:.72;
+          transition:transform .55s cubic-bezier(.22,1,.36,1),
+                     box-shadow .55s ease, border-color .55s ease,
+                     background-color .55s ease, opacity .55s ease;
+        }
+        .jr-row:hover{opacity:1}
+        .jr-row[data-on="true"]{
+          opacity:1; background:#fff; border-color:var(--c);
+          transform:translateX(8px);
+          box-shadow:0 0 0 4px rgba(var(--rgb),.10), 0 18px 44px -18px rgba(var(--rgb),.6);
+        }
+        .jr-ico{
+          flex:none; display:grid; place-items:center; width:54px; height:54px; border-radius:16px;
+          color:var(--c); background:rgba(var(--rgb),.10);
+          transition:background-color .55s ease, color .55s ease, transform .55s cubic-bezier(.22,1,.36,1), box-shadow .55s ease;
+        }
+        .jr-row[data-on="true"] .jr-ico{
+          color:#fff; background:var(--c); transform:scale(1.06) rotate(-3deg);
+          box-shadow:0 12px 24px -8px rgba(var(--rgb),.75);
+        }
+        .jr-num{font-size:.78rem; font-weight:700; letter-spacing:.04em; color:var(--c)}
+        .jr-title{font-weight:600; font-size:1.05rem; color:#64748b; transition:color .55s ease}
+        .jr-row[data-on="true"] .jr-title{color:#0f172a}
+
+        /* progress bar on the active row = time until the next step */
+        .jr-bar{position:absolute; left:0; bottom:0; height:3px; width:100%;
+          background:var(--c); transform-origin:left; transform:scaleX(0);
+          animation:jr-fill ${JOURNEY_MS}ms linear forwards; opacity:.55}
+        @keyframes jr-fill{to{transform:scaleX(1)}}
+
+        /* right panel */
+        .jr-panel{
+          border-radius:26px; background:#fff; padding:2rem;
+          border:1.5px solid rgba(var(--rgb),.55);
+          box-shadow:0 0 0 5px rgba(var(--rgb),.08), 0 26px 60px -24px rgba(var(--rgb),.55);
+          transition:border-color .6s ease, box-shadow .6s ease;
+        }
+        .jr-fade{animation:jr-in .55s cubic-bezier(.22,1,.36,1) both}
+        @keyframes jr-in{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+        .jr-badge{display:grid; place-items:center; width:48px; height:48px; border-radius:14px;
+          color:#fff; background:var(--c); box-shadow:0 10px 22px -8px rgba(var(--rgb),.7)}
+        .jr-desc{border-radius:18px; padding:1.25rem 1.4rem; color:#475569; line-height:1.75;
+          background:rgba(var(--rgb),.05); border:1px solid rgba(var(--rgb),.14)}
+        .jr-stat{border-radius:16px; padding:1rem .5rem; text-align:center;
+          background:rgba(var(--rgb),.06); border:1px solid rgba(var(--rgb),.10)}
+        .jr-stat b{display:block; font-size:1.7rem; line-height:1.2; color:var(--c)}
+        .jr-stat span{font-size:.85rem; color:#64748b}
+        .jr-stat:nth-child(2){animation-delay:.07s}
+        .jr-stat:nth-child(3){animation-delay:.14s}
+
+        @media (prefers-reduced-motion:reduce){
+          .jr-row,.jr-ico,.jr-panel{transition:none}
+          .jr-row[data-on="true"]{transform:none}
+          .jr-bar,.jr-fade{animation:none}
+        }
+      `}</style>
+
+      <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        {/* ---------- steps ---------- */}
+        <div className="flex flex-col gap-3.5" role="tablist">
+          {JOURNEY_STEPS.map((s, i) => {
+            const Icon = s.icon;
+            const on = i === active;
+            return (
+              <button
+                key={s.n}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                data-on={on}
+                style={themeOf(s)}
+                className="jr-row"
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                onClick={() => setActive(i)}
+              >
+                <span className="jr-ico">
+                  <Icon size={26} strokeWidth={1.8} />
+                </span>
+                <span className="jr-num">{s.n}</span>
+                <span className="jr-title">{s.title}</span>
+                {on && !paused && <span key={`bar-${i}`} className="jr-bar" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ---------- detail panel ---------- */}
+        <div className="jr-panel" style={themeOf(cur)}>
+          {/* key re-mounts the content so it fades/slides in on every step */}
+          <div key={active} className="jr-fade">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-xl font-bold text-slate-900 sm:text-2xl">
+                <span className="font-medium text-slate-500">
+                  Step {active + 1}:
+                </span>{" "}
+                {cur.title}
+              </h3>
+              <span className="jr-badge">
+                <cur.icon size={24} strokeWidth={1.8} />
+              </span>
+            </div>
+
+            <p className="jr-desc mt-6 text-[0.95rem]">{cur.desc}</p>
+
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              {JOURNEY_STATS.map((st) => (
+                <div key={st.label} className="jr-stat jr-fade">
+                  <b>{st.value}</b>
+                  <span>{st.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- platform: purpose-built applications ---------------- */
+const APP_THEME: Record<string, { hex: string; rgb: string; lite: string }> = {
+  patient: { hex: "#2563EB", rgb: "37,99,235", lite: "#7FB0FF" },
+  tdoc: { hex: "#10B981", rgb: "16,185,129", lite: "#34D3A0" },
+  cmccm: { hex: "#8B5CF6", rgb: "139,92,246", lite: "#B8A2FF" },
+};
+const APP_MS = 5000; // auto-switch tabs every 5s while visible (set 0 to turn off)
+
+function PlatformShowcase() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [appId, setAppId] = useState(APPS[0].id);
   const app = APPS.find((a) => a.id === appId)!;
+  const theme = APP_THEME[app.id];
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.3,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // auto-advance tabs; restarts after every change, pauses on hover
+  useEffect(() => {
+    if (!APP_MS || !inView || paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setTimeout(() => {
+      const i = APPS.findIndex((a) => a.id === appId);
+      setAppId(APPS[(i + 1) % APPS.length].id);
+    }, APP_MS);
+    return () => clearTimeout(t);
+  }, [inView, paused, appId]);
+
+  const vars = {
+    "--c": theme.hex,
+    "--rgb": theme.rgb,
+    "--cl": theme.lite,
+  } as CSSProperties;
+
+  return (
+    <Section tone="dark" bg={IMG.waveSoft} className="relative overflow-hidden">
+      <style>{`
+        .pf-tab{display:inline-flex;align-items:center;gap:.75rem;border-radius:9999px;
+          padding:.95rem 1.75rem;font-size:1.0625rem;font-weight:600;color:#cbd5e1;
+          background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);
+          transition:background-color .45s ease,color .45s ease,box-shadow .45s ease,transform .45s cubic-bezier(.22,1,.36,1),border-color .45s ease}
+        .pf-tab:hover{background:rgba(255,255,255,.11);color:#fff;transform:translateY(-2px)}
+        .pf-tab[aria-selected="true"]{background:var(--c);border-color:var(--c);color:#fff;
+          box-shadow:0 0 0 4px rgba(var(--rgb),.18),0 14px 34px -10px rgba(var(--rgb),.85)}
+
+        .pf-glow{background:rgba(var(--rgb),.22);transition:background-color .7s ease}
+        .pf-card{border-radius:72px 28px 72px 28px;border:1px solid rgba(255,255,255,.12);
+          background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.015));
+          backdrop-filter:blur(10px);
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 40px 90px -40px rgba(var(--rgb),.5);
+          transition:box-shadow .7s ease}
+        .pf-ico{display:grid;place-items:center;width:80px;height:80px;border-radius:20px;color:var(--cl);
+          background:rgba(var(--rgb),.16);border:1px solid rgba(var(--rgb),.3);
+          box-shadow:0 0 34px -6px rgba(var(--rgb),.55);
+          transition:background-color .6s ease,border-color .6s ease,color .6s ease,box-shadow .6s ease}
+        .pf-chip{border-radius:9999px;padding:.6rem 1.1rem;font-size:.95rem;font-weight:500;color:var(--cl);
+          border:1px solid rgba(var(--rgb),.35);background:rgba(var(--rgb),.08);
+          transition:background-color .35s ease,transform .35s ease,color .6s ease,border-color .6s ease}
+        .pf-chip:hover{background:rgba(var(--rgb),.18);transform:translateY(-2px)}
+        .pf-cta a,.pf-cta button{background:var(--c)!important;color:#fff!important;border-color:transparent!important;
+          border-radius:10px!important;box-shadow:0 14px 30px -10px rgba(var(--rgb),.8)!important;
+          transition:background-color .6s ease,box-shadow .6s ease,filter .3s ease,transform .3s ease!important}
+        .pf-cta a:hover,.pf-cta button:hover{filter:brightness(1.1);transform:translateY(-2px)}
+
+        .pf-panel{border-radius:32px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)}
+        .pf-stat{border-radius:18px;padding:1.1rem 1.1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+        .pf-stat b{display:block;font-size:1.9rem;line-height:1.2;color:var(--cl);transition:color .6s ease}
+        .pf-stat span{font-size:.9rem;color:#94a3b8}
+        .pf-row{display:flex;align-items:center;gap:.9rem;border-radius:14px;padding:.85rem 1.1rem;color:#e2e8f0;font-size:.95rem;
+          background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+          transition:transform .35s cubic-bezier(.22,1,.36,1),background-color .35s ease,border-color .35s ease}
+        .pf-row:hover{transform:translateX(6px);background:rgba(var(--rgb),.09);border-color:rgba(var(--rgb),.4)}
+        .pf-check{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:9999px;color:#fff;
+          background:var(--c);transition:background-color .6s ease}
+
+        .pf-in{animation:pf-in .65s cubic-bezier(.22,1,.36,1) both}
+        .pf-pop{animation:pf-pop .5s cubic-bezier(.34,1.56,.64,1) both}
+        @keyframes pf-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+        @keyframes pf-pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){
+          .pf-tab,.pf-row,.pf-chip,.pf-glow,.pf-card,.pf-ico{transition:none}
+          .pf-in,.pf-pop{animation:none}
+        }
+      `}</style>
+
+      {/* darker navy wash so the waves sit behind the card like the design */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#050a1f]/70 via-[#070b22]/40 to-[#050a1f]/70" />
+
+      <Container>
+        <div
+          ref={ref}
+          style={vars}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          className="relative"
+        >
+          <div className="text-center">
+            <p className="text-[15px] font-medium uppercase tracking-[0.22em] text-white">
+              Platform
+            </p>
+            <h2 className="mt-4 text-[34px] font-bold !text-white sm:text-[46px] lg:text-[54px]">
+              Four Purpose-Built Applications
+            </h2>
+          </div>
+
+          {/* tabs: separate pills, no wrapper pill */}
+          <div
+            role="tablist"
+            className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8"
+          >
+            {APPS.map((a) => (
+              <button
+                key={a.id}
+                type="button"
+                role="tab"
+                aria-selected={a.id === appId}
+                onClick={() => setAppId(a.id)}
+                className="pf-tab"
+              >
+                <a.icon className="h-6 w-6" aria-hidden="true" />
+                {a.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative mx-auto mt-12 max-w-[1270px]">
+            <div className="pf-glow pointer-events-none absolute -left-24 top-10 h-[420px] w-[420px] rounded-full blur-[130px]" />
+
+            <div key={app.id} className="pf-card pf-in relative grid items-center gap-10 p-7 sm:p-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+              {/* left */}
+              <div>
+                <span className="pf-ico pf-pop">
+                  <app.icon className="h-10 w-10" strokeWidth={1.6} aria-hidden="true" />
+                </span>
+                <h3 className="pf-in mt-9 text-[36px] font-bold !text-white sm:text-[44px]" style={{ animationDelay: "60ms" }}>
+                  {app.name}
+                </h3>
+                <p className="pf-in mt-5 max-w-[540px] text-[17px] leading-[1.8] text-slate-300 sm:text-[19px]" style={{ animationDelay: "120ms" }}>
+                  {app.desc}
+                </p>
+                <div className="pf-in mt-8 flex flex-wrap gap-3" style={{ animationDelay: "180ms" }}>
+                  {app.pills.map((p) => (
+                    <span key={p} className="pf-chip">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+                <div className="pf-cta pf-in mt-9" style={{ animationDelay: "240ms" }}>
+                  <Btn to={app.to} arrow>
+                    {app.cta}
+                  </Btn>
+                </div>
+              </div>
+
+              {/* right */}
+              <div className="pf-panel p-6 sm:p-7">
+                <p className="text-[15px] text-slate-500">{app.name}</p>
+                <div className="mt-4 grid grid-cols-3 gap-3 sm:gap-4">
+                  {app.stats.map(([v, l], i) => (
+                    <div key={l} className="pf-stat pf-in" style={{ animationDelay: `${120 + i * 80}ms` }}>
+                      <b>{v}</b>
+                      <span>{l}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 space-y-3">
+                  {app.pills.map((p, i) => (
+                    <div key={p} className="pf-row pf-in" style={{ animationDelay: `${300 + i * 90}ms` }}>
+                      <span className="pf-check pf-pop" style={{ animationDelay: `${380 + i * 90}ms` }}>
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" />
+                      </span>
+                      {p}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+/* ---------------- why telth: coloured feature cards ---------------- */
+const WHY_THEME = [
+  { rgb: "37,99,235", hex: "#2563EB" }, // blue
+  { rgb: "16,185,129", hex: "#10B981" }, // green
+  { rgb: "139,92,246", hex: "#8B5CF6" }, // purple
+  { rgb: "245,158,11", hex: "#F59E0B" }, // amber
+  { rgb: "236,72,153", hex: "#EC4899" }, // pink
+  { rgb: "14,165,233", hex: "#0EA5E9" }, // sky
+];
+
+function WhyGrid() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} data-seen={seen} className="wy mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <style>{`
+        .wy-card{position:relative;overflow:hidden;border-radius:24px;padding:2.2rem 2.2rem 2.4rem;
+          background:linear-gradient(180deg,rgba(var(--rgb),.07),#fff 46%);
+          border:1px solid rgba(var(--rgb),.16);
+          box-shadow:0 10px 30px -18px rgba(var(--rgb),.35);
+          transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,border-color .45s ease}
+        .wy[data-seen="false"] .wy-card{opacity:0}
+        .wy[data-seen="true"] .wy-card{animation:wy-in .7s cubic-bezier(.22,1,.36,1) var(--d,0ms) backwards}
+        @keyframes wy-in{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+        .wy-card:hover,.wy-card:focus-within{transform:translateY(-8px);border-color:var(--c);
+          box-shadow:0 0 0 4px rgba(var(--rgb),.10),0 26px 54px -20px rgba(var(--rgb),.6)}
+        .wy-ico{display:grid;place-items:center;width:60px;height:60px;border-radius:18px;
+          color:var(--c);background:rgba(var(--rgb),.12);
+          transition:background-color .45s ease,color .45s ease,transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .45s ease}
+        .wy-card:hover .wy-ico{background:var(--c);color:#fff;transform:scale(1.08) rotate(-4deg);
+          box-shadow:0 14px 26px -8px rgba(var(--rgb),.75)}
+        .wy-title{transition:color .35s ease}
+        .wy-card:hover .wy-title{color:var(--c)}
+        .wy-bar{position:absolute;left:0;bottom:0;height:4px;width:100%;background:var(--c);
+          transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+        .wy-card:hover .wy-bar{transform:scaleX(1)}
+        @media (prefers-reduced-motion:reduce){
+          .wy[data-seen="false"] .wy-card{opacity:1}
+          .wy-card{animation:none!important;transition:none}
+          .wy-ico,.wy-bar{transition:none}
+          .wy-card:hover{transform:none}
+        }
+      `}</style>
+      {WHY.map((w, i) => {
+        const t = WHY_THEME[i % WHY_THEME.length];
+        return (
+          <div
+            key={w.title}
+            tabIndex={0}
+            className="wy-card"
+            style={
+              {
+                "--c": t.hex,
+                "--rgb": t.rgb,
+                "--d": `${(i % 3) * 110 + Math.floor(i / 3) * 80}ms`,
+              } as CSSProperties
+            }
+          >
+            <span className="wy-ico">
+              <w.icon className="h-7 w-7" strokeWidth={1.8} aria-hidden="true" />
+            </span>
+            <h3 className="wy-title mt-7 text-[21px] font-bold text-slate-900">
+              {w.title}
+            </h3>
+            <p className="mt-3 text-[16px] leading-[1.8] text-slate-500">
+              {w.text}
+            </p>
+            <span className="wy-bar" />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------------- THOS: light copy panel + black capability panel ---------------- */
+const THOS_CARDS = [
+  { icon: Cloud, title: "Cloud Infrastructure", hex: "#2563EB", rgb: "37,99,235" },
+  { icon: Cpu, title: "AI & Machine Learning", hex: "#10B981", rgb: "16,185,129" },
+  { icon: Database, title: "Health Data Layer", hex: "#8B5CF6", rgb: "139,92,246" },
+  { icon: Lock, title: "Enterprise Security", hex: "#F59E0B", rgb: "245,158,11" },
+  { icon: Activity, title: "Real-time Analytics", hex: "#EC4899", rgb: "236,72,153" },
+  { icon: Network, title: "Interoperability", hex: "#6366F1", rgb: "99,102,241" },
+];
+
+// purple "light curtain" strands drawn in SVG (swap for the exported Figma image if you prefer)
+function ThosCurtain() {
+  const N = 24;
+  const W = 725;
+  const left: string[] = [];
+  const right: string[] = [];
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    const xt = 40 + t * 150;
+    const xb = 198 + t * 14;
+    left.push(`M${xt},-10 C${xt},130 ${xb},110 ${xb},250 L${xb},600`);
+    right.push(`M${W - xt + 10},-10 C${W - xt + 10},130 ${W - xb + 10},110 ${W - xb + 10},250 L${W - xb + 10},600`);
+  }
+  const all = [...left, ...right];
+  return (
+    <svg
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 725 572"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <linearGradient id="th-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#f3e8ff" />
+          <stop offset=".45" stopColor="#c4a8ff" />
+          <stop offset="1" stopColor="#7c3aed" stopOpacity=".55" />
+        </linearGradient>
+        <filter id="th-blur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+      </defs>
+      <g className="th-glow" filter="url(#th-blur)" stroke="#8b5cf6" strokeWidth="4" fill="none">
+        {all.map((d, i) => (
+          <path key={i} d={d} />
+        ))}
+      </g>
+      <g stroke="url(#th-grad)" strokeWidth="1.1" fill="none" opacity=".95">
+        {all.map((d, i) => (
+          <path key={i} d={d} />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function ThosShowcase() {
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [count, setCount] = useState(0); // how many cards are currently "lit"
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.3,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // light the cards one by one, hold, reset to dim, repeat (like the Figma)
+  useEffect(() => {
+    if (!inView || paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCount(THOS_CARDS.length);
+      return;
+    }
+    const delay = count >= THOS_CARDS.length ? 1900 : count === 0 ? 800 : 850;
+    const t = setTimeout(
+      () => setCount((c) => (c >= THOS_CARDS.length ? 0 : c + 1)),
+      delay,
+    );
+    return () => clearTimeout(t);
+  }, [inView, paused, count]);
+
+  return (
+    <section ref={ref} className="th relative overflow-hidden bg-[#F8FAFC]">
+      <style>{`
+        .th-card{position:relative;display:flex;flex-direction:column;justify-content:space-between;
+          height:132px;border-radius:18px;padding:1.25rem 1.3rem;cursor:default;
+          background:rgba(255,255,255,.24);border:1px solid rgba(255,255,255,.2);
+          backdrop-filter:blur(10px);color:rgba(15,23,42,.88);
+          box-shadow:0 0 0 0 rgba(var(--rgb),0);
+          transition:background-color .6s ease,transform .6s cubic-bezier(.22,1,.36,1),box-shadow .6s ease,border-color .6s ease,color .6s ease}
+        .th-card[data-lit="true"],.th-card:hover{background:#fff;border-color:#fff;color:#0f172a;
+          transform:translateY(-4px);
+          box-shadow:0 0 0 4px rgba(var(--rgb),.22),0 26px 50px -18px rgba(var(--rgb),.7)}
+        .th-ico{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;
+          color:var(--c);background:rgba(var(--rgb),.16);opacity:.6;
+          transition:opacity .5s ease,transform .6s cubic-bezier(.34,1.56,.64,1),background-color .5s ease}
+        .th-card[data-lit="true"] .th-ico,.th-card:hover .th-ico{opacity:1;background:rgba(var(--rgb),.12);transform:scale(1.1) rotate(-4deg)}
+        .th-title{font-size:.95rem;font-weight:700;line-height:1.25}
+        .th-glow{animation:th-breathe 5s ease-in-out infinite}
+        @keyframes th-breathe{0%,100%{opacity:.45}50%{opacity:.85}}
+        @media (prefers-reduced-motion:reduce){
+          .th-card,.th-ico{transition:none}
+          .th-glow{animation:none}
+        }
+      `}</style>
+
+      <div className="grid lg:grid-cols-2">
+        {/* ---------- left: light copy panel ---------- */}
+        <div className="flex items-center px-6 py-14 sm:px-10 lg:py-20">
+          <div className="ml-auto w-full max-w-[600px] lg:pr-10">
+            <Reveal dir="left">
+              <div>
+                <p className="text-[13px] font-semibold uppercase tracking-[0.18em] text-brand">
+                  Powered by THOS
+                </p>
+                <h2 className="mt-5 font-franklin text-[34px] font-semibold leading-[1.35] !text-[#0B1437] sm:text-[44px]">
+                  The <span className="text-brand">Intelligent</span>
+                  <br />
+                  Digital Foundation
+                  <br />
+                  of Healthcare
+                </h2>
+                <p className="mt-6 max-w-[520px] text-[17px] leading-[1.75] text-slate-500">
+                  Telth brings patients, providers, care managers, technology,
+                  and healthcare services together through one intelligent
+                  ecosystem that simplifies every stage of the care journey.
+                </p>
+                <div className="mt-9">
+                  <Btn to={ROUTES.thos}>Explore THOS</Btn>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* ---------- right: black panel with curtain light + cards ---------- */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          className="relative flex items-center justify-center overflow-hidden rounded-t-[48px] bg-[#04020a] px-6 py-14 sm:px-10 lg:rounded-l-[80px] lg:rounded-tr-none lg:py-[72px]"
+        >
+          <ThosCurtain />
+          <div className="relative grid w-full max-w-[540px] grid-cols-2 gap-4">
+            {THOS_CARDS.map((c, i) => (
+              <div
+                key={c.title}
+                data-lit={i < count}
+                style={{ "--c": c.hex, "--rgb": c.rgb } as CSSProperties}
+                className="th-card"
+              >
+                <span className="th-ico">
+                  <c.icon className="h-6 w-6" strokeWidth={1.7} aria-hidden="true" />
+                </span>
+                <p className="th-title">{c.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function HomePage() {
 
   return (
     <>
       {/* ---------------- hero ---------------- */}
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#EAF2FF_0%,#fff_70%)]">
+      <section className="relative -mt-[78px] overflow-hidden bg-[linear-gradient(135deg,#EAF2FF_0%,#fff_70%)] pt-[78px] sm:-mt-[82px] sm:pt-[82px]">
         <div className="pointer-events-none absolute -left-24 -top-20 h-[420px] w-[420px] animate-float rounded-full bg-blue-300/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 right-10 h-[320px] w-[320px] animate-floatAlt rounded-full bg-cyan-200/40 blur-3xl" />
         <Container className="relative grid items-center gap-10 py-12 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:py-24">
@@ -729,92 +1396,20 @@ export default function HomePage() {
             eyebrow="How It Works"
             title={
               <>
-                From First Contact to{" "}
+                From First Contact to
+                <br />
                 <span className="text-gradient">
                   Our Continuous Care Journey
                 </span>
               </>
             }
           />
-          <JourneySteps />
+          <JourneyShowcase />
         </Container>
       </Section>
 
       {/* ---------------- platform ---------------- */}
-      <Section tone="dark" bg={IMG.waveSoft}>
-        <Container>
-          <SectionTitle
-            center
-            light
-            eyebrow="Platform"
-            title="Purpose-Built Applications"
-          />
-          <div
-            role="tablist"
-            className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-2 rounded-full border border-white/10 bg-white/[0.06] p-1.5 backdrop-blur"
-          >
-            {APPS.map((a) => (
-              <button
-                key={a.id}
-                role="tab"
-                aria-selected={a.id === appId}
-                onClick={() => setAppId(a.id)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-[13.5px] font-bold transition-all sm:px-5 ${a.id === appId ? "bg-brand text-white shadow-lg" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
-              >
-                <a.icon className="h-4 w-4" aria-hidden="true" />
-                {a.name}
-              </button>
-            ))}
-          </div>
-          <div
-            key={app.id}
-            className="mx-auto mt-10 grid max-w-5xl animate-fadeIn items-center gap-8 rounded-[28px] border border-white/10 bg-white/[0.06] p-6 backdrop-blur sm:p-10 lg:grid-cols-[1.2fr_1fr]"
-          >
-            <div>
-              <h3 className="text-[28px] font-bold !text-white sm:text-[34px]">
-                {app.name}
-              </h3>
-              <p className="mt-3 text-[15.5px] leading-[1.7] text-slate-300">
-                {app.desc}
-              </p>
-              <div className="mt-6 grid grid-cols-3 gap-3">
-                {app.stats.map(([v, l]) => (
-                  <div
-                    key={l}
-                    className="rounded-2xl bg-white/10 px-2 py-4 text-center"
-                  >
-                    <p className="font-franklin text-[22px] font-bold text-sky-300 sm:text-[26px]">
-                      {v}
-                    </p>
-                    <p className="text-[12px] text-slate-300">{l}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {app.pills.map((p) => (
-                  <span
-                    key={p}
-                    className="rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-[12.5px] font-semibold text-slate-100"
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-7">
-                <Btn to={app.to} arrow>
-                  {app.cta}
-                </Btn>
-              </div>
-            </div>
-            <img
-              src={app.img}
-              alt={`${app.name} screen`}
-              loading="lazy"
-              className="mx-auto max-h-[420px] w-auto drop-shadow-[0_30px_60px_rgba(104,71,245,.4)]"
-            />
-          </div>
-        </Container>
-      </Section>
+      <PlatformShowcase />
 
       {/* ---------------- why ---------------- */}
       <Section>
@@ -829,122 +1424,12 @@ export default function HomePage() {
               </>
             }
           />
-          <FeatureGrid cols={3}>
-            {WHY.map((w, i) => (
-              <FeatureCard key={w.title} {...w} delay={(i % 3) * 100} />
-            ))}
-          </FeatureGrid>
+          <WhyGrid />
         </Container>
       </Section>
 
       {/* ---------------- THOS ---------------- */}
-<Section tone="dark" className="relative overflow-hidden">
-  {/* ---- Ambient lighting: purple side glows ---- */}
-  <div className="pointer-events-none absolute -left-32 top-0 h-[520px] w-[520px] rounded-full bg-violet-600/25 blur-[120px]" />
-  <div className="pointer-events-none absolute -right-32 bottom-0 h-[520px] w-[520px] rounded-full bg-violet-600/25 blur-[120px]" />
-  <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500/10 blur-[100px]" />
-
-  {/* ---- Curtain light streaks (top corners) ---- */}
-  <div className="pointer-events-none absolute left-0 top-0 h-[420px] w-[180px] opacity-40"
-       style={{ background: "linear-gradient(180deg, rgba(168,85,247,0.35) 0%, transparent 70%)",
-                maskImage: "linear-gradient(90deg, black 40%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(90deg, black 40%, transparent 100%)" }} />
-  <div className="pointer-events-none absolute right-0 top-0 h-[420px] w-[180px] opacity-40"
-       style={{ background: "linear-gradient(180deg, rgba(168,85,247,0.35) 0%, transparent 70%)",
-                maskImage: "linear-gradient(270deg, black 40%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(270deg, black 40%, transparent 100%)" }} />
-
-  <Container className="relative">
-    <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-      {/* ================= LEFT: copy + CTA ================= */}
-      <Reveal dir="left">
-        <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-3.5 py-1.5 text-[11.5px] font-bold uppercase tracking-[0.14em] text-violet-200 backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5" />
-            Powered by THOS
-          </span>
-
-          <h2 className="mt-5 font-franklin text-[32px] font-semibold leading-[1.12] !text-white sm:text-[44px]">
-            The{" "}
-            <span className="bg-gradient-to-r from-violet-300 via-fuchsia-200 to-violet-300 bg-clip-text text-transparent">
-              Intelligent
-            </span>{" "}
-            Digital Foundation of Healthcare
-          </h2>
-
-          <p className="mt-5 max-w-[520px] text-[16px] leading-[1.75] text-slate-300">
-            Telth brings patients, providers, care managers, technology, and
-            healthcare services together through one intelligent ecosystem that
-            simplifies every stage of the care journey.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Btn to={ROUTES.thos} arrow>
-              Explore THOS
-            </Btn>
-            <span className="inline-flex items-center gap-2 text-[13px] font-medium text-slate-400">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-              </span>
-              Live in production
-            </span>
-          </div>
-        </div>
-      </Reveal>
-
-      {/* ================= RIGHT: capability card grid ================= */}
-      <Reveal dir="zoom" delay={100}>
-        <div className="relative">
-          {/* Glow halo behind the grid */}
-          <div className="pointer-events-none absolute inset-0 -z-10 rounded-[40px] bg-gradient-to-br from-violet-600/40 via-fuchsia-500/20 to-transparent blur-3xl" />
-
-          <div className="grid grid-cols-2 gap-4 sm:gap-5">
-            {THOS.map(([I, t], i) => {
-              const isLast = i === THOS.length - 1;
-              return (
-                <div
-                  key={t}
-                  className={`thos-card group relative flex h-[130px] flex-col justify-between overflow-hidden rounded-[22px] p-5 sm:h-[150px] sm:p-6 ${
-                    isLast
-                      ? "border border-violet-400/30 bg-gradient-to-br from-violet-900/40 via-slate-900/60 to-slate-900/80 backdrop-blur-xl"
-                      : "border border-white/10 bg-white/[0.04] backdrop-blur-xl hover:border-violet-400/40"
-                  }`}
-                >
-                  {/* inner top highlight */}
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-
-                  {/* corner glow on hover */}
-                  <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-violet-500/30 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                  {/* icon tile */}
-                  <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-inset ring-white/15 backdrop-blur">
-                    <I className={`h-5 w-5 ${isLast ? "text-violet-200" : "text-violet-300"}`} strokeWidth={1.9} />
-                  </span>
-
-                  {/* title */}
-                  <p className={`relative font-franklin text-[15px] font-bold leading-tight sm:text-[16.5px] ${
-                    isLast ? "text-white" : "text-slate-100"
-                  }`}>
-                    {t}
-                  </p>
-
-                  {/* last card: purple sweeping light */}
-                  {isLast && (
-                    <>
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-violet-400/20 to-transparent" />
-                      <div className="pointer-events-none absolute -right-10 top-1/2 h-[180%] w-24 -translate-y-1/2 rotate-12 bg-gradient-to-b from-transparent via-violet-300/25 to-transparent blur-md" />
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Reveal>
-    </div>
-  </Container>
-</Section>
+      <ThosShowcase />
 
       {/* ---------------- stakeholders ---------------- */}
       <Section>
