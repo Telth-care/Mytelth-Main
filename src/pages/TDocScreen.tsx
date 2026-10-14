@@ -1,9 +1,236 @@
-import { CalendarDays, ClipboardCheck, FileText, Home as HomeIcon, MonitorSmartphone, Stethoscope, Users, Wallet, Check, ShieldCheck, Layers, Eye } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { CalendarDays, ClipboardCheck, Clock, FileText, Home as HomeIcon, MonitorSmartphone, Smartphone, Stethoscope, Users, Wallet, Check, ShieldCheck, Layers, Eye, type LucideIcon } from "lucide-react";
 import CtaBand from "../components/CtaBand";
-import { JourneySteps } from "../components/extra";
 import { Btn, Container, Eyebrow, FeatureCard, FeatureGrid, Reveal, Section, SectionTitle, Split, StepList } from "../components/ui";
 import { IMG } from "../assets/slots";
 import { EXTERNAL, ROUTES } from "../lib/links";
+
+/* ---------------- how it works: animated journey ---------------- */
+type JourneyStep = {
+  n: string;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  hex: string; // theme colour for this step
+  rgb: string; // same colour as "r,g,b" so we can use rgba(var(--rgb), a)
+};
+
+const JOURNEY_STEPS: JourneyStep[] = [
+  {
+    n: "01",
+    title: "Book Appointment",
+    desc: "Patients book in seconds from the mobile app or web. Smart scheduling matches them to the right physician and slot automatically.",
+    icon: Smartphone,
+    hex: "#2563EB",
+    rgb: "37,99,235",
+  },
+  {
+    n: "02",
+    title: "Physician Consultation",
+    desc: "Physicians receive complete patient history and AI-assisted insights before consultations. Notes sync instantly across the care team.",
+    icon: Stethoscope,
+    hex: "#10B981",
+    rgb: "16,185,129",
+  },
+  {
+    n: "03",
+    title: "Care Manager Follow-up",
+    desc: "Care Managers help coordinate next appointments, reminders and permitted care tasks after the consultation.",
+    icon: CalendarDays,
+    hex: "#8B5CF6",
+    rgb: "139,92,246",
+  },
+  {
+    n: "04",
+    title: "Continuous Monitoring",
+    desc: "Remote monitoring devices feed real-time health data into the platform. Alerts notify care teams of anomalies before they become emergencies.",
+    icon: Clock,
+    hex: "#F59E0B",
+    rgb: "245,158,11",
+  },
+  {
+    n: "05",
+    title: "Organization Dashboard",
+    desc: "Leaders see operations, outcomes and utilisation across every location in one live dashboard, ready for confident decisions.",
+    icon: Users,
+    hex: "#0EA5E9",
+    rgb: "14,165,233",
+  },
+];
+
+const JOURNEY_STATS = [
+  { value: "85%", label: "Faster" },
+  { value: "3x", label: "Efficiency" },
+  { value: "99%", label: "Accuracy" },
+];
+
+const JOURNEY_MS = 3200; // time each step stays highlighted before moving on
+
+function JourneyShowcase() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [active, setActive] = useState(0);
+
+  // only animate while the section is on screen
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.3,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // endless loop: 1 → 2 → 3 → 4 → 5 → 1 …  (pauses while the user interacts)
+  useEffect(() => {
+    if (!inView || paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(
+      () => setActive((a) => (a + 1) % JOURNEY_STEPS.length),
+      JOURNEY_MS,
+    );
+    return () => clearInterval(id);
+  }, [inView, paused]);
+
+  const cur = JOURNEY_STEPS[active];
+  const themeOf = (s: JourneyStep) =>
+    ({ "--c": s.hex, "--rgb": s.rgb }) as CSSProperties;
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="jr mx-auto mt-14 w-full max-w-[1240px]"
+    >
+      <style>{`
+        .jr-row{
+          position:relative; overflow:hidden; display:flex; align-items:center; gap:1.1rem;
+          width:100%; text-align:left; cursor:pointer;
+          padding:1rem 1.4rem; border-radius:20px;
+          border:1.5px solid rgba(148,163,184,.18);
+          background:rgba(255,255,255,.6);
+          opacity:.72;
+          transition:transform .55s cubic-bezier(.22,1,.36,1),
+                     box-shadow .55s ease, border-color .55s ease,
+                     background-color .55s ease, opacity .55s ease;
+        }
+        .jr-row:hover{opacity:1}
+        .jr-row[data-on="true"]{
+          opacity:1; background:#fff; border-color:var(--c);
+          transform:translateX(8px);
+          box-shadow:0 0 0 4px rgba(var(--rgb),.10), 0 18px 44px -18px rgba(var(--rgb),.6);
+        }
+        .jr-ico{
+          flex:none; display:grid; place-items:center; width:54px; height:54px; border-radius:16px;
+          color:var(--c); background:rgba(var(--rgb),.10);
+          transition:background-color .55s ease, color .55s ease, transform .55s cubic-bezier(.22,1,.36,1), box-shadow .55s ease;
+        }
+        .jr-row[data-on="true"] .jr-ico{
+          color:#fff; background:var(--c); transform:scale(1.06) rotate(-3deg);
+          box-shadow:0 12px 24px -8px rgba(var(--rgb),.75);
+        }
+        .jr-num{font-size:.78rem; font-weight:700; letter-spacing:.04em; color:var(--c)}
+        .jr-title{font-weight:600; font-size:1.05rem; color:#64748b; transition:color .55s ease}
+        .jr-row[data-on="true"] .jr-title{color:#0f172a}
+
+        /* progress bar on the active row = time until the next step */
+        .jr-bar{position:absolute; left:0; bottom:0; height:3px; width:100%;
+          background:var(--c); transform-origin:left; transform:scaleX(0);
+          animation:jr-fill ${JOURNEY_MS}ms linear forwards; opacity:.55}
+        @keyframes jr-fill{to{transform:scaleX(1)}}
+
+        /* right panel */
+        .jr-panel{
+          border-radius:26px; background:#fff; padding:2rem;
+          border:1.5px solid rgba(var(--rgb),.55);
+          box-shadow:0 0 0 5px rgba(var(--rgb),.08), 0 26px 60px -24px rgba(var(--rgb),.55);
+          transition:border-color .6s ease, box-shadow .6s ease;
+        }
+        .jr-fade{animation:jr-in .55s cubic-bezier(.22,1,.36,1) both}
+        @keyframes jr-in{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+        .jr-badge{display:grid; place-items:center; width:48px; height:48px; border-radius:14px;
+          color:#fff; background:var(--c); box-shadow:0 10px 22px -8px rgba(var(--rgb),.7)}
+        .jr-desc{border-radius:18px; padding:1.25rem 1.4rem; color:#475569; line-height:1.75;
+          background:rgba(var(--rgb),.05); border:1px solid rgba(var(--rgb),.14)}
+        .jr-stat{border-radius:16px; padding:1rem .5rem; text-align:center;
+          background:rgba(var(--rgb),.06); border:1px solid rgba(var(--rgb),.10)}
+        .jr-stat b{display:block; font-size:1.7rem; line-height:1.2; color:var(--c)}
+        .jr-stat span{font-size:.85rem; color:#64748b}
+        .jr-stat:nth-child(2){animation-delay:.07s}
+        .jr-stat:nth-child(3){animation-delay:.14s}
+
+        @media (prefers-reduced-motion:reduce){
+          .jr-row,.jr-ico,.jr-panel{transition:none}
+          .jr-row[data-on="true"]{transform:none}
+          .jr-bar,.jr-fade{animation:none}
+        }
+      `}</style>
+
+      <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        {/* ---------- steps ---------- */}
+        <div className="flex flex-col gap-3.5" role="tablist">
+          {JOURNEY_STEPS.map((s, i) => {
+            const Icon = s.icon;
+            const on = i === active;
+            return (
+              <button
+                key={s.n}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                data-on={on}
+                style={themeOf(s)}
+                className="jr-row"
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                onClick={() => setActive(i)}
+              >
+                <span className="jr-ico">
+                  <Icon size={26} strokeWidth={1.8} />
+                </span>
+                <span className="jr-num">{s.n}</span>
+                <span className="jr-title">{s.title}</span>
+                {on && !paused && <span key={`bar-${i}`} className="jr-bar" />}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ---------- detail panel ---------- */}
+        <div className="jr-panel" style={themeOf(cur)}>
+          {/* key re-mounts the content so it fades/slides in on every step */}
+          <div key={active} className="jr-fade">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-xl font-bold text-slate-900 sm:text-2xl">
+                <span className="font-medium text-slate-500">
+                  Step {active + 1}:
+                </span>{" "}
+                {cur.title}
+              </h3>
+              <span className="jr-badge">
+                <cur.icon size={24} strokeWidth={1.8} />
+              </span>
+            </div>
+
+            <p className="jr-desc mt-6 text-[0.95rem]">{cur.desc}</p>
+
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              {JOURNEY_STATS.map((st) => (
+                <div key={st.label} className="jr-stat jr-fade">
+                  <b>{st.value}</b>
+                  <span>{st.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const FAMILIES = [
   ["01", "Family / Preventive", "TELTH UMBRELLA", "Family, men, women, children, senior, preventive, maternity and lifestyle journeys."],
@@ -88,7 +315,7 @@ export default function TDocScreen() {
       <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="How It Works" title={<>From First Contact to <span className="text-gradient">Our Continuous Care Journey</span></>} />
-          <JourneySteps />
+          <JourneyShowcase />
         </Container>
       </Section>
 
