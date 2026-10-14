@@ -21,7 +21,7 @@ export const ROUTES = {
   careCommunity: "/care-community",
   careHome: "/care-home",
   personalCare: "/personal-care",
-  intelligentCareEconomy: "/intelligent-care-economy",
+  intelligentCareEconomy: "/intelligenT-CARE App-economy",
   carePlan: "/care-plan",
   partnership: "/partnership",
   thos: "/thos",
@@ -64,7 +64,7 @@ export const FOOTER_COLUMNS = [
     title: "Platform",
     links: [
       { label: "THOS", to: R.thos },
-      { label: "Patient App", to: X.playstore },
+      { label: "T-CARE App", to: X.playstore },
       { label: "T-Doc App", to: R.tdoc },
       { label: "CM/CCM App", to: R.cmccm },
       { label: "T-Mart", to: X.tmart },
@@ -91,7 +91,7 @@ export const LEGAL = [
 
 /** "Log in" menu – every app the platform offers. */
 export const LOGIN_LINKS = [
-  { label: "Patient App", hint: "Google Play", to: X.playstore },
+  { label: "T-CARE App", hint: "Google Play", to: X.playstore },
   { label: "Doctor App (T-Doc)", hint: "For physicians", to: R.tdoc },
   { label: "CM/CCM App", hint: "For care managers", to: R.cmccm },
 ] as const;

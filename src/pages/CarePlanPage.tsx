@@ -104,11 +104,11 @@ export default function CarePlanPage() {
             {CHALLENGES.map(([t, c, s], i) => (
               <Reveal key={t} delay={i * 100}><div className="card-hover h-full overflow-hidden rounded-[20px] border border-slate-100 bg-white shadow-card">
                 <div className="p-6">
-                  <p className="flex items-center gap-1.5 text-[11.5px] font-bold uppercase tracking-wider text-rose-600"><X className="h-3.5 w-3.5" strokeWidth={3} />The challenge</p>
+                  <p className="flex items-center gap-1.5 text-[11.5px] font-bold uppercase tracking-wider text-blue-600">The challenge </p>
                   <h3 className="mt-2 text-[18px] font-bold">{t}</h3><p className="mt-2 text-[14.5px] leading-[1.65] text-muted">{c}</p>
                 </div>
                 <div className="bg-emerald-50 p-6">
-                  <p className="flex items-center gap-1.5 text-[11.5px] font-bold uppercase tracking-wider text-emerald-700"><Check className="h-3.5 w-3.5" strokeWidth={3} />How Telth helps</p>
+                  <p className="flex items-center gap-1.5 text-[11.5px] font-bold uppercase tracking-wider text-emerald-700">How Telth helps</p>
                   <p className="mt-2 text-[14.5px] leading-[1.65] text-body">{s}</p>
                 </div>
               </div></Reveal>
@@ -204,7 +204,7 @@ export default function CarePlanPage() {
         </Container>
       </Section>
 
-      <Section tone="dark" bg={IMG.waveTeal}>
+      <Section tone="dark">
         <Container>
           <Split
             left={<div>

@@ -6,14 +6,14 @@ import { EXTERNAL, ROUTES } from "../lib/links";
 
 const ORBIT = [
   { icon: ShoppingBag, title: "T-MART", sub: "E-Commerce Market", pos: "left-0 top-[18%]" },
-  { icon: Smartphone, title: "Patient App", sub: "Book & consult", pos: "left-[22%] top-[58%]" },
+  { icon: Smartphone, title: "T-CARE App", sub: "Book & consult", pos: "left-[22%] top-[58%]" },
   { icon: Users, title: "CM & CCM", sub: "Coordinate care", pos: "right-[22%] top-[10%]" },
   { icon: Stethoscope, title: "Physician App", sub: "Consult & manage", pos: "right-0 top-[52%]" },
 ];
 
 const PRODUCTS = [
   { n: "01", chip: "For Physicians", chipCls: "bg-emerald-600", title: "T-DOC App", text: "A dedicated digital platform designed to help physicians connect, manage and participate in the Telth healthcare ecosystem.", img: IMG.ecoPhysicians, to: ROUTES.tdoc, cta: "Explore T-DOC App" },
-  { n: "02", chip: "For Patients", chipCls: "bg-rose-700", title: "Patient App", text: "A patient-focused digital experience connecting users with their healthcare journey through the Telth ecosystem.", img: IMG.ecoPatients, to: EXTERNAL.playstore, cta: "Explore Patient App" },
+  { n: "02", chip: "For Patients", chipCls: "bg-rose-700", title: "T-CARE App", text: "A patient-focused digital experience connecting users with their healthcare journey through the Telth ecosystem.", img: IMG.ecoPatients, to: EXTERNAL.playstore, cta: "Explore T-CARE App" },
   { n: "03", chip: "For Care Teams", chipCls: "bg-sky-700", title: "Care Manager / Collaborative Care Manager App", text: "Digital tools supporting care coordination, collaboration and communication across the healthcare ecosystem.", img: IMG.ecoCareTeams, to: ROUTES.cmccm, cta: "Explore CM / CCM" },
   { n: "04", chip: "Marketplace", chipCls: "bg-amber-600", title: "T-Mart", text: "A marketplace bringing healthcare and medical-related products into the Telth ecosystem for patients and providers.", img: IMG.ecoMarketplace, to: EXTERNAL.tmart, cta: "Explore T-Mart" },
 ];

@@ -315,7 +315,7 @@ function Box({
 const APPS = [
   {
     id: "patient",
-    name: "Patient App",
+    name: "T-CARE App",
     icon: User,
     desc: "A consumer-grade mobile experience that puts patients in control of their entire healthcare journey.",
     stats: [
@@ -330,7 +330,7 @@ const APPS = [
       "Medication Reminders",
     ],
     img: IMG.app1,
-    cta: "Explore Patient APP",
+    cta: "Explore T-CARE App",
     to: EXTERNAL.playstore,
   },
   {
@@ -441,7 +441,7 @@ const PARTNERS = [
 // Positions are % of the stack box, measured from the Figma frame.
 const PHONE_STACK = [
   { src: IMG.app1, alt: "T-DOC app", left: "0%", top: "16.2%", z: 2, delay: 200, fx: "-36px", fy: "24px", hx: "5.4%", hy: "-4%" },
-  { src: IMG.app2, alt: "Telth patient app", left: "28.1%", top: "0%", z: 1, delay: 0, fx: "0px", fy: "48px", hx: "0%", hy: "3.4%" },
+  { src: IMG.app2, alt: "Telth T-CARE App", left: "28.1%", top: "0%", z: 1, delay: 0, fx: "0px", fy: "48px", hx: "0%", hy: "3.4%" },
   { src: IMG.app3, alt: "CM/CCM app", left: "60.1%", top: "12.6%", z: 2, delay: 400, fx: "36px", fy: "24px", hx: "-5.4%", hy: "-2.6%" },
 ];
 
