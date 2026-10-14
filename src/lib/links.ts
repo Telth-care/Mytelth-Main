@@ -33,6 +33,8 @@ export const ROUTES = {
   cmccm: "/cm-ccm",
   enquiry: "/enquiry",
   cmApplication: "/cm-application",
+  bookOrientation: "/book-orientation",
+  orientation: "/book-orientation",
   enquirySubmitted: "/enquiry-submitted",
   privacy: "/privacy",
   terms: "/terms",

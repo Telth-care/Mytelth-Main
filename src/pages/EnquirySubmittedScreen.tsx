@@ -1,8 +1,16 @@
+import { useLocation } from "react-router-dom";
 import { Check } from "lucide-react";
 import { Btn, Container, Reveal } from "../components/ui";
 import { ROUTES } from "../lib/links";
 
 export default function EnquirySubmittedScreen() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isOrientation =
+    (location.state as { origin?: string; isOrientation?: boolean } | null)?.origin === "orientation" ||
+    (location.state as { origin?: string; isOrientation?: boolean } | null)?.isOrientation ||
+    searchParams.get("type") === "orientation";
+
   return (
     <section className="py-12 sm:py-20">
       <Container>
@@ -12,13 +20,17 @@ export default function EnquirySubmittedScreen() {
               <span className="mx-auto flex h-16 w-16 animate-pulseRing items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
                 <Check className="h-8 w-8" strokeWidth={3} aria-hidden="true" />
               </span>
-              <h1 className="mt-6 text-[28px] font-bold sm:text-[32px]">Enquiry Received</h1>
-              <p className="mt-4 text-[15.5px] leading-[1.75]">
-                Thank you. Your enquiry has been received and will be routed to the appropriate Telth team. We will be in touch using your preferred contact method.
+              <h1 className="mt-6 text-[28px] font-bold sm:text-[32px]">
+                {isOrientation ? "Orientation Request Received" : "Enquiry Received"}
+              </h1>
+              <p className="mt-4 text-[15.5px] leading-[1.75] text-body">
+                {isOrientation
+                  ? "Thank you for scheduling your orientation. Your details have been received and our team will get in touch with you shortly with your orientation schedule."
+                  : "Thank you. Your enquiry has been received and will be routed to the appropriate Telth team. We will be in touch using your preferred contact method."}
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                 <Btn to={ROUTES.home}>Back to Home</Btn>
-                <Btn to={ROUTES.ecosystem} variant="ghost">Explore the Ecosystem</Btn>
+                <Btn to={ROUTES.cmccm} variant="ghost">Care Manager Platform</Btn>
               </div>
             </div>
           </Reveal>

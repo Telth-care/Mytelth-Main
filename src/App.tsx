@@ -22,6 +22,7 @@ import TDocScreen from "./pages/TDocScreen";
 import CmCcmScreen from "./pages/CmCcmScreen";
 import ContactScreen from "./pages/ContactScreen";
 import CmApplicationFormScreen from "./pages/CmApplicationFormScreen";
+import BookOrientationScreen from "./pages/BookOrientationScreen";
 import EnquirySubmittedScreen from "./pages/EnquirySubmittedScreen";
 import LegalPage from "./pages/LegalPage";
 
@@ -50,6 +51,8 @@ export default function App() {
           <Route path={R.cmccm} element={<CmCcmScreen />} />
           <Route path={R.enquiry} element={<ContactScreen />} />
           <Route path={R.cmApplication} element={<CmApplicationFormScreen />} />
+          <Route path={R.bookOrientation} element={<BookOrientationScreen />} />
+          <Route path="/orientation" element={<Navigate to={R.bookOrientation} replace />} />
           <Route path={R.enquirySubmitted} element={<EnquirySubmittedScreen />} />
           {[R.privacy, R.terms, R.hipaa, R.security].map((p) => (
             <Route key={p} path={p} element={<LegalPage />} />

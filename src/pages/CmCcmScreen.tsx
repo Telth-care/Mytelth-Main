@@ -364,7 +364,7 @@ export default function CmCcmScreen() {
         title="Ready to Start Your Journey?"
         text="Build your skills. Serve your community. Grow with Telth."
         primary={{ label: "Apply now", to: ROUTES.cmApplication }}
-        secondary={{ label: "Book a orientation", to: ROUTES.tdoc }}
+        secondary={{ label: "Book a orientation", to: ROUTES.bookOrientation }}
       />
     </>
   );
