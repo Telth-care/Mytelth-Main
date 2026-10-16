@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock, ShieldCheck, X } from "lucide-react";
+import { AlertCircle, Loader2, Lock, ShieldCheck, X } from "lucide-react";
 import PageHero from "../components/PageHero";
 import { Consent, Field, Input, Select } from "../components/forms";
 import { Container, Reveal, Section } from "../components/ui";
 import { ROUTES } from "../lib/links";
+import { submitForm } from "../lib/api";
 
 /** TODO: set to the DigiLocker authorisation URL provided by your backend. */
 const DIGILOCKER_URL = "";
@@ -19,12 +20,42 @@ const DIGILOCKER_RULES = ["Upload from computer or phone", "Drag-and-drop files"
 export default function CmApplicationFormScreen() {
   const navigate = useNavigate();
   const [dlNote, setDlNote] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: send the form data to your backend before navigating.
-    navigate(ROUTES.enquirySubmitted);
+    setSubmitting(true);
+    setErrorMessage(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      fullName: String(formData.get("fullName") || "").trim(),
+      mobile: String(formData.get("mobile") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      location: String(formData.get("location") || "").trim(),
+      skills: String(formData.get("skills") || "").trim(),
+      skillIndia: String(formData.get("skillIndia") || "").trim(),
+      qualification: String(formData.get("qualification") || "").trim(),
+      experience: String(formData.get("experience") || "").trim(),
+      languages: String(formData.get("languages") || "").trim(),
+      employmentStatus: String(formData.get("employmentStatus") || "").trim(),
+      availability: String(formData.get("availability") || "").trim(),
+    };
+
+    try {
+      await submitForm("care_manager_application", data);
+      navigate(ROUTES.enquirySubmitted, { state: { origin: "care_manager_application" } });
+    } catch (err: any) {
+      console.error("Care Manager application submission error:", err);
+      setErrorMessage(
+        err?.message || "Failed to submit candidate application. Please check your connection and try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
+
 
   const verify = () => {
     if (DIGILOCKER_URL) window.open(DIGILOCKER_URL, "_blank", "noopener,noreferrer");
@@ -41,6 +72,15 @@ export default function CmApplicationFormScreen() {
       <Section className="!pt-10 sm:!pt-14">
         <Container>
           <form onSubmit={submit} className="mx-auto max-w-[900px] space-y-8">
+            {errorMessage && (
+              <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-[14px] text-red-700">
+                <AlertCircle className="mt-0.5 h-5 w-5 flex-none text-red-600" aria-hidden="true" />
+                <div className="flex-1">
+                  <p className="font-semibold text-red-800">Submission Error</p>
+                  <p className="mt-0.5">{errorMessage}</p>
+                </div>
+              </div>
+            )}
             <Reveal>
               <fieldset className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-card sm:p-10">
                 <legend className="sr-only">Personal information</legend>
@@ -116,13 +156,22 @@ export default function CmApplicationFormScreen() {
 
                 <button
                   type="submit"
-                  className="btn mt-8 inline-flex min-h-[52px] w-full items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-dark px-8 font-open text-[16px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,.7)] hover:shadow-[0_16px_32px_-10px_rgba(37,99,235,.8)] sm:w-auto"
+                  disabled={submitting}
+                  className="btn mt-8 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark px-8 font-open text-[16px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,.7)] hover:shadow-[0_16px_32px_-10px_rgba(37,99,235,.8)] disabled:opacity-75 disabled:cursor-not-allowed sm:w-auto"
                 >
-                  Save &amp; Continue →
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+                      <span>Saving Application...</span>
+                    </>
+                  ) : (
+                    "Save & Continue →"
+                  )}
                 </button>
               </section>
             </Reveal>
           </form>
+
         </Container>
       </Section>
     </>

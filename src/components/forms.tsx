@@ -44,7 +44,11 @@ export function Select({
 }: React.SelectHTMLAttributes<HTMLSelectElement> & { options: readonly string[]; placeholder: string }) {
   return (
     <span className="relative block">
-      <select {...rest} defaultValue={rest.defaultValue ?? ""} className={`${control} h-12 cursor-pointer appearance-none pr-11 invalid:text-slate-400`}>
+      <select
+        {...rest}
+        defaultValue={rest.defaultValue ?? ""}
+        className={`${control} h-12 cursor-pointer appearance-none pr-11 invalid:text-slate-400 ${rest.className ?? ""}`}
+      >
         <option value="" disabled>
           {placeholder}
         </option>
@@ -59,14 +63,19 @@ export function Select({
   );
 }
 
-export function Consent({ name = "consent", children }: { name?: string; children: ReactNode }) {
+export function Consent({
+  name = "consent",
+  children,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { name?: string; children: ReactNode }) {
   return (
     <label className="flex cursor-pointer items-start gap-3">
       <input
         type="checkbox"
         name={name}
         required
-        className="mt-1 h-[18px] w-[18px] flex-none cursor-pointer rounded border-slate-400 accent-brand"
+        {...props}
+        className={`mt-1 h-[18px] w-[18px] flex-none cursor-pointer rounded border-slate-400 accent-brand ${props.className ?? ""}`}
       />
       <span className="text-[13.5px] leading-[1.7] text-body">{children}</span>
     </label>
