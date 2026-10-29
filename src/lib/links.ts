@@ -81,9 +81,9 @@ export const FOOTER_COLUMNS = [
     title: "Platform",
     links: [
       { label: "THOS", to: R.thos },
-      { label: "Patient App", to: X.playstore },
-      { label: "Doctor App", to: R.tdoc },
-      { label: "CM/CCM App", to: R.cmccm },
+      { label: "T-CARE APP", to: X.playstore },
+      { label: "T-DOC APP", to: R.tdoc },
+      { label: "CM/CCM APP", to: R.cmccm },
       { label: "T-Mart", to: X.tmart },
       { label: "Natlife", to: X.natlife },
     ],
@@ -112,8 +112,8 @@ export const LEGAL = [
 /** "Log in" menu – every app the platform offers. */
 export const LOGIN_LINKS = [
   { label: "T-CARE App", hint: "Google Play", to: X.playstore },
-  { label: "Doctor App (T-Doc)", hint: "For physicians", to: R.tdoc },
-  { label: "CM/CCM App", hint: "For care managers", to: R.cmccm },
+  { label: "T-DOC App", hint: "For physicians", to: R.tdoc },
+  { label: "T-CM/CCM App", hint: "For care managers", to: R.cmccm },
 ] as const;
 
 

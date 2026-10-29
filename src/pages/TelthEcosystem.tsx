@@ -12,7 +12,7 @@ import suiteNatlifeImage from "../assets/Container-5.png";
 
 const ORBIT = [
   { icon: ShoppingBag, title: "T-MART", sub: "E-Commerce Market", pos: "left-0 top-[18%]" },
-    { icon: Smartphone, title: "Patient App", sub: "Book & consult", pos: "left-[22%] top-[58%]" },
+    { icon: Smartphone, title: "T-CARE APP", sub: "Book & consult", pos: "left-[22%] top-[58%]" },
   { icon: Users, title: "CM & CCM", sub: "Coordinate care", pos: "right-[22%] top-[10%]" },
   { icon: Stethoscope, title: "Physician App", sub: "Consult & manage", pos: "right-0 top-[52%]", to: ROUTES.tdoc },
 ];
@@ -38,11 +38,11 @@ export default function TelthEcosystem() {
       {/* ---------- hero ---------- */}
       <section className="relative overflow-hidden bg-white">
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 -left-24 h-56 w-[65%] -rotate-3 rounded-[50%] bg-gradient-to-r from-blue-100/90 via-indigo-50/70 to-transparent blur-sm" />
-        <Container className="relative grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-[1.05fr_.95fr] lg:gap-4 lg:py-24">
+        <Container className="relative grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,.8fr)] lg:gap-6 lg:py-24">
           <div className="relative z-10">
             <Reveal><p className="font-open text-[15px] font-bold uppercase tracking-[0.14em] text-brand sm:text-[18px]">TELTH Ecosystem</p></Reveal>
             <Reveal delay={90}>
-              <h1 className="mt-6 max-w-[720px] font-franklin text-[42px] font-semibold leading-[1.13] text-slate-900 sm:text-[56px] lg:text-[64px]">
+            <h1 className="mt-6 max-w-[720px] font-franklin text-[42px] font-semibold leading-[1.13] text-slate-900 sm:text-[56px] lg:text-[54px]">
                 One Intelligent Ecosystem.<br />Connected Care.
               </h1>
             </Reveal>

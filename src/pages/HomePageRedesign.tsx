@@ -50,9 +50,9 @@ const pillars = [
 ];
 
 const applications = [
-  { label: "Patient App", title: "Patient App", icon: Users, image: appPatientArtwork, tone: "blue", to: ROUTES.carePlan, text: "A consumer-grade mobile experience that puts patients in control of their entire healthcare journey.", features: ["Appointment Booking", "Health Records", "Teleconsultation", "Medication Reminders"], stats: ["98%|Satisfaction", "4.9★|App Store", "2min|Avg. Response"] },
-  { label: "T-DOC App", title: "T-DOC App", icon: Stethoscope, image: appDoctorArtwork, tone: "emerald", to: ROUTES.tdoc, text: "A connected workspace for physicians to manage appointments, availability, patient context and follow-up.", features: ["Practice modes", "Patient context", "Consultations", "Care-team coordination"], stats: ["One|Care network", "Secure|Records", "Connected|Workflows"] },
-  { label: "CM/CCM App", title: "CM/CCM App", icon: HeartPulse, image: appCareArtwork, tone: "violet", to: ROUTES.cmccm, text: "Purpose-built tools that help Care Managers and Clinical Care Managers coordinate permitted care workflows.", features: ["Care plans", "Patient follow-up", "Assessment workflows", "Team coordination"], stats: ["Connected|Care teams", "Guided|Follow-up", "Unified|Workflows"] },
+  { label: "T-CARE APP", title: "T-CARE APP", icon: Users, image: appPatientArtwork, tone: "blue", to: ROUTES.carePlan, text: "A consumer-grade mobile experience that puts patients in control of their entire healthcare journey.", features: ["Appointment Booking", "Health Records", "Teleconsultation", "Medication Reminders"], stats: ["98%|Satisfaction", "4.9★|App Store", "2min|Avg. Response"] },
+  { label: "T-DOC APP", title: "T-DOC APP", icon: Stethoscope, image: appDoctorArtwork, tone: "emerald", to: ROUTES.tdoc, text: "A connected workspace for physicians to manage appointments, availability, patient context and follow-up.", features: ["Practice modes", "Patient context", "Consultations", "Care-team coordination"], stats: ["One|Care network", "Secure|Records", "Connected|Workflows"] },
+  { label: "CM/CCM APP", title: "CM/CCM APP", icon: HeartPulse, image: appCareArtwork, tone: "violet", to: ROUTES.cmccm, text: "Purpose-built tools that help Care Managers and Clinical Care Managers coordinate permitted care workflows.", features: ["Care plans", "Patient follow-up", "Assessment workflows", "Team coordination"], stats: ["Connected|Care teams", "Guided|Follow-up", "Unified|Workflows"] },
 ];
 
 const applicationThemes = {
