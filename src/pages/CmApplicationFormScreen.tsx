@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle, Loader2, Lock, ShieldCheck, X } from "lucide-react";
-import PageHero from "../components/PageHero";
+import { AlertCircle, Loader2, Lock, Search, ShieldCheck, X } from "lucide-react";
 import { Consent, Field, Input, Select } from "../components/forms";
 import { Container, Reveal, Section } from "../components/ui";
 import { ROUTES } from "../lib/links";
@@ -63,15 +62,14 @@ export default function CmApplicationFormScreen() {
   };
 
   return (
-    <>
-      <PageHero
-        eyebrow="Care Manager Recruitment"
-        title="Complete Your Candidate Profile"
-        text="Please provide your details and verify your identity before continuing with the Care Manager recruitment process."
-      />
-      <Section className="!pt-10 sm:!pt-14">
+      <Section className="!pt-14 sm:!pt-20 lg:!pt-24 !pb-16 sm:!pb-20">
         <Container>
-          <form onSubmit={submit} className="mx-auto max-w-[900px] space-y-8">
+          <form onSubmit={submit} className="mx-auto max-w-[990px]">
+            <header className="mb-8 sm:mb-10">
+              <p className="mb-2 font-open text-[12px] font-bold uppercase tracking-[0.14em] text-brand">Care Manager Recruitment</p>
+              <h1 className="font-franklin text-[30px] font-semibold leading-tight text-ink sm:text-[36px]">Complete Your Candidate Profile</h1>
+              <p className="mt-2 max-w-[760px] text-[14.5px] leading-[1.6] text-muted sm:text-[15px]">Please provide your details and verify your identity before continuing with the Care Manager recruitment process.</p>
+            </header>
             {errorMessage && (
               <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-[14px] text-red-700">
                 <AlertCircle className="mt-0.5 h-5 w-5 flex-none text-red-600" aria-hidden="true" />
@@ -82,21 +80,22 @@ export default function CmApplicationFormScreen() {
               </div>
             )}
             <Reveal>
-              <fieldset className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-card sm:p-10">
+              <section className="mb-8">
+                <h2 className="mb-4 font-franklin text-[17px] font-semibold text-slate-800 sm:text-[18px]">Personal Information</h2>
+              <fieldset className="rounded-[20px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_28px_-22px_rgba(15,23,42,.28)] sm:p-8 lg:p-10">
                 <legend className="sr-only">Personal information</legend>
-                <h2 className="text-[22px] font-semibold sm:text-[26px]">Personal Information</h2>
-                <div className="mt-7 grid gap-5 sm:grid-cols-2">
-                  <Field label="Full Name" required><Input name="fullName" required placeholder="Priya Sharma" autoComplete="name" /></Field>
+                <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2 sm:gap-y-6">
+                  <Field label="Full Name" required><Input name="fullName" required placeholder="Your full name" autoComplete="name" /></Field>
                   <Field label="Mobile Number" required>
                     <span className="flex gap-2">
-                      <span className="flex h-12 flex-none items-center rounded-xl border border-slate-200 bg-soft px-3.5 text-[14.5px] text-ink">🇮🇳 +91</span>
+                      <span className="flex h-12 flex-none items-center gap-1.5 rounded-xl border border-slate-200 bg-[#f8fafc] px-3 text-[14px] text-slate-600"><span aria-hidden="true">🇮🇳</span> +91</span>
                       <Input name="mobile" type="tel" inputMode="numeric" required pattern="[0-9]{10}" title="Enter a 10-digit mobile number" placeholder="98765 43210" autoComplete="tel-national" />
                     </span>
                   </Field>
                   <Field label="Email Address" required><Input name="email" type="email" required placeholder="you@example.com" autoComplete="email" /></Field>
-                  <Field label="Your Location" required><Input name="location" required placeholder="City, State" autoComplete="address-level2" /></Field>
+                  <Field label="Your Location" required><span className="relative block"><Search className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-400" aria-hidden="true"/><Input name="location" required placeholder="Search district or city..." autoComplete="address-level2" className="pl-11" /></span></Field>
                   <Field label="Healthcare Skills"><Input name="skills" placeholder="e.g. ANM, ASHA, Skill India Module" /></Field>
-                  <Field label="Compulsory need to attend skill india training" required><Select name="skillIndia" required options={YES_NO} placeholder="Select" /></Field>
+                  <Field label="Willing to attend Skill India training?" required><Select name="skillIndia" required options={YES_NO} placeholder="Select" /></Field>
                   <Field label="Highest Qualification" required><Select name="qualification" required options={QUALIFICATIONS} placeholder="Select qualification" /></Field>
                   <Field label="Years of Experience" required><Select name="experience" required options={EXPERIENCE} placeholder="Select range" /></Field>
                   <Field label="Languages Known"><Input name="languages" placeholder="e.g. Tamil, English, Hindi" /></Field>
@@ -104,31 +103,33 @@ export default function CmApplicationFormScreen() {
                   <Field label="Joining Availability" required><Select name="availability" required options={AVAILABILITY} placeholder="Select availability" /></Field>
                 </div>
               </fieldset>
+              </section>
             </Reveal>
 
             <Reveal>
-              <section className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-card sm:p-10">
-                <h2 className="text-[22px] font-semibold sm:text-[26px]">Identity Verification</h2>
-                <p className="mt-3 text-[15px] leading-[1.75]">
+              <section className="mb-8">
+                <h2 className="mb-4 font-franklin text-[17px] font-semibold text-slate-800 sm:text-[18px]">Identity Verification</h2>
+                <div className="rounded-[20px] border border-slate-200/80 bg-white p-5 shadow-[0_8px_28px_-22px_rgba(15,23,42,.28)] sm:p-8 lg:p-10">
+                <p className="text-center text-[14px] leading-[1.75] text-body sm:text-[15px]">
                   For secure candidate verification, your <strong className="text-slate-700">Aadhaar Card</strong> and <strong className="text-slate-700">PAN Card</strong> must be submitted through DigiLocker.
                 </p>
 
-                <div className="mt-6 rounded-2xl border border-dashed border-sky-300 bg-sky-50/60 p-6 text-center sm:p-8">
+                <div className="mx-auto mt-6 max-w-[660px] rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-center sm:p-6">
                   <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand/10 text-brand">
                     <ShieldCheck className="h-7 w-7" aria-hidden="true" />
                   </span>
                   <h3 className="mt-4 text-[18px] font-bold">Identity Verification Required</h3>
                   <p className="mt-2 text-[14px] text-muted">Connect to DigiLocker to verify your Aadhaar and PAN securely.</p>
-                  <p className="mx-auto mt-4 max-w-md rounded-lg bg-amber-50 px-3 py-2 text-[12.5px] font-semibold text-amber-800">
-                    Documents must be retrieved via DigiLocker not uploaded manually.
-                  </p>
-                  <ul className="mx-auto mt-5 grid max-w-md gap-2 text-left sm:grid-cols-2">
+                  <div className="mx-auto mt-5 max-w-[520px] rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-left">
+                    <p className="text-[12.5px] font-semibold text-amber-900">Documents must be retrieved via DigiLocker — not uploaded manually.</p>
+                    <ul className="mt-2 grid gap-1.5 text-left">
                     {DIGILOCKER_RULES.map((r) => (
                       <li key={r} className="flex items-center gap-2 text-[13.5px] text-body">
                         <X className="h-4 w-4 flex-none text-red-500" strokeWidth={3} aria-hidden="true" /> {r}
                       </li>
                     ))}
-                  </ul>
+                    </ul>
+                  </div>
                   <button
                     type="button"
                     onClick={verify}
@@ -143,21 +144,23 @@ export default function CmApplicationFormScreen() {
                   )}
                 </div>
 
-                <p className="mt-6 flex items-start gap-2.5 text-[13px] leading-[1.7] text-muted">
-                  <Lock className="mt-0.5 h-4 w-4 flex-none" aria-hidden="true" />
-                  Your identity information is used solely for recruitment verification and is handled in accordance with applicable privacy legislation and data-processing requirements. Telth does not store raw document data.
-                </p>
+                </div>
+              </section>
 
-                <div className="mt-6">
+              <div className="rounded-2xl border border-slate-200 bg-[#f7f9fc] p-4 sm:p-5">
+                <p className="flex items-start gap-2 text-[13px] leading-[1.65] text-muted"><Lock className="mt-0.5 h-4 w-4 flex-none text-slate-500" aria-hidden="true"/>Your identity information is used only for recruitment verification and handled in accordance with applicable privacy and data-processing requirements. Telth does not store raw document data.</p>
+                <div className="mt-4 border-t border-slate-200 pt-4">
                   <Consent>
                     I consent to Telth processing my recruitment data, conducting lawful identity verification, and handling my information in accordance with applicable privacy requirements.
                   </Consent>
                 </div>
+              </div>
 
+              <div className="mt-8 flex justify-end">
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn mt-8 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark px-8 font-open text-[16px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,.7)] hover:shadow-[0_16px_32px_-10px_rgba(37,99,235,.8)] disabled:opacity-75 disabled:cursor-not-allowed sm:w-auto"
+                  className="btn inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark px-8 font-open text-[16px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,.7)] hover:shadow-[0_16px_32px_-10px_rgba(37,99,235,.8)] disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto"
                 >
                   {submitting ? (
                     <>
@@ -168,12 +171,11 @@ export default function CmApplicationFormScreen() {
                     "Save & Continue →"
                   )}
                 </button>
-              </section>
+              </div>
             </Reveal>
           </form>
 
         </Container>
       </Section>
-    </>
   );
 }

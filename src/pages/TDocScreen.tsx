@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { CalendarDays, ClipboardCheck, Clock, FileText, Home as HomeIcon, MonitorSmartphone, Smartphone, Stethoscope, Users, Wallet, Check, ShieldCheck, Layers, Eye, type LucideIcon } from "lucide-react";
-import CtaBand from "../components/CtaBand";
-import { Btn, Container, Eyebrow, FeatureCard, FeatureGrid, Reveal, Section, SectionTitle, Split, StepList } from "../components/ui";
+import { CalendarDays, ClipboardCheck, Clock, FileText, Home as HomeIcon, Smartphone, Stethoscope, Users, Wallet, Check, ShieldCheck, Layers, Eye, Search, ArrowRight, type LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Btn, Container, Eyebrow, Reveal, Section, SectionTitle, Split } from "../components/ui";
 import { IMG } from "../assets/slots";
 import { EXTERNAL, ROUTES } from "../lib/links";
 
@@ -239,6 +239,8 @@ const FAMILIES = [
   ["04", "Flexible Services", "TELTH ADD-ONS", "Extra consultations, diagnostics, nutrition, home support and specialist review."],
 ] as const;
 
+const CARE_PLAN_CITIES = ["Chennai", "Coimbatore", "Salem", "Madurai", "Tiruchirappalli"] as const;
+
 const HES = [
   ["The CM reaches the patient", "Portable HES supports the approved home-care workflow."],
   ["Basic information is captured", "Eligible vitals and basic assessments are recorded."],
@@ -253,30 +255,13 @@ const HUB = [
   ["The physician reviews and consults", "Use the available information to support appropriate clinical decisions."],
 ] as const;
 
-function Flow({ items, variant = "light" }: { items: readonly (readonly [string, string])[]; variant?: "light" | "hes" | "hub" }) {
-  const isDark = variant === "hes" || variant === "hub";
-  const colors = {
-    light: { num: "bg-brand text-white", title: "text-ink", desc: "text-muted" },
-    hes: { num: "bg-teal-500 text-white", title: "text-teal-900", desc: "text-teal-700" },
-    hub: { num: "bg-violet-500 text-white", title: "text-violet-900", desc: "text-violet-700" },
-  };
-  const c = colors[variant];
-
-  return (
-    <ol className="mt-6 space-y-3">
-      {items.map(([t, d], i) => (
-        <Reveal as="li" key={t} delay={i * 80}>
-          <div className="card-hover flex gap-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-card sm:p-5">
-            <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[13px] font-bold ${c.num}`}>{i + 1}</span>
-            <div><h4 className={`font-franklin text-[15.5px] font-semibold ${c.title}`}>{t}</h4><p className={`mt-1 text-[14px] leading-[1.6] ${c.desc}`}>{d}</p></div>
-          </div>
-        </Reveal>
-      ))}
-    </ol>
-  );
-}
-
 export default function TDocScreen() {
+  const [selectedFamily, setSelectedFamily] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [showCarePlans, setShowCarePlans] = useState(false);
+  const [heroArtworkFailed, setHeroArtworkFailed] = useState(false);
+  const matchingFamilies = selectedFamily ? FAMILIES.filter(([, , tag]) => tag === selectedFamily) : FAMILIES;
+
   return (
     <>
       {/* hero */}
@@ -305,7 +290,11 @@ export default function TDocScreen() {
           </div>
           <Reveal dir="zoom" delay={150}>
             <div className="img-zoom overflow-hidden rounded-[24px] shadow-lift">
-              <img src={IMG.tdocHome} alt="Care@Community, Care@Digital and Care@Home with Telth" className="w-full" />
+              {heroArtworkFailed ? (
+                <div role="img" aria-label="Care@Community, Care@Digital and Care@Home illustration placeholder" className="flex aspect-[1.65] w-full items-center justify-center rounded-[24px] bg-[radial-gradient(ellipse_at_20%_25%,rgba(37,99,235,.18),transparent_40%),radial-gradient(ellipse_at_80%_75%,rgba(124,58,237,.15),transparent_40%),linear-gradient(135deg,#eff6ff,#f8fafc)] px-8 text-center text-sm font-medium text-slate-500">Care@Community · Care@Digital · Care@Home</div>
+              ) : (
+                <img src={IMG.tdocHome} alt="Care@Community, Care@Digital and Care@Home with Telth" onError={() => setHeroArtworkFailed(true)} className="w-full" />
+              )}
             </div>
           </Reveal>
         </Container>
@@ -320,16 +309,16 @@ export default function TDocScreen() {
       </Section>
 
       {/* UPDATED: Care Families Section - Image Based Colour Design */}
-      <Section>
+      <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="Care Families" title={<>Explore the <span className="text-brand">TELTH</span> care plan</>} text="Four care families help organize the different patient journeys you may support." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FAMILIES.map(([n, t, tag, d], i) => {
               const themes = [
-                { bg: "bg-purple-100", border: "border-purple-200", title: "text-purple-900", tag: "text-purple-600", desc: "text-purple-700", icon: "text-purple-500" },
-                { bg: "bg-teal-100", border: "border-teal-200", title: "text-teal-900", tag: "text-teal-600", desc: "text-teal-700", icon: "text-teal-500" },
-                { bg: "bg-pink-100", border: "border-pink-200", title: "text-pink-900", tag: "text-pink-600", desc: "text-pink-700", icon: "text-pink-500" },
-                { bg: "bg-amber-100", border: "border-amber-200", title: "text-amber-900", tag: "text-amber-600", desc: "text-amber-700", icon: "text-amber-500" },
+                { bg: "bg-[#f0eaff]", border: "border-[#e4d9ff]", title: "text-purple-950", tag: "text-purple-600", desc: "text-slate-600", icon: "text-purple-500" },
+                { bg: "bg-[#e6f7f5]", border: "border-[#c7eeea]", title: "text-teal-950", tag: "text-teal-700", desc: "text-slate-600", icon: "text-teal-600" },
+                { bg: "bg-[#fff0f2]", border: "border-[#ffd9df]", title: "text-rose-950", tag: "text-rose-600", desc: "text-slate-600", icon: "text-rose-500" },
+                { bg: "bg-[#fff7e6]", border: "border-[#f7e8c5]", title: "text-amber-950", tag: "text-amber-700", desc: "text-slate-600", icon: "text-amber-600" },
               ];
               const theme = themes[i % themes.length];
               const Icon = [HomeIcon, Layers, Eye][i] || HomeIcon;
@@ -344,7 +333,7 @@ export default function TDocScreen() {
                       <Icon className={`h-6 w-6 ${theme.icon}`} />
                       <p className={`mt-4 text-[11.5px] font-bold uppercase tracking-wider ${theme.tag}`}>{t}</p>
                       <h3 className={`mt-1 text-[18px] font-bold ${theme.title}`}>{tag}</h3>
-                      <p className="mt-3 text-[12.5px] font-bold leading-[1.7]">{d}</p>
+                      <p className={`mt-3 text-[12.5px] leading-[1.7] ${theme.desc}`}>{d}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -354,156 +343,208 @@ export default function TDocScreen() {
         </Container>
       </Section>
 
-      {/* UPDATED: Care Environments Section - Image Based Colour Design */}
+      {/* care plan opportunity finder */}
+      <Section tone="soft">
+        <Container>
+          <div className="mx-auto max-w-[1080px] rounded-[24px] border border-slate-200/80 bg-white p-6 shadow-[0_16px_50px_-38px_rgba(15,23,42,.35)] sm:p-8 lg:p-10">
+            <div className="flex items-start gap-4">
+              <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-violet-50 text-violet-600"><Search className="h-5 w-5" aria-hidden="true"/></span>
+              <div>
+                <h2 className="font-franklin text-[20px] font-semibold text-ink sm:text-[23px]">Find care-plan opportunities</h2>
+                <p className="mt-1 text-[13px] leading-relaxed text-muted">Choose a service and location to explore care-plan opportunities in this preview.</p>
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+              <label className="block">
+                <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">Service type</span>
+                <select value={selectedFamily} onChange={(e) => { setSelectedFamily(e.target.value); setShowCarePlans(false); }} className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-[13px] text-slate-700 outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10">
+                  <option value="">Choose a service</option>
+                  {FAMILIES.map(([, , tag]) => <option key={tag} value={tag}>{tag}</option>)}
+                </select>
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">Tamil Nadu location</span>
+                <select value={selectedCity} onChange={(e) => { setSelectedCity(e.target.value); setShowCarePlans(false); }} className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-[13px] text-slate-700 outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10">
+                  <option value="">Choose a city</option>
+                  {CARE_PLAN_CITIES.map((city) => <option key={city} value={city}>{city}</option>)}
+                </select>
+              </label>
+              <button type="button" onClick={() => setShowCarePlans(true)} className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-[13px] font-bold text-white transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                Show Plans <ArrowRight className="h-4 w-4" aria-hidden="true"/>
+              </button>
+            </div>
+            {showCarePlans && (
+              <div id="care-plan-results" aria-live="polite" className="mt-6 border-t border-slate-100 pt-5">
+                <p className="text-[13px] text-muted">Care-plan categories in this preview{selectedCity ? ` · Location: ${selectedCity}` : ""}{selectedFamily ? ` · ${selectedFamily}` : " · All service families"}</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {matchingFamilies.map(([n, category, title, description]) => (
+                    <Link key={n} to={ROUTES.carePlan} className="group rounded-2xl border border-slate-200 bg-[#f8fafc] p-4 transition hover:border-brand/40 hover:bg-blue-50/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                      <span className="text-[10px] font-bold uppercase tracking-[.12em] text-brand">{category}</span>
+                      <h3 className="mt-1 font-franklin text-[14px] font-semibold text-ink">{title}</h3>
+                      <p className="mt-1 text-[12px] leading-relaxed text-muted">{description}</p>
+                      <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-bold text-brand">Explore <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true"/></span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Care environments */}
       <Section tone="soft">
         <Container>
           <SectionTitle center eyebrow="Care Environments" title={<>How <span className="text-brand">HES</span> and <span className="text-brand">HUB</span> support connected care</>} text="Two connected care environments designed to extend physician reach while TELTH's CM and CCM support permitted assessment and coordination workflows." />
+          <div className="mx-auto mt-12 grid max-w-[1080px] gap-5 lg:grid-cols-2 lg:gap-6">
+            {[
+              {
+                key: "hes", label: "HES · Health Examine System · CM", title: "Care can travel to the patient.",
+                description: "A portable, delivery-box-style field-care kit with approved basic medical examination tools that a Care Manager can carry for eligible C@H services.",
+                steps: HES, stages: ["HES KIT", "PATIENT HOME", "CM ASSESSMENT", "TELTH APP", "PHYSICIAN"],
+                help: "Extend eligible care beyond the clinic while TELTH supports field coordination. You stay focused on consultation, clinical decisions, prescriptions and referrals.",
+                palette: { panel: "bg-[#E5F7F5]", border: "border-[#c9eeea]", accent: "text-[#078f89]", icon: "bg-[#079b92]", strip: "bg-white/65", chip: "border-[#bfe8e3] bg-white text-[#078f89]", badge: "bg-[#079b92]", callout: "border-[#c5ebe6] bg-white/65" },
+                Icon: Check,
+              },
+              {
+                key: "hub", label: "HUB · Clinical Care Environment · CCM", title: "Advanced connected care, in one place.",
+                description: "A structured clinical environment with approved advanced examination capabilities, a Clinical Care Manager and physician access.",
+                steps: HUB, stages: ["APP / KIOSK BOOKING", "HUB", "CCM + CHECKUP", "PHYSICIAN"],
+                help: "The CCM supports preparation, assessments and coordination so physician time can stay focused on medical review and decision-making.",
+                palette: { panel: "bg-[#eee9ff]", border: "border-[#ddd2ff]", accent: "text-[#6845f5]", icon: "bg-[#7048f5]", strip: "bg-white/65", chip: "border-[#d8ceff] bg-white text-[#6845f5]", badge: "bg-[#7048f5]", callout: "border-[#d9ceff] bg-white/70" },
+                Icon: Layers,
+              },
+            ].map(({ key, label, title, description, steps, stages, help, palette, Icon }, cardIndex) => (
+              <Reveal key={key} delay={cardIndex * 100} className="h-full">
+                <article className={`h-full rounded-[24px] border ${palette.border} ${palette.panel} p-6 sm:p-7`}>
+                  <div className="flex items-center gap-2.5">
+                    <span className={`flex h-7 w-7 flex-none items-center justify-center rounded-lg ${palette.icon} text-white`}><Icon className="h-4 w-4" strokeWidth={2.5}/></span>
+                    <p className={`text-[9.5px] font-bold uppercase tracking-[.13em] ${palette.accent}`}>{label}</p>
+                  </div>
+                  <h3 className="mt-3 font-franklin text-[20px] font-medium leading-snug text-ink sm:text-[21px]">{title}</h3>
+                  <p className="mt-2.5 min-h-[52px] text-[12.5px] leading-[1.65] text-slate-600">{description}</p>
 
-          <div className="mt-14 space-y-8">
-            <Reveal>
-              <article className="rounded-[24px] border border-teal-100 bg-[#E6F7F5] p-6 shadow-card sm:p-10">
-                <Split center={false}
-                  left={<div>
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-500 text-white"><Check className="h-3.5 w-3.5" strokeWidth={3} /></span>
-                      <p className="text-[12.5px] font-bold uppercase tracking-wide text-teal-700">HES · Health Examine System · CM</p>
-                    </div>
-                    <h3 className="mt-4 text-[26px] font-semibold text-teal-900 sm:text-[30px]">Care can travel to the patient.</h3>
-                    <p className="mt-3 text-[15.5px] leading-[1.75] text-black">A portable, delivery-box-style field-care kit with approved basic medical examination tools that a Care Manager can carry for eligible C@H services.</p>
-                    
-                    <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-white/60 px-4 py-3 text-[12.5px] font-bold tracking-wide text-teal-700">
-                      <span>HES KIT</span> <span className="text-teal-400">→</span>
-                      <span>PATIENT HOME</span> <span className="text-teal-400">→</span>
-                      <span>CM ASSESSMENT</span> <span className="text-teal-400">→</span>
-                      <span>TELTH APP</span> <span className="text-teal-400">→</span>
-                      <span>PHYSICIAN</span>
-                    </div>
+                  <div className={`mt-5 flex flex-wrap items-center gap-x-2 gap-y-1.5 rounded-xl ${palette.strip} px-3 py-2.5`} aria-label={`${label} process`}>
+                    {stages.map((stage, i) => <span key={stage} className="inline-flex items-center gap-2">
+                      <span className={`rounded-md border px-2 py-1 text-[8px] font-semibold tracking-wide shadow-sm ${palette.chip}`}>{stage}</span>
+                      {i < stages.length - 1 && <ArrowRight className={`h-3 w-3 ${palette.accent}`} aria-hidden="true"/>}
+                    </span>)}
+                  </div>
 
-                    <div className="mt-6 rounded-2xl bg-white/80 p-5">
-                      <h4 className="font-franklin text-[16px] font-semibold text-teal-900">How This Helps You</h4>
-                      <p className="mt-1.5 text-[14.5px] leading-[1.7] text-teal-700">Extend eligible care beyond the clinic while TELTH supports field coordination. You stay focused on consultation, clinical decisions, prescriptions and referrals.</p>
-                    </div>
-                  </div>}
-                  right={<Flow items={HES} variant="hes" />} />
-              </article>
-            </Reveal>
-            <Reveal>
-              <article className="rounded-[24px] border border-violet-100 bg-[#F3EEFF] p-6 shadow-card sm:p-10">
-                <Split center={false} reverse
-                  left={<div>
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-white"><Layers className="h-3.5 w-3.5" strokeWidth={3} /></span>
-                      <p className="text-[12.5px] font-bold uppercase tracking-wide text-violet-700">HUB · Clinical Care Environment · CCM</p>
-                    </div>
-                    <h3 className="mt-4 text-[26px] font-semibold text-violet-900 sm:text-[30px]">Advanced connected care, in one place.</h3>
-                    <p className="mt-3 text-[15.5px] leading-[1.75] text-black">A structured clinical environment with approved advanced examination capabilities, a Clinical Care Manager and physician access.</p>
-                    
-                    <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-white/60 px-4 py-3 text-[12.5px] font-bold tracking-wide text-violet-700">
-                      <span>APP / KIOSK BOOKING</span> <span className="text-violet-400">→</span>
-                      <span>HUB</span> <span className="text-violet-400">→</span>
-                      <span>CCM + CHECKUP</span> <span className="text-violet-400">→</span>
-                      <span>PHYSICIAN</span>
-                    </div>
+                  <ol className="mt-6 space-y-3.5">
+                    {steps.map(([stepTitle, detail], i) => <li key={stepTitle} className="flex items-start gap-3">
+                      <span className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full ${palette.badge} text-[10px] font-bold text-white`}>{i + 1}</span>
+                      <div><h4 className="text-[11.5px] font-semibold leading-snug text-slate-800">{stepTitle}</h4><p className="mt-0.5 text-[10.5px] leading-[1.55] text-slate-500">{detail}</p></div>
+                    </li>)}
+                  </ol>
 
-                    <div className="mt-6 rounded-2xl bg-white/80 p-5">
-                      <h4 className="font-franklin text-[16px] font-semibold text-violet-900">How This Helps You</h4>
-                      <p className="mt-1.5 text-[14.5px] leading-[1.7] text-black">The CCM supports preparation, assessments and coordination so physician time can stay focused on medical review and decision-making.</p>
-                    </div>
-                  </div>}
-                  right={<Flow items={HUB} variant="hub" />} />
-              </article>
-            </Reveal>
+                  <div className={`mt-5 rounded-xl border ${palette.callout} p-4`}>
+                    <p className={`text-[8.5px] font-bold uppercase tracking-[.14em] ${palette.accent}`}>How this helps you</p>
+                    <p className="mt-2 text-[10.5px] leading-[1.6] text-slate-600">{help}</p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </Container>
       </Section>
 
       {/* physician role */}
-      <Section>
+      <Section tone="dark" bg={IMG.tdocAppWave} className="physician-role-section">
         <Container>
-          <SectionTitle center eyebrow="Physician Role" title="Practice with TELTH" text="TELTH's CM and CCM roles are designed to handle much of the permitted coordination, assessment support and follow-up workflow around the physician consultation." />
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            <Reveal><div className="card-hover h-full rounded-[20px] border border-slate-100 bg-white p-7 shadow-card">
-              <h3 className="text-[20px] font-bold">Your Focused Role</h3>
-              <p className="mt-2 text-[14.5px] text-muted">Less operational coordination. More focused physician time.</p>
-              <div className="mt-5"><StepList items={["Review relevant patient information", "Conduct consultation and clinical assessment", "Prescribe or refer where clinically appropriate", "Provide clinical follow-up decisions"]} /></div>
-            </div></Reveal>
-            <Reveal delay={100}><div className="card-hover h-full rounded-[20px] border border-slate-100 bg-white p-7 shadow-card">
-              <h3 className="text-[20px] font-bold">Set Up Your Practice</h3>
-              <ul className="mt-5 space-y-3.5">
-                {["Select eligible C@C, C@D and/or C@H service modes", "Set your preferred availability", "Propose consultation fees for TELTH review"].map((t) => (
-                  <li key={t} className="flex gap-3 text-[14.5px]"><Check className="mt-0.5 h-5 w-5 flex-none text-emerald-600" strokeWidth={3} />{t}</li>
-                ))}
-              </ul>
-            </div></Reveal>
-            <Reveal delay={200}><div className="card-hover h-full rounded-[20px] border border-slate-100 bg-white p-7 shadow-card">
-              <h3 className="text-[20px] font-bold">CM and CCM Roles</h3>
-              <div className="mt-4 space-y-4 text-[14.5px] leading-[1.65]">
-                <p><strong className="text-ink">CM · Care Manager</strong><br />Care@Home coordination, approved basic assessment support, appointments, reminders and physician connectivity.</p>
-                <p><strong className="text-ink">CCM · Clinical Care Manager</strong><br />HUB workflow, patient preparation, approved checkups, reports and physician coordination.</p>
-                <p className="rounded-xl bg-amber-50 px-3.5 py-3 text-[13.5px] font-semibold text-amber-900">CM and CCM do not replace the physician for diagnosis or physician-only decisions.</p>
-              </div>
-            </div></Reveal>
+          <SectionTitle center light eyebrow="Physician Role" title="Practice with TELTH" text="TELTH's CM and CCM roles are designed to handle much of the permitted coordination, assessment support and follow-up workflow around the physician consultation." />
+          <div className="mx-auto mt-12 grid max-w-[1120px] gap-6 lg:grid-cols-[.92fr_1.08fr] lg:items-stretch">
+            <div className="grid gap-4">
+              <Reveal><article className="rounded-[20px] border border-violet-300/20 bg-gradient-to-br from-violet-600 via-violet-500 to-teal-600 p-6 text-white shadow-[0_18px_55px_-30px_rgba(104,70,255,.75)] transition-transform duration-300 hover:-translate-y-1 sm:p-7">
+                <p className="text-[16px] font-semibold leading-[1.5]">Less operational coordination.<br/><span className="text-white">More focused physician time.</span></p>
+                <p className="mt-2 text-[13px] leading-relaxed text-white/75">CM and CCM support the permitted non-physician workflow while you focus on physician-led clinical work.</p>
+              </article></Reveal>
+              <Reveal delay={80}><article className="rounded-[20px] border border-slate-700/70 bg-[#1B2941]/95 p-5 text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 sm:p-6">
+                <p className="text-[10px] font-bold uppercase tracking-[.14em] text-violet-400">CM · Care Manager</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-slate-400">Care@Home coordination, approved basic assessment support, appointments, reminders and physician connectivity.</p>
+              </article></Reveal>
+              <Reveal delay={140}><article className="rounded-[20px] border border-slate-700/70 bg-[#1B2941]/95 p-5 text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 sm:p-6">
+                <p className="text-[10px] font-bold uppercase tracking-[.14em] text-violet-400">CCM · Clinical Care Manager</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-slate-400">HUB workflow, patient preparation, approved checkups, reports and physician coordination.</p>
+              </article></Reveal>
+            </div>
+            <Reveal delay={100}>
+              <article className="h-full rounded-[22px] border border-white/80 bg-white p-6 shadow-[0_24px_70px_-32px_rgba(0,0,0,.7)] transition-transform duration-300 hover:-translate-y-1 sm:p-8">
+                <div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600"><ShieldCheck className="h-5 w-5"/></span><p className="text-[10px] font-bold uppercase tracking-[.14em] text-violet-600">Your Focused Role</p></div>
+                <ul className="mt-6 space-y-3.5">
+                  {["Select eligible C@C, C@D and/or C@H service modes", "Set your preferred availability", "Propose consultation fees for TELTH review", "Review relevant patient information", "Conduct consultation and clinical assessment", "Prescribe or refer where clinically appropriate", "Provide clinical follow-up decisions"].map((item) => <li key={item} className="flex items-start gap-3 text-[13.5px] leading-[1.55] text-slate-700"><span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-violet-50 text-violet-600"><Check className="h-3 w-3" strokeWidth={3}/></span>{item}</li>)}
+                </ul>
+                <p className="mt-6 border-t border-slate-100 pt-4 text-[11.5px] leading-relaxed text-slate-400">CM and CCM do not replace physicians for diagnosis or physician-only decisions.</p>
+              </article>
+            </Reveal>
           </div>
         </Container>
       </Section>
 
       {/* app */}
-      <Section tone="dark" bg={IMG.tdocAppWave}>
+      <Section>
         <Container>
-          <Split
-            left={<div>
-              <SectionTitle light eyebrow="T-DOC App" title="Everything you need for your TELTH practice, in one place." text="The TELTH Physician App gives you a simple place to manage appointments, availability, patient care context, consultations and applicable earnings information." />
-              <div className="mt-8"><Btn to={EXTERNAL.playstore}>Install / Explore T-DOC App</Btn></div>
-            </div>}
-            right={<div className="grid gap-4 sm:grid-cols-2">
-              {[
-                [CalendarDays, "Today's appointments", "C@C · C@D · C@H"],
-                [ClipboardCheck, "My availability", "Manage eligible timings"],
-                [FileText, "Patient information", "Review available care context"],
-                [Wallet, "Earnings", "View applicable service information"],
-              ].map(([I, t, d], i) => {
-                const Icon = I as typeof CalendarDays;
-                return <FeatureCard key={t as string} icon={Icon} title={t as string} text={d as string} dark delay={i * 90} />;
-              })}
-            </div>}
-          />
-          <Reveal delay={120}>
-            <div className="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {["Flexible practice modes", "Connected patient context", "Organized appointments", "Care-team coordination", "Practice visibility"].map((t) => (
-                <div key={t} className="rounded-xl border border-white/10 bg-white/[0.07] px-3 py-3 text-center text-[13px] font-semibold text-slate-200 backdrop-blur">{t}</div>
-              ))}
-            </div>
-          </Reveal>
+          <div className="mx-auto grid max-w-[1060px] items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
+            <Reveal dir="zoom">
+              <div className="mx-auto w-[250px] rounded-[42px] border-[8px] border-[#111827] bg-[#111827] p-2 shadow-[0_24px_55px_-25px_rgba(20,30,60,.45)]">
+                <div className="overflow-hidden rounded-[30px] bg-[#f7f8fc]">
+                  <div className="bg-[#10172a] px-4 pb-5 pt-5 text-white"><div className="mx-auto mb-5 h-1.5 w-12 rounded-full bg-slate-700"/><p className="text-[10px] text-slate-400">Good morning,</p><p className="mt-1 text-[16px] font-semibold">Doctor</p><span className="mt-2 inline-flex rounded-full bg-violet-900/60 px-2.5 py-1 text-[9px] text-violet-200">TELTH Physician Network</span></div>
+                  <div className="space-y-2 px-3 py-3">
+                    {[[CalendarDays,"Today's appointments","C@C · C@D · C@H"],[ClipboardCheck,"My availability","Manage eligible timings"],[FileText,"Patient information","Review available care context"],[Stethoscope,"Consultation & follow-up","Support connected care"],[Wallet,"Earnings","Applicable service information"]].map(([I,title,sub]) => { const Icon = I as typeof CalendarDays; return <div key={title as string} className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white p-2.5 shadow-sm"><span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-violet-50 text-violet-600"><Icon className="h-3.5 w-3.5"/></span><div><p className="text-[9px] font-semibold text-slate-700">{title as string}</p><p className="mt-0.5 text-[8px] text-slate-400">{sub as string}</p></div></div>; })}
+                    <div className="rounded-xl bg-violet-600 py-2 text-center text-[9px] font-semibold text-white">Explore App</div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal dir="right">
+              <div>
+                <Eyebrow>T-DOC App</Eyebrow>
+                <h2 className="mt-3 max-w-xl font-franklin text-[29px] font-semibold leading-[1.18] text-ink sm:text-[36px]">Everything you need for your TELTH practice, in one place.</h2>
+                <p className="mt-4 max-w-xl text-[14.5px] leading-[1.75] text-body sm:text-[15.5px]">The TELTH Physician App gives you a simple place to manage appointments, availability, patient care context, consultations and applicable earnings information.</p>
+                <p className="mt-7 text-[10px] font-bold uppercase tracking-[.15em] text-slate-400">Why use it?</p>
+                <ul className="mt-4 space-y-3">
+                  {["Flexible practice modes", "Connected patient context", "Organized appointments", "Care-team coordination", "Practice visibility"].map((item) => <li key={item} className="flex items-center gap-3 text-[13.5px] text-slate-700"><span className="flex h-5 w-5 items-center justify-center rounded-md bg-violet-50 text-violet-600"><Check className="h-3 w-3" strokeWidth={3}/></span>{item}</li>)}
+                </ul>
+                <div className="mt-7"><Btn to={EXTERNAL.playstore}>Install / Explore T-DOC App</Btn></div>
+              </div>
+            </Reveal>
+          </div>
         </Container>
       </Section>
 
-      {/* UPDATED: Join the Network Section - Image Based Colour Design */}
-      <Section tone="dark" bg={IMG.tdocJoinWave}>
+      {/* Join the network */}
+      <Section tone="white" className="py-14 sm:py-16 lg:py-20">
         <Container>
-          <SectionTitle center light eyebrow="Join the Network" title={<>Ready to explore a <span className="text-brand-bright">partnership?</span></>} text="Start with a few details about your professional profile. TELTH can then guide you through verification and the next steps." />
-          
-          <ol className="relative mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-            {[["Connect", "Share your basic physician details."], ["Review", "TELTH reviews your professional profile."], ["Verify", "Required credentials are validated."], ["Configure", "Set approved services, availability and commercial terms."], ["Activate", "Your approved TELTH physician profile goes live."]].map(([t, d], i) => (
-              <Reveal as="li" key={t} delay={i * 90} className="relative">
-                {/* Horizontal connecting line (desktop) */}
-                <div className="absolute left-1/2 top-5 hidden h-px w-full -translate-x-1/2 bg-white/20 lg:block" />
-                {/* Vertical connecting line (mobile/tablet fallback) */}
-                <div className="absolute left-1/2 top-5 h-full w-px -translate-x-1/2 bg-white/20 lg:hidden" />
-                
-                <div className="relative flex flex-col items-center">
-                  <span className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full font-franklin text-[14px] font-bold shadow-md ring-4 ring-slate-900 ${i === 0 ? "bg-brand text-white" : "bg-white/10 text-white/50"}`}>
-                    0{i + 1}
-                  </span>
-                  <div className="mt-5 text-center">
-                    <h3 className={`text-[17px] font-bold ${i === 0 ? "text-white" : "text-white/70"}`}>{t}</h3>
-                    <p className={`mt-1.5 text-[13.5px] leading-[1.6] ${i === 0 ? "text-slate-300" : "text-slate-400"}`}>{d}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-          
-          <Reveal delay={150}><div className="mt-12 text-center"><Btn to={`${ROUTES.enquiry}?type=Become%20a%20Telth%20Physician`} arrow>I'm Interested - Open Form</Btn></div></Reveal>
+          <div className="network-cta relative mx-auto max-w-[1180px] overflow-hidden rounded-[28px] bg-[#0F172A] px-6 py-12 text-white sm:px-10 sm:py-14 lg:px-14 lg:py-16">
+            <div className="network-glow pointer-events-none absolute -right-20 -top-36 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
+            <div className="relative z-10 mx-auto max-w-3xl text-center">
+              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-slate-200">Join the Network</p>
+              <h2 className="mt-4 font-franklin text-[30px] font-semibold leading-tight text-white sm:text-[38px]">Ready to explore a <span className="text-[#1763F5]">partnership?</span></h2>
+              <p className="mx-auto mt-3 max-w-[680px] text-[14px] leading-[1.7] text-slate-300 sm:text-[15px]">Start with a few details about your professional profile. TELTH can then guide you through verification and the next steps.</p>
+            </div>
+            <ol className="network-steps relative z-10 mx-auto mt-10 grid max-w-[1030px] grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:mt-11 lg:grid-cols-5 lg:gap-3">
+              <span className="network-track hidden lg:block" aria-hidden="true"><span className="network-track-fill" /></span>
+              {[["Connect", "Share your basic physician details."], ["Review", "TELTH reviews your professional profile."], ["Verify", "Required credentials are validated."], ["Configure", "Set approved services, availability and commercial terms."], ["Activate", "Your approved TELTH physician profile goes live."]].map(([title, description], i) => (
+                <Reveal as="li" key={title} delay={i * 90} className="relative flex flex-col items-center text-center">
+                  <span className={`network-step relative z-10 flex h-[58px] w-[58px] items-center justify-center rounded-full border font-franklin text-[10px] tracking-wide ${i === 0 ? "network-step-active border-[#6846ff] bg-[#6846ff] text-white" : "border-[#26354f] bg-[#1b2941] text-slate-400"}`}>0{i + 1}</span>
+                  <h3 className="mt-3 text-[12px] font-medium text-slate-200">{title}</h3>
+                  <p className="mt-2 max-w-[175px] text-[10px] leading-[1.55] text-slate-400">{description}</p>
+                </Reveal>
+              ))}
+            </ol>
+            <Reveal delay={220}><div className="relative z-10 mt-9 text-center lg:mt-10"><Btn to={`${ROUTES.enquiry}?type=Become%20a%20Telth%20Physician`} arrow>I'm Interested - Open Form</Btn></div></Reveal>
+            <style>{`
+              .network-cta{isolation:isolate}
+              .network-glow{animation:networkGlow 8s ease-in-out infinite alternate}
+              .network-track{position:absolute;z-index:0;top:29px;left:10%;right:10%;height:1px;background:#344158;overflow:hidden}
+              .network-track-fill{display:block;width:35%;height:100%;transform:translateX(-110%);background:linear-gradient(90deg,transparent,#6846ff,#2563eb,transparent);animation:networkProgress 6s ease-in-out infinite}
+              .network-step-active{box-shadow:0 0 0 4px rgba(104,70,255,.18);animation:networkPulse 3s ease-in-out infinite}
+              @keyframes networkProgress{0%,10%{transform:translateX(-110%)}85%,100%{transform:translateX(330%)}}
+              @keyframes networkPulse{0%,100%{box-shadow:0 0 0 4px rgba(104,70,255,.14)}50%{box-shadow:0 0 0 8px rgba(104,70,255,.25)}}
+              @keyframes networkGlow{from{opacity:.45;transform:translate3d(0,0,0)}to{opacity:.9;transform:translate3d(-18px,14px,0)}}
+              @media(prefers-reduced-motion:reduce){.network-glow,.network-track-fill,.network-step-active{animation:none}}
+            `}</style>
+          </div>
         </Container>
       </Section>
     </>

@@ -117,7 +117,7 @@ export default function Navbar() {
             <NavLink
               key={n.to}
               to={n.to}
-              end={n.to === ROUTES.home}
+              end
               className={({ isActive }) =>
                 `nav-link font-franklin text-[15px] font-medium transition-colors ${isActive ? "text-ink" : "text-[#576689] hover:text-ink"}`
               }
@@ -156,7 +156,7 @@ export default function Navbar() {
             <NavLink
               key={n.to}
               to={n.to}
-              end={n.to === ROUTES.home}
+              end
               className={({ isActive }) =>
                 `rounded-2xl px-4 py-3.5 font-franklin text-[16px] font-medium transition-colors ${
                   isActive ? "bg-brand/10 text-brand" : "text-ink hover:bg-soft"

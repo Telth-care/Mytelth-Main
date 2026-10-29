@@ -16,6 +16,9 @@ export const ROUTES = {
   about: "/about",
   ecosystem: "/ecosystem",
   technology: "/technology",
+  technologyDevices: "/technology/devices",
+  technologyDevicesExplore: "/technology/devices/explore",
+  healthConnect: "/technology/healthconnect-360",
   careers: "/careers",
   rd: "/rd",
   careCommunity: "/care-community",
@@ -40,6 +43,11 @@ export const ROUTES = {
   terms: "/terms",
   hipaa: "/hipaa",
   security: "/security",
+  accessibility: "/accessibility",
+  regulatoryInformation: "/regulatory-information",
+  productAvailability: "/product-availability",
+  corporateGovernance: "/corporate-governance",
+  cookiePreferences: "/cookie-preferences",
 } as const;
 
 const R = ROUTES;
@@ -53,6 +61,7 @@ export const NAV = [
   { label: "About Us", to: R.about },
   { label: "Telth Ecosystem", to: R.ecosystem },
   { label: "Technology", to: R.technology },
+  { label: "Devices", to: R.technologyDevices },
   { label: "Careers", to: R.careers },
   { label: "Our R&D", to: R.rd },
 ] as const;
@@ -60,14 +69,20 @@ export const NAV = [
 export const FOOTER_COLUMNS = [
   {
     title: "Company",
-    links: [...NAV, { label: "Contact", to: R.enquiry }],
+    links: [
+      { label: "Home", to: R.home },
+      { label: "About Us", to: R.about },
+      { label: "Telth Ecosystem", to: R.ecosystem },
+      { label: "Our R&D", to: R.rd },
+      { label: "Contact", to: R.enquiry },
+    ],
   },
   {
     title: "Platform",
     links: [
       { label: "THOS", to: R.thos },
-      { label: "T-CARE App", to: X.playstore },
-      { label: "T-Doc App", to: R.tdoc },
+      { label: "Patient App", to: X.playstore },
+      { label: "Doctor App", to: R.tdoc },
       { label: "CM/CCM App", to: R.cmccm },
       { label: "T-Mart", to: X.tmart },
       { label: "Natlife", to: X.natlife },
@@ -86,9 +101,12 @@ export const FOOTER_COLUMNS = [
 
 export const LEGAL = [
   { label: "Privacy Policy", to: R.privacy },
-  { label: "Terms of Service", to: R.terms },
-  { label: "HIPAA Compliance", to: R.hipaa },
-  { label: "Security", to: R.security },
+  { label: "Terms of Use", to: R.terms },
+  { label: "Cookie Preferences", to: R.cookiePreferences },
+  { label: "Accessibility", to: R.accessibility },
+  { label: "Regulatory Information", to: R.regulatoryInformation },
+  { label: "Product Availability", to: R.productAvailability },
+  { label: "Corporate Governance", to: R.corporateGovernance },
 ] as const;
 
 /** "Log in" menu – every app the platform offers. */
@@ -97,3 +115,5 @@ export const LOGIN_LINKS = [
   { label: "Doctor App (T-Doc)", hint: "For physicians", to: R.tdoc },
   { label: "CM/CCM App", hint: "For care managers", to: R.cmccm },
 ] as const;
+
+

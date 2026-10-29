@@ -188,6 +188,29 @@
 }
 .bg-drift { animation: bgDrift 24s ease-in-out infinite alternate; will-change: transform; transition: opacity .5s ease; }
 
+@keyframes thosArtworkDrift {
+  0%, 100% { transform: scale(1.02) translate3d(0, 0, 0); }
+  50% { transform: scale(1.08) translate3d(-0.8%, 0.5%, 0); }
+}
+@keyframes thosFeatureFloat {
+  0%, 16.66%, 100% {
+    opacity: .82;
+    transform: translateY(0) scale(.99);
+    border-color: rgba(255, 255, 255, .22);
+    background-color: rgba(255, 255, 255, .4);
+    box-shadow: 0 0 0 rgba(167, 139, 250, 0);
+  }
+  7%, 10% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.025);
+    border-color: rgba(237, 233, 254, .98);
+    background-color: rgba(255, 255, 255, .68);
+    box-shadow: 0 0 26px rgba(192, 132, 252, .72), 0 0 52px rgba(139, 92, 246, .48), inset 0 0 20px rgba(255, 255, 255, .36);
+  }
+}
+.thos-artwork-drift { animation: thosArtworkDrift 18s ease-in-out infinite; will-change: transform; }
+.thos-feature-float { animation: thosFeatureFloat 4.2s ease-in-out infinite; will-change: transform, box-shadow; }
+
 .cta-card { transition: transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s ease; }
 .cta-card:hover { transform: translateY(-4px); box-shadow: 0 34px 70px -34px rgba(37, 99, 235, .55); }
 .cta-card:hover > .bg-drift { opacity: .95; }

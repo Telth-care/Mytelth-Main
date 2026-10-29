@@ -5,9 +5,14 @@ import { ROUTES } from "../lib/links";
 
 const TITLES: Record<string, string> = {
   [ROUTES.privacy]: "Privacy Policy",
-  [ROUTES.terms]: "Terms of Service",
+  [ROUTES.terms]: "Terms of Use",
   [ROUTES.hipaa]: "HIPAA Compliance",
   [ROUTES.security]: "Security",
+  [ROUTES.cookiePreferences]: "Cookie Preferences",
+  [ROUTES.accessibility]: "Accessibility",
+  [ROUTES.regulatoryInformation]: "Regulatory Information",
+  [ROUTES.productAvailability]: "Product Availability",
+  [ROUTES.corporateGovernance]: "Corporate Governance",
 };
 
 /** Placeholder so the footer legal links never 404. TODO: replace with the approved legal copy. */

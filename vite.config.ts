@@ -1,5 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// base "./" lets the static build run from any folder or host
-export default defineConfig({ base: "./", plugins: [react()] });
+export default defineConfig({
+  base: "./",
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        headers: {
+          Origin: "https://mytelth.com",
+        },
+      },
+    },
+  },
+});
+
+

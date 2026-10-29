@@ -38,7 +38,6 @@ export default function ThosV4Page() {
           { icon: Users, title: "Human-AI Collaboration Models", text: "Research how healthcare professionals and intelligent systems collaborate effectively, keeping human agency central." },
         ],
       }}
-      closing="These are not products. They are research questions pursued with intellectual honesty, ethical rigour and a deep respect for the people at the centre of care."
       cta={{
         title: "Discuss Research Collaboration",
         text: "Interested in contributing to the responsible long-term research agenda for THOS V4?",

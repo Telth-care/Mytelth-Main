@@ -71,13 +71,19 @@ export function Section({
   bg?: string;
   id?: string;
 }) {
+  const [backgroundFailed, setBackgroundFailed] = useState(false);
+  useEffect(() => setBackgroundFailed(false), [bg]);
   const base =
     tone === "dark" ? "bg-[#050A18] text-white" : tone === "soft" ? "bg-soft" : "bg-white";
   return (
     <section id={id} className={`relative overflow-hidden py-16 sm:py-20 lg:py-24 ${base} ${className}`}>
       {bg && (
         <>
-          <img src={bg} alt="" loading="lazy" className="bg-drift pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90" />
+          {backgroundFailed ? (
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(37,99,235,.16),transparent_42%),radial-gradient(ellipse_at_80%_70%,rgba(20,184,166,.12),transparent_38%)]" />
+          ) : (
+            <img src={bg} alt="" loading="lazy" onError={() => setBackgroundFailed(true)} className="bg-drift pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90" />
+          )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#050A18]/70 via-transparent to-[#050A18]/70" />
         </>
       )}

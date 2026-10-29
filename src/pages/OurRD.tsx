@@ -1,9 +1,10 @@
-import { Activity, BarChart3, Brain, Database, Globe2, Network } from "lucide-react";
+import { BarChart3, Bot, Globe2, Leaf, Link2, LockKeyhole } from "lucide-react";
 import PageHero from "../components/PageHero";
 import CtaBand from "../components/CtaBand";
-import { Container, FeatureCard, FeatureGrid, Reveal, Section, SectionTitle, Split, StepList } from "../components/ui";
+import { Container, Eyebrow, FeatureCard, FeatureGrid, Reveal, Section, SectionTitle, Split } from "../components/ui";
 import { IMG } from "../assets/slots";
 import { ROUTES } from "../lib/links";
+import collaborationBackground from "../assets/image 57.png";
 
 const PATH = [
   "Identify research question with clinical relevance",
@@ -16,12 +17,12 @@ const PATH = [
 ];
 
 const THEMES = [
-  { icon: Network, title: "Connected Care Systems", text: "Research into the design and effectiveness of integrated, multi-provider care systems for diverse populations." },
-  { icon: Brain, title: "Responsible AI in Healthcare", text: "Investigation of appropriate, safe and accountable applications of AI in clinical and care management contexts." },
-  { icon: Globe2, title: "Global Health Equity", text: "Research addressing how connected healthcare technology may reduce rather than amplify inequalities in access to care." },
+  { icon: Link2, title: "Connected Care Systems", text: "Research into the design and effectiveness of integrated, multi-provider care systems for diverse populations." },
+  { icon: Bot, title: "Responsible AI in Healthcare", text: "Investigation of appropriate, safe and accountable applications of AI in clinical and care management contexts." },
+  { icon: Globe2, title: "Global Health Equity", text: "Research addressing how connected healthcare technology may reduce — rather than amplify — inequalities in access to care." },
   { icon: BarChart3, title: "Outcomes Measurement", text: "Developing rigorous methodologies for measuring the real-world impact of digital health interventions on patient outcomes." },
-  { icon: Database, title: "Data Governance", text: "Research into consent models, data rights and governance frameworks appropriate for multi-stakeholder health ecosystems." },
-  { icon: Activity, title: "Prevention & Healthy Ageing", text: "Investigation of technology-enabled preventive care approaches for population-level health improvement." },
+  { icon: LockKeyhole, title: "Data Governance", text: "Research into consent models, data rights and governance frameworks appropriate for multi-stakeholder health ecosystems." },
+  { icon: Leaf, title: "Prevention & Healthy Ageing", text: "Investigation of technology-enabled preventive care approaches for population-level health improvement." },
 ];
 
 export default function OurRD() {
@@ -39,23 +40,25 @@ export default function OurRD() {
             center={false}
             left={
               <div className="space-y-5">
-                <SectionTitle eyebrow="Our Approach" title="How We Do Research" />
+                <Eyebrow>Our Approach</Eyebrow>
                 <Reveal delay={100}>
                   <p className="text-[15.5px] leading-[1.8]">
-                    Telth's research approach is grounded in intellectual honesty, ethical rigour and a commitment to real-world relevance. We do not pursue research to validate predetermined conclusions we pursue it to understand what works, for whom, and under what conditions.
+                    Telth's research is honest, ethical, and focused on real-world results. We don't do research to prove what we already believe. Instead, we want to find out what works, who it helps, and when it works best.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
                   <p className="text-[15.5px] leading-[1.8]">
-                    Research findings including findings that challenge our assumptions are published and made available for independent peer review.
+                    Research findings, including findings that challenge our assumptions, are published and made available for independent peer review.
                   </p>
                 </Reveal>
               </div>
             }
             right={
               <div>
-                <Reveal><h3 className="mb-4 text-[20px] font-semibold">Development Pathway</h3></Reveal>
-                <StepList items={PATH} />
+                <Eyebrow>Development Pathway</Eyebrow>
+                <ol className="mt-4 space-y-2.5">
+                  {PATH.map((item, i) => <Reveal as="li" key={item} delay={i * 65} dir="right"><div className="flex min-h-[50px] items-center gap-3 rounded-xl border border-slate-100 bg-[#f7f9fc] px-4 py-2.5 sm:px-4"><span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-[#2878df] to-[#13b99a] text-[12px] font-bold text-white">{i + 1}</span><span className="font-open text-[13px] leading-[1.5] text-slate-600 sm:text-[13.5px]">{item}</span></div></Reveal>)}
+                </ol>
               </div>
             }
           />
@@ -73,8 +76,9 @@ export default function OurRD() {
         </Container>
       </Section>
 
-      <Section tone="soft">
-        <Container>
+      <Section tone="soft" className="relative isolate overflow-hidden">
+        <img src={collaborationBackground} alt="" aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[520px] w-[720px] -translate-x-1/2 -translate-y-1/2 object-contain opacity-80" />
+        <Container className="relative z-10">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
               <p className="font-open text-[12.5px] font-bold uppercase tracking-[0.12em] text-brand">Participation &amp; Transparency</p>

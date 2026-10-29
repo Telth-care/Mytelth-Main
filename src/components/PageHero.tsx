@@ -8,11 +8,15 @@ export default function PageHero({
   title,
   text,
   children,
+  titleClassName = "",
+  contentClassName = "",
 }: {
   eyebrow: string;
   title: ReactNode;
   text?: ReactNode;
   children?: ReactNode;
+  titleClassName?: string;
+  contentClassName?: string;
 }) {
   return (
     <div className="mx-auto mt-3 w-full max-w-[1332px] px-3 sm:px-5">
@@ -21,12 +25,12 @@ export default function PageHero({
           className="pointer-events-none absolute -right-6 -top-6 w-24 animate-float opacity-70 sm:-right-4 sm:-top-4 sm:w-36 lg:w-44" />
         <img src={IMG.blobDL} alt="" aria-hidden="true"
           className="pointer-events-none absolute -bottom-5 -left-5 w-24 animate-floatAlt opacity-40 sm:w-36 lg:w-44" />
-        <div className="relative mx-auto max-w-[1000px] text-center">
+        <div className={`relative mx-auto max-w-[1000px] text-center ${contentClassName}`}>
           <Reveal>
             <p className="font-open text-[12.5px] font-bold uppercase tracking-[0.14em] text-brand sm:text-[14px]">{eyebrow}</p>
           </Reveal>
           <Reveal delay={90}>
-            <h1 className="mt-3 text-balance font-franklin text-[32px] font-semibold leading-[1.15] text-ink sm:text-[42px] lg:text-[50px]">
+            <h1 className={`mt-3 text-balance font-franklin text-[32px] font-semibold leading-[1.15] text-ink sm:text-[42px] lg:text-[50px] ${titleClassName}`}>
               {title}
             </h1>
           </Reveal>

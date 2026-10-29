@@ -5,6 +5,9 @@ import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
 import TelthEcosystem from "./pages/TelthEcosystem";
 import TechnologyScreen from "./pages/TechnologyScreen";
+import TechnologyDevicesLandingPage from "./pages/TechnologyDevicesLandingPage";
+import TechnologyDevicesExplorePage from "./pages/TechnologyDevicesExplorePage";
+import HealthConnect360Page from "./pages/HealthConnect360Page";
 import Careers from "./pages/Careers";
 import OurRD from "./pages/OurRD";
 import CareCommunityScreen from "./pages/CareCommunityScreen";
@@ -34,6 +37,9 @@ export default function App() {
           <Route path={R.about} element={<AboutUsPage />} />
           <Route path={R.ecosystem} element={<TelthEcosystem />} />
           <Route path={R.technology} element={<TechnologyScreen />} />
+          <Route path={R.technologyDevices} element={<TechnologyDevicesLandingPage />} />
+          <Route path={R.technologyDevicesExplore} element={<TechnologyDevicesExplorePage />} />
+          <Route path={R.healthConnect} element={<HealthConnect360Page />} />
           <Route path={R.careers} element={<Careers />} />
           <Route path={R.rd} element={<OurRD />} />
           <Route path={R.careCommunity} element={<CareCommunityScreen />} />
@@ -54,7 +60,7 @@ export default function App() {
           <Route path={R.bookOrientation} element={<BookOrientationScreen />} />
           <Route path="/orientation" element={<Navigate to={R.bookOrientation} replace />} />
           <Route path={R.enquirySubmitted} element={<EnquirySubmittedScreen />} />
-          {[R.privacy, R.terms, R.hipaa, R.security].map((p) => (
+          {[R.privacy, R.terms, R.hipaa, R.security, R.cookiePreferences, R.accessibility, R.regulatoryInformation, R.productAvailability, R.corporateGovernance].map((p) => (
             <Route key={p} path={p} element={<LegalPage />} />
           ))}
           <Route path="*" element={<Navigate to={R.home} replace />} />
@@ -62,3 +68,5 @@ export default function App() {
     </Routes>
   );
 }
+
+
