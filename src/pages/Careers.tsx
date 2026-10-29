@@ -3,7 +3,7 @@ import CtaBand from "../components/CtaBand";
 import { Cpu, Stethoscope, Globe2, PanelsTopLeft, FlaskConical, Scale } from "lucide-react";
 import { Container, Eyebrow, Reveal, Section, Split } from "../components/ui";
 import { IMG } from "../assets/slots";
-import { ROUTES } from "../lib/links";
+import { EXTERNAL } from "../lib/links";
 
 const VALUES = [
   "We build technology that serves people.",
@@ -104,7 +104,7 @@ export default function Careers() {
         title="Interested in Joining Telth?"
         text="Send us a note about your background and how you'd like to contribute to connected healthcare."
         bg={IMG.careersCta}
-        primary={{ label: "Join with us", to: `${ROUTES.enquiry}?type=Careers` }}
+        primary={{ label: "Join with us", to: EXTERNAL.zohoRecruit }}
       />
     </>
   );

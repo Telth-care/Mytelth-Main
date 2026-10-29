@@ -12,7 +12,7 @@ const PRINCIPLES = [
   { icon: Handshake, title: "Collaborative", text: "Telth grows through genuine partnerships with healthcare professionals, organisations and communities." },
   { icon: Globe2, title: "Globally Ambitious", text: "Designed from the outset for multinational, multilingual deployment across diverse healthcare contexts." },
   { icon: LockKeyhole, title: "Trustworthy", text: "Data governance, consent and patient safety are foundational to how we design and operate." },
-  { icon: Workflow, title: "Responsible Progress", text: "We advance technology thoughtfully — where it is safe, useful and accountable." },
+  { icon: Workflow, title: "Responsible Progress", text: "We advance technology thoughtfully where it is safe, useful and accountable." },
 ];
 
 const LOCATIONS = [

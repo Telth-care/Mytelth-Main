@@ -9,6 +9,7 @@ export const EXTERNAL = {
   natlife: "https://natlife.myshopify.com",
   x: "https://x.com",
   linkedin: "https://www.linkedin.com",
+  zohoRecruit: "https://mytelth.zohorecruit.in/jobs/Telth-career-portal?",
 } as const;
 
 export const ROUTES = {
@@ -115,5 +116,4 @@ export const LOGIN_LINKS = [
   { label: "T-DOC App", hint: "For physicians", to: R.tdoc },
   { label: "T-CM/CCM App", hint: "For care managers", to: R.cmccm },
 ] as const;
-
 

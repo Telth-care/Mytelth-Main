@@ -369,7 +369,7 @@ export default function HomePageRedesign() {
                 TELTH is developing an integrated global healthcare technology and services ecosystem connecting medical innovation, artificial intelligence, connected diagnostics, healthcare professionals, community care, healthcare memberships and responsible commerce.
               </p>
               <p className="flex items-center border-white/80 text-center text-[14px] leading-[2] text-[#101522] sm:text-[14.5px] lg:border-l lg:pl-8">
-                Our vision is to move healthcare from reactive, hospital-centric treatment toward predictive, preventive, precise, personalized and continuous smart care bringing advanced healthcare innovation within reach of more people and communities.
+                Our vision is to move healthcare from reactive, hospital-centric treatment towards to predictive, preventive, precise, personalized and continuous smart care bringing advanced healthcare innovation within reach of more people and communities.
               </p>
             </div>
           </Reveal>

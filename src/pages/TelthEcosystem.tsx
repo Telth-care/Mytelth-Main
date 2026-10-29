@@ -48,7 +48,7 @@ export default function TelthEcosystem() {
             </Reveal>
             <Reveal delay={180}>
               <p className="mt-7 max-w-[620px] text-[17px] leading-[1.75] text-slate-600 sm:text-[20px]">
-                TELTH brings together people, healthcare professionals, connected technologies, care services and health-focused commerce in one coordinated ecosystem—designed to support a more connected healthcare journey.
+                TELTH brings together people, healthcare professionals, connected technologies, care services and health-focused commerce in one coordinated ecosystem designed to support a more connected healthcare journey.
               </p>
             </Reveal>
           </div>
