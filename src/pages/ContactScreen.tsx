@@ -6,6 +6,7 @@ import { Consent, Field, Input, Select, TextArea } from "../components/forms";
 import { Container, Reveal, Section } from "../components/ui";
 import { ROUTES } from "../lib/links";
 import { submitContactForm } from "../lib/api";
+import FeedbackForm from "../components/FeedbackForm";
 
 const CONTACT_METHODS = ["Email", "Phone call", "No preference"] as const;
 const ENQUIRY_TYPES = [
@@ -238,11 +239,12 @@ export default function ContactScreen() {
       <Section className="!pt-10 sm:!pt-14">
         <Container>
           <Reveal>
-            <form
-              onSubmit={submit}
-              noValidate
-              className="mx-auto max-w-[800px] rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_40px_rgba(15,23,42,0.07)] sm:p-10"
-            >
+            <div className="grid items-start gap-8 lg:grid-cols-2">
+              <form
+                onSubmit={submit}
+                noValidate
+                className="w-full rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_8px_40px_rgba(15,23,42,0.07)] sm:p-8"
+              >
               <p className="font-open text-[12.5px] font-bold uppercase tracking-[0.12em] text-brand">Get in Touch</p>
               <h2 className="mt-2 text-[26px] font-semibold sm:text-[32px]">Send an Enquiry</h2>
 
@@ -448,7 +450,9 @@ export default function ContactScreen() {
                 )}
               </button>
 
-            </form>
+              </form>
+              <FeedbackForm />
+            </div>
           </Reveal>
         </Container>
       </Section>

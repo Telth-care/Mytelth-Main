@@ -6,6 +6,7 @@
  * Payloads are differentiated via the `formType` field:
  * - Orientation Form: `formType: "orientation"`
  * - Contact / Enquiry Form: `formType: "contact"`
+ * - Feedback Form: `formType: "feedback"`
  * - Care Manager Application: `formType: "care_manager_application"`
  */
 
@@ -40,6 +41,12 @@ export interface ContactFormData {
   message: string;
 }
 
+export interface FeedbackFormData {
+  fullName: string;
+  email: string;
+  message: string;
+}
+
 export interface CmApplicationFormData {
   fullName: string;
   mobile: string;
@@ -54,7 +61,7 @@ export interface CmApplicationFormData {
   availability: string;
 }
 
-export type FormType = "orientation" | "contact" | "care_manager_application";
+export type FormType = "orientation" | "contact" | "feedback" | "care_manager_application";
 
 export interface FormSubmissionPayload {
   formType: FormType;
@@ -100,23 +107,30 @@ async function postJson(endpoint: string, payload: any): Promise<ApiResponse> {
 
     if (!response.ok) {
       let errorMsg = `Submission failed (${response.status})`;
-      let errorJson: any = null;
+      const responseText = await response.text();
+      let errorJson: {
+        error?: string;
+        message?: string;
+        errors?: Record<string, string>;
+      } | null = null;
 
       try {
-        errorJson = await response.json();
-        if (errorJson.error) {
+        errorJson = JSON.parse(responseText);
+      } catch {
+        // The response body has already been read as text.
+      }
+
+      if (errorJson?.error) {
           errorMsg = errorJson.error;
-        } else if (errorJson.message) {
+      } else if (errorJson?.message) {
           errorMsg = errorJson.message;
-        } else if (errorJson.errors) {
+      } else if (errorJson?.errors) {
           const detail = Object.entries(errorJson.errors)
             .map(([k, v]) => `${k}: ${v}`)
             .join(", ");
           errorMsg = detail || "Validation failed";
-        }
-      } catch {
-        const errorText = await response.text();
-        if (errorText) errorMsg = errorText.slice(0, 150);
+      } else if (responseText) {
+        errorMsg = responseText.slice(0, 150);
       }
 
       // If origin blocked in local development, attempt Vite dev server proxy (/api/submit)
@@ -137,7 +151,17 @@ async function postJson(endpoint: string, payload: any): Promise<ApiResponse> {
       throw new Error(errorMsg);
     }
 
-    const result = await response.json().catch(() => ({ success: true }));
+    let result: ApiResponse;
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response. Please try again.");
+    }
+
+    if (!result || result.success !== true) {
+      throw new Error(result?.error || result?.message || "The server could not complete your submission.");
+    }
+
     return result;
   } catch (error: any) {
     clearTimeout(timeoutId);
@@ -209,6 +233,23 @@ export async function submitContactForm(formData: ContactFormData): Promise<ApiR
 }
 
 /**
+ * Submit feedback form to http://192.168.1.235:3000/api/submit
+ * Same unified endpoint + Zoho CRM destination as the contact / enquiry form,
+ * differentiated only by `formType: "feedback"`.
+ */
+export async function submitFeedbackForm(formData: FeedbackFormData): Promise<ApiResponse> {
+  const payload = {
+    formType: "feedback",
+    type: "feedback",
+    fullName: formData.fullName.trim(),
+    email: formData.email.trim(),
+    message: formData.message.trim(),
+  };
+
+  return postJson(CONTACT_SUBMISSION_ENDPOINT, payload);
+}
+
+/**
  * Generic submit form data to backend API.
  * Automatically injects the differentiating `formType` field and routes to the endpoint.
  */
@@ -223,6 +264,10 @@ export async function submitForm(
 
   if (formType === "contact") {
     return submitContactForm(formData as ContactFormData);
+  }
+
+  if (formType === "feedback") {
+    return submitFeedbackForm(formData as FeedbackFormData);
   }
 
   const target = customEndpoint || SUBMISSION_ENDPOINT;

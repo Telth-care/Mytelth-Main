@@ -10,6 +10,9 @@ export default function EnquirySubmittedScreen() {
     (location.state as { origin?: string; isOrientation?: boolean } | null)?.origin === "orientation" ||
     (location.state as { origin?: string; isOrientation?: boolean } | null)?.isOrientation ||
     searchParams.get("type") === "orientation";
+  const isFeedback =
+    (location.state as { origin?: string } | null)?.origin === "feedback" ||
+    searchParams.get("type") === "feedback";
 
   return (
     <section className="py-12 sm:py-20">
@@ -21,12 +24,14 @@ export default function EnquirySubmittedScreen() {
                 <Check className="h-8 w-8" strokeWidth={3} aria-hidden="true" />
               </span>
               <h1 className="mt-6 text-[28px] font-bold sm:text-[32px]">
-                {isOrientation ? "Orientation Request Received" : "Enquiry Received"}
+                {isOrientation ? "Orientation Request Received" : isFeedback ? "Feedback Received" : "Enquiry Received"}
               </h1>
               <p className="mt-4 text-[15.5px] leading-[1.75] text-body">
                 {isOrientation
                   ? "Thank you for scheduling your orientation. Your details have been received and our team will get in touch with you shortly with your orientation schedule."
-                  : "Thank you. Your enquiry has been received and will be routed to the appropriate Telth team. We will be in touch using your preferred contact method."}
+                  : isFeedback
+                    ? "Thank you. Your feedback has been received and will be reviewed by our team. We appreciate you helping us improve Telth."
+                    : "Thank you. Your enquiry has been received and will be routed to the appropriate Telth team. We will be in touch using your preferred contact method."}
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                 <Btn to={ROUTES.home}>Back to Home</Btn>

@@ -28,6 +28,7 @@ import CmApplicationFormScreen from "./pages/CmApplicationFormScreen";
 import BookOrientationScreen from "./pages/BookOrientationScreen";
 import EnquirySubmittedScreen from "./pages/EnquirySubmittedScreen";
 import LegalPage from "./pages/LegalPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
@@ -63,7 +64,7 @@ export default function App() {
           {[R.privacy, R.terms, R.hipaa, R.security, R.cookiePreferences, R.accessibility, R.regulatoryInformation, R.productAvailability, R.corporateGovernance].map((p) => (
             <Route key={p} path={p} element={<LegalPage />} />
           ))}
-          <Route path="*" element={<Navigate to={R.home} replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
     </Routes>
   );
