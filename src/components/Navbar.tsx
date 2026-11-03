@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X, Smartphone, Stethoscope, UserCheck } from "lucide-react";
 import { LOGIN_LINKS, NAV, ROUTES, isExternal } from "../lib/links";
+import SiteSearch from "./SiteSearch";
 import logo from "../assets/telth-logo-name.png";
 
 const LOGIN_ICONS = [Smartphone, Stethoscope, UserCheck];
@@ -128,6 +129,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <SiteSearch />
           <div className="hidden lg:block">
             <LoginMenu />
           </div>

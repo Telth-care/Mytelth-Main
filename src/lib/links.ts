@@ -67,6 +67,44 @@ export const NAV = [
   { label: "Our R&D", to: R.rd },
 ] as const;
 
+/** Pages and common terms users may search for in the site navigation. */
+export const SEARCH_PAGES = [
+  { label: "Home", to: R.home, keywords: "welcome telth" },
+  { label: "About Us", to: R.about, keywords: "company about telth who we are" },
+  { label: "Telth Ecosystem", to: R.ecosystem, keywords: "platform ecosystem health care" },
+  { label: "Technology", to: R.technology, keywords: "digital health innovation technology" },
+  { label: "Devices", to: R.technologyDevices, keywords: "medical devices wearable monitor" },
+  { label: "Explore Devices", to: R.technologyDevicesExplore, keywords: "device catalogue products explore" },
+  { label: "HealthConnect 360", to: R.healthConnect, keywords: "healthconnect 360 connected health" },
+  { label: "Careers", to: R.careers, keywords: "jobs work join team employment" },
+  { label: "Our R&D", to: R.rd, keywords: "research development innovation" },
+  { label: "Care @ Community", to: R.careCommunity, keywords: "community care services" },
+  { label: "Care @ Home", to: R.careHome, keywords: "home care services" },
+  { label: "Personal Care", to: R.personalCare, keywords: "personalized care" },
+  { label: "Intelligent Care Economy", to: R.intelligentCareEconomy, keywords: "intelligent care economy t-care app" },
+  { label: "Care Plan", to: R.carePlan, keywords: "care plan health planning" },
+  { label: "Partnerships", to: R.partnership, keywords: "partner collaborate partnership" },
+  { label: "THOS", to: R.thos, keywords: "health operating system platform" },
+  { label: "THOS v1", to: R.thosV1, keywords: "thos version one" },
+  { label: "THOS v2", to: R.thosV2, keywords: "thos version two" },
+  { label: "THOS v3", to: R.thosV3, keywords: "thos version three" },
+  { label: "THOS v4", to: R.thosV4, keywords: "thos version four" },
+  { label: "T-DOC", to: R.tdoc, keywords: "physician doctor app" },
+  { label: "CM/CCM", to: R.cmccm, keywords: "care manager care management app" },
+  { label: "Contact Us", to: R.enquiry, keywords: "contact enquiry email message" },
+  { label: "CM Application", to: R.cmApplication, keywords: "care manager application apply" },
+  { label: "Book an Orientation", to: R.bookOrientation, keywords: "orientation booking schedule appointment" },
+  { label: "Privacy Policy", to: R.privacy, keywords: "privacy data" },
+  { label: "Terms of Use", to: R.terms, keywords: "terms conditions" },
+  { label: "HIPAA", to: R.hipaa, keywords: "health information privacy compliance" },
+  { label: "Security", to: R.security, keywords: "security information protection" },
+  { label: "Accessibility", to: R.accessibility, keywords: "accessibility inclusion" },
+  { label: "Regulatory Information", to: R.regulatoryInformation, keywords: "regulatory compliance" },
+  { label: "Product Availability", to: R.productAvailability, keywords: "product availability" },
+  { label: "Corporate Governance", to: R.corporateGovernance, keywords: "governance corporate" },
+  { label: "Cookie Preferences", to: R.cookiePreferences, keywords: "cookies preferences settings" },
+] as const;
+
 export const FOOTER_COLUMNS = [
   {
     title: "Company",
@@ -116,4 +154,3 @@ export const LOGIN_LINKS = [
   { label: "T-DOC App", hint: "For physicians", to: R.tdoc },
   { label: "T-CM/CCM App", hint: "For care managers", to: R.cmccm },
 ] as const;
-
