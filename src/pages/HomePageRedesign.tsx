@@ -32,9 +32,10 @@ import careJourneyAnimation from "../assets/undefined - Imgur.gif";
 import connectedCareArtwork from "../assets/homecareplanimg.webp";
 import thosArtwork from "../assets/homethossectionimg.webp";
 import partnersArtwork from "../assets/homepartnersimg.webp";
-import appPatientArtwork from "../assets/homeapp1img.webp";
+import appPatientArtwork from "../assets/homeapp1img.png";
 import appDoctorArtwork from "../assets/homeapp2img.webp";
-import appCareArtwork from "../assets/homeapp3img.webp";
+import appCareArtwork from "../assets/homeapp3img.png";
+import integratedResponseArtwork from "../assets/Group 604.png";
 import partnerHealthcareImage from "../assets/image 43.png";
 import partnerTechnologyImage from "../assets/image 44.png";
 import partnerHospitalImage from "../assets/image 45.png";
@@ -50,15 +51,15 @@ const pillars = [
 ];
 
 const applications = [
-  { label: "T-CARE APP", title: "T-CARE APP", icon: Users, image: appPatientArtwork, tone: "blue", to: ROUTES.carePlan, text: "A consumer-grade mobile experience that puts patients in control of their entire healthcare journey.", features: ["Appointment Booking", "Health Records", "Teleconsultation", "Medication Reminders"], stats: ["98%|Satisfaction", "4.9★|App Store", "2min|Avg. Response"] },
-  { label: "T-DOC APP", title: "T-DOC APP", icon: Stethoscope, image: appDoctorArtwork, tone: "emerald", to: ROUTES.tdoc, text: "A connected workspace for physicians to manage appointments, availability, patient context and follow-up.", features: ["Practice modes", "Patient context", "Consultations", "Care-team coordination"], stats: ["One|Care network", "Secure|Records", "Connected|Workflows"] },
-  { label: "CM/CCM APP", title: "CM/CCM APP", icon: HeartPulse, image: appCareArtwork, tone: "violet", to: ROUTES.cmccm, text: "Purpose-built tools that help Care Managers and Clinical Care Managers coordinate permitted care workflows.", features: ["Care plans", "Patient follow-up", "Assessment workflows", "Team coordination"], stats: ["Connected|Care teams", "Guided|Follow-up", "Unified|Workflows"] },
+  { label: "T-CARE APP", title: "T-CARE APP", icon: Users, image: appPatientArtwork, tone: "blue", to: ROUTES.carePlan, text: "A consumer-grade mobile experience that puts patients in control of their entire healthcare journey.", features: ["Appointment Booking", "Health Records", "Teleconsultation", "Medication Reminders"] },
+  { label: "T-DOC APP", title: "T-DOC APP", icon: Stethoscope, image: appDoctorArtwork, tone: "emerald", to: ROUTES.tdoc, text: "A connected workspace for physicians to manage appointments, availability, patient context and follow-up.", features: ["Practice modes", "Patient context", "Consultations", "Care-team coordination"] },
+  { label: "CM/CCM APP", title: "CM/CCM APP", icon: HeartPulse, image: appCareArtwork, tone: "violet", to: ROUTES.cmccm, text: "Purpose-built tools that help Care Managers and Clinical Care Managers coordinate permitted care workflows.", features: ["Care plans", "Patient follow-up", "Assessment workflows", "Team coordination"] },
 ];
 
 const applicationThemes = {
-  blue: { selectedTab: "bg-[#2860e9] text-white", badge: "bg-blue-500/20 text-blue-300", chip: "border-blue-300/20 bg-blue-400/[0.08] text-blue-200", button: "!bg-[#2860e9] hover:!bg-blue-700", metric: "text-blue-300", check: "bg-[#2860e9]", imageHalo: "bg-blue-400/15" },
-  emerald: { selectedTab: "bg-emerald-500 text-white", badge: "bg-emerald-500/20 text-emerald-300", chip: "border-emerald-300/20 bg-emerald-400/[0.08] text-emerald-200", button: "!bg-emerald-600 hover:!bg-emerald-700", metric: "text-emerald-300", check: "bg-emerald-500", imageHalo: "bg-emerald-400/15" },
-  violet: { selectedTab: "bg-violet-500 text-white", badge: "bg-violet-500/20 text-violet-300", chip: "border-violet-300/20 bg-violet-400/[0.08] text-violet-200", button: "!bg-violet-600 hover:!bg-violet-700", metric: "text-violet-300", check: "bg-violet-500", imageHalo: "bg-violet-400/15" },
+  blue: { selectedTab: "bg-[#2860e9] text-white", badge: "bg-blue-500/20 text-blue-300", chip: "border-blue-300/20 bg-blue-400/[0.08] text-blue-200", button: "!bg-[#2860e9] hover:!bg-blue-700", imageHalo: "bg-blue-400/15" },
+  emerald: { selectedTab: "bg-emerald-500 text-white", badge: "bg-emerald-500/20 text-emerald-300", chip: "border-emerald-300/20 bg-emerald-400/[0.08] text-emerald-200", button: "!bg-emerald-600 hover:!bg-emerald-700", imageHalo: "bg-emerald-400/15" },
+  violet: { selectedTab: "bg-violet-500 text-white", badge: "bg-violet-500/20 text-violet-300", chip: "border-violet-300/20 bg-violet-400/[0.08] text-violet-200", button: "!bg-violet-600 hover:!bg-violet-700", imageHalo: "bg-violet-400/15" },
 };
 
 const thosFeatures = [
@@ -95,18 +96,6 @@ const stakeholders = [
   { icon: Activity, title: "Healthcare Startups" }, { icon: HomeIcon, title: "Home Healthcare" },
 ];
 
-const responseLeft = [
-  "Connected Measurements",
-  "Organized Health Information",
-  "AI-Assisted Workflows",
-];
-
-const responseRight = [
-  "Care Coordination",
-  "Clinician-Led Decisions",
-  "Continuous Follow-Up",
-];
-
 const careJourney = [
   { icon: HomeIcon, title: "Home", text: <>Family, Elderly,<br />Chronic Care</> },
   { icon: IdCard, title: "Care Manager + HES", text: <>Health Assessment<br />at Home</> },
@@ -116,14 +105,6 @@ const careJourney = [
   { icon: ChartColumnIncreasing, title: "Follow-up and Remote monitoring", text: <>Ongoing Support</> },
   { icon: UsersRound, title: "Care Community", text: <>Healthier Families<br />Stronger Communities</> },
 ];
-
-function ResponseCard({ children }: { children: string }) {
-  return (
-    <div className="flex min-h-[88px] items-center justify-center rounded-[24px] border border-cyan-100/90 bg-[#e9fbff] px-5 py-5 text-center font-franklin text-[16px] font-medium text-slate-900 shadow-[0_8px_24px_rgba(44,128,151,0.17)] sm:text-[17px]">
-      {children}
-    </div>
-  );
-}
 
 const DATA_ITEMS = [
   "Personal Gadget Data",
@@ -148,7 +129,6 @@ const STEP_MS = 1100; // how long each block stays "hovered" before the next one
 function InfrastructureFlow() {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [step, setStep] = useState(-1);
 
   // run only while visible
@@ -164,7 +144,7 @@ function InfrastructureFlow() {
 
   // endless loop: block 0 → 1 → … → 5 → 0 …
   useEffect(() => {
-    if (!inView || paused) {
+    if (!inView) {
       setStep(-1);
       return;
     }
@@ -176,36 +156,34 @@ function InfrastructureFlow() {
       setStep(i);
     }, STEP_MS);
     return () => clearInterval(id);
-  }, [inView, paused]);
+  }, [inView]);
 
   const on = (i: number) => (step === i ? "true" : "false");
 
   return (
     <div
       ref={ref}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       className="tf relative mx-auto w-full max-w-[1240px] px-2"
     >
       <style>{`
         .tf-item{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,background-color .45s ease,border-color .45s ease}
-        .tf-item:hover,.tf-item[data-on="true"]{transform:translateY(-6px)}
+        .tf-item[data-on="true"]{transform:translateY(-6px)}
 
         /* pills */
         .tf-pill{box-shadow:0 8px 20px -8px rgba(37,99,235,.55)}
-        .tf-pill:hover,.tf-pill[data-on="true"]{background-color:#1d4ed8;
+        .tf-pill[data-on="true"]{background-color:#1d4ed8;
           box-shadow:0 0 0 4px rgba(37,99,235,.18),0 0 28px rgba(37,99,235,.6)}
 
         /* boxes */
         .tf-box{box-shadow:0 10px 28px -14px rgba(15,23,42,.28)}
-        .tf-box:hover,.tf-box[data-on="true"]{border-color:rgba(37,99,235,.4);background-color:#DCE6FA;
+        .tf-box[data-on="true"]{border-color:rgba(37,99,235,.4);background-color:#DCE6FA;
           box-shadow:0 0 0 1px rgba(37,99,235,.3),0 22px 48px -14px rgba(37,99,235,.5)}
 
         /* circle */
         .tf-core{transition:box-shadow .45s ease}
-        .tf-circle:hover,.tf-circle[data-on="true"]{transform:translateY(-4px) scale(1.04)}
-        .tf-circle:hover .tf-core,.tf-circle[data-on="true"] .tf-core{box-shadow:0 0 0 8px rgba(37,99,235,.2),0 0 40px rgba(37,99,235,.7)}
-        .tf-circle:hover .tf-halo,.tf-circle[data-on="true"] .tf-halo{animation:tf-pulse 1.1s ease-out infinite}
+        .tf-circle[data-on="true"]{transform:translateY(-4px) scale(1.04)}
+        .tf-circle[data-on="true"] .tf-core{box-shadow:0 0 0 8px rgba(37,99,235,.2),0 0 40px rgba(37,99,235,.7)}
+        .tf-circle[data-on="true"] .tf-halo{animation:tf-pulse 1.1s ease-out infinite}
         .tf-ring{animation:tf-spin 24s linear infinite}
 
         @keyframes tf-pulse{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.35);opacity:0}}
@@ -213,7 +191,7 @@ function InfrastructureFlow() {
 
         @media (prefers-reduced-motion:reduce){
           .tf-item,.tf-core{transition:none}
-          .tf-item:hover,.tf-item[data-on="true"]{transform:none}
+          .tf-item[data-on="true"]{transform:none}
           .tf-ring,.tf-halo{animation:none!important}
         }
       `}</style>
@@ -233,7 +211,7 @@ function InfrastructureFlow() {
         {/* ---------- 3. G-Med ID circle ---------- */}
         <div
           data-on={on(I_CIRCLE)}
-          className="tf-item tf-circle relative flex h-[132px] w-[132px] flex-none cursor-pointer items-center justify-center"
+          className="tf-item tf-circle relative flex h-[132px] w-[132px] flex-none cursor-default items-center justify-center"
         >
           <span className="tf-ring absolute inset-0 rounded-full border border-dashed border-blue-400/70" />
           <span className="tf-halo pointer-events-none absolute inset-2 rounded-full bg-blue-400/40 opacity-0" />
@@ -274,7 +252,7 @@ function Pill({ on, kicker, label }: { on: string; kicker: string; label: string
   return (
     <div
       data-on={on}
-      className="tf-item tf-pill w-full max-w-[220px] flex-none cursor-pointer rounded-[12px] bg-blue-600 px-4 py-3 text-left text-white lg:w-[175px]"
+      className="tf-item tf-pill w-full max-w-[220px] flex-none cursor-default rounded-[12px] bg-blue-600 px-4 py-3 text-left text-white lg:w-[175px]"
     >
       <p className="text-[13px] font-medium leading-tight text-blue-100">{kicker}</p>
       <p className="mt-0.5 text-[13.5px] font-bold leading-tight">{label}</p>
@@ -300,7 +278,7 @@ function Box({
   return (
     <div
       data-on={on}
-      className={`tf-item tf-box flex-none cursor-pointer rounded-[14px] border border-white/70 bg-[#E6ECF8] ${
+      className={`tf-item tf-box flex-none cursor-default rounded-[14px] border border-white/70 bg-[#E6ECF8] ${
         padded ? "p-[22px]" : "p-4"
       } ${className}`}
     >
@@ -324,9 +302,18 @@ function Box({
 
 export default function HomePageRedesign() {
   const [activeApplication, setActiveApplication] = useState(0);
+  const [thosBlinkStep, setThosBlinkStep] = useState(0);
   const application = applications[activeApplication];
   const ApplicationIcon = application.icon;
   const applicationTheme = applicationThemes[application.tone as keyof typeof applicationThemes];
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const interval = window.setInterval(() => {
+      setThosBlinkStep((step) => (step + 1) % (thosFeatures.length + 1));
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -382,7 +369,7 @@ export default function HomePageRedesign() {
             <Reveal dir="left">
               <h2 className="max-w-[660px] font-franklin text-[32px] font-semibold leading-[1.12] tracking-[-0.025em] text-[#111a32] sm:text-[40px] lg:text-[44px]">
                 Healthcare Has Advanced.
-                <span className="block text-[#2b63ee]">
+                <span className="block text-[24px] leading-[1.2] text-[#2b63ee] sm:text-[28px] lg:whitespace-nowrap lg:text-[30px]">
                   The Healthcare Journey Is Still Fragmented.
                 </span>
               </h2>
@@ -418,17 +405,13 @@ export default function HomePageRedesign() {
               Our <span className="text-[#2b63ee]">Integrated Response</span>
             </h2>
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-[1120px] gap-5 md:grid-cols-[minmax(0,1fr)_220px_minmax(0,1fr)] md:items-stretch md:gap-x-10">
-            <div className="grid gap-5">
-              {responseLeft.map((item) => <ResponseCard key={item}>{item}</ResponseCard>)}
-            </div>
-            <div className="flex min-h-[150px] items-center justify-center rounded-[24px] border border-cyan-100/90 bg-[#e2f9ff] px-6 py-8 text-center font-franklin text-[17px] font-semibold text-slate-900 shadow-[0_10px_28px_rgba(44,128,151,0.2)] md:my-auto md:min-h-[170px]">
-              Preventive Care
-            </div>
-            <div className="grid gap-5">
-              {responseRight.map((item) => <ResponseCard key={item}>{item}</ResponseCard>)}
-            </div>
-          </div>
+          <img
+            src={integratedResponseArtwork}
+            alt="Integrated response connecting preventive care, organized health information, continuous follow-up, care coordination, clinician-led decisions, connected measurements, and AI-assisted workflows"
+            className="mx-auto mt-10 block h-auto w-full max-w-[860px]"
+            loading="lazy"
+            decoding="async"
+          />
         </Container>
       </section>
 
@@ -590,8 +573,8 @@ export default function HomePageRedesign() {
             ))}
           </div>
           <Reveal key={application.title} delay={80}>
-            <div id="application-panel" role="tabpanel" aria-labelledby={`application-tab-${activeApplication}`} className="mx-auto mt-7 grid max-w-[1280px] gap-5 rounded-[28px] border border-white/10 bg-[#0c1328]/65 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur sm:p-7 md:grid-cols-[1fr_1fr] md:items-stretch lg:gap-8 lg:p-9">
-              <div className="grid min-h-[340px] items-center gap-5 px-1 py-2 sm:px-2 lg:grid-cols-[minmax(0,1fr)_150px]">
+            <div id="application-panel" role="tabpanel" aria-labelledby={`application-tab-${activeApplication}`} className="mx-auto mt-7 max-w-[1000px] rounded-[28px] border border-white/10 bg-[#0c1328]/65 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur sm:p-7 lg:p-9">
+              <div className="grid min-h-[420px] items-center gap-8 px-1 py-2 sm:px-2 lg:grid-cols-[minmax(0,1fr)_240px]">
                 <div className="flex h-full flex-col justify-start">
                   <span className={`flex h-12 w-12 items-center justify-center rounded-2xl ${applicationTheme.badge}`}><ApplicationIcon className="h-6 w-6" aria-hidden="true" /></span>
                   <h3 className="mt-5 font-franklin text-[26px] font-bold text-white">{application.title}</h3>
@@ -599,15 +582,10 @@ export default function HomePageRedesign() {
                   <div className="mt-5 flex flex-wrap gap-2">{application.features.map((feature) => <span key={feature} className={`rounded-full border px-3 py-1.5 text-[11px] ${applicationTheme.chip}`}>{feature}</span>)}</div>
                   <Btn to={application.to} arrow className={`mt-7 self-start !rounded-[10px] !px-4 !py-2 !text-[12px] md:mt-auto ${applicationTheme.button}`}>Explore {application.title}</Btn>
                 </div>
-                <div className="relative mx-auto w-full max-w-[150px] lg:mx-0">
+                <div className="relative mx-auto w-full max-w-[210px] lg:mx-0">
                   <div aria-hidden="true" className={`absolute -inset-4 rounded-[36px] blur-2xl ${applicationTheme.imageHalo}`} />
                   <img src={application.image} alt={`${application.title} app screen preview`} loading="lazy" decoding="async" className="relative aspect-[0.48] w-full rounded-[24px] border-[5px] border-[#090d1b] bg-white object-cover object-top shadow-[0_18px_42px_rgba(0,0,0,0.38)] transition duration-500 hover:-translate-y-2 hover:rotate-1 hover:shadow-[0_25px_55px_rgba(0,0,0,0.48)]" />
                 </div>
-              </div>
-              <div className="rounded-[20px] border border-white/[0.06] bg-white/[0.045] p-4 sm:p-5">
-                <p className="mb-4 px-1 text-[11px] font-medium text-slate-400">{application.title}</p>
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">{application.stats.map((stat) => { const [value, label] = stat.split("|"); return <div key={stat} className="rounded-[14px] border border-white/[0.035] bg-white/[0.055] p-3"><p className={`font-franklin text-lg font-bold sm:text-xl ${applicationTheme.metric}`}>{value}</p><p className="mt-1 text-[10px] text-slate-400">{label}</p></div>; })}</div>
-                <ul className="mt-3 space-y-2">{application.features.map((feature) => <li key={feature} className="flex items-center gap-2 rounded-[10px] border border-white/[0.035] bg-white/[0.045] px-3 py-2.5 text-[11px] text-slate-300"><span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-white ${applicationTheme.check}`}><Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" /></span>{feature}</li>)}</ul>
               </div>
             </div>
           </Reveal>
@@ -639,7 +617,7 @@ export default function HomePageRedesign() {
                 <img src={thosArtwork} alt="Purple illuminated THOS platform artwork" loading="lazy" decoding="async" className="thos-artwork-drift absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-x-[15%] top-[13%] bottom-[13%] grid grid-cols-2 grid-rows-3 gap-2.5 sm:gap-3">
                   {thosFeatures.map(({ icon: Icon, title, color, badge }, index) => (
-                    <div key={title} style={{ animationDelay: `${index * 700}ms` }} className="thos-feature-float flex flex-col justify-between rounded-[12px] border border-white/20 bg-white/[0.40] p-2.5 backdrop-blur-[2px] sm:rounded-[16px] sm:p-4">
+                    <div key={title} className={`thos-feature-float flex flex-col justify-between rounded-[12px] border border-white/20 bg-white/[0.40] p-2.5 backdrop-blur-[2px] sm:rounded-[16px] sm:p-4 ${thosBlinkStep < thosFeatures.length && index <= thosBlinkStep ? "thos-feature-active" : ""}`}>
                       <span className={`flex h-7 w-7 items-center justify-center rounded-lg ${badge} ${color} sm:h-9 sm:w-9`}>
                         <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" strokeWidth={1.8} aria-hidden="true" />
                       </span>

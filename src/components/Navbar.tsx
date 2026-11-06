@@ -6,6 +6,59 @@ import SiteSearch from "./SiteSearch";
 import logo from "../assets/telth-logo-name.png";
 
 const LOGIN_ICONS = [Smartphone, Stethoscope, UserCheck];
+const DEVICE_LINKS = [
+  { label: "Explore Devices", to: ROUTES.technologyDevicesExplore },
+  { label: "HealthConnect 360", to: ROUTES.healthConnect },
+] as const;
+
+function DevicesMenu() {
+  const [open, setOpen] = useState(false);
+  const wrap = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const active = pathname.startsWith(ROUTES.technologyDevices) || pathname === ROUTES.healthConnect;
+
+  useEffect(() => {
+    if (!open) return;
+    const away = (event: MouseEvent) => !wrap.current?.contains(event.target as Node) && setOpen(false);
+    const esc = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", away);
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.removeEventListener("mousedown", away);
+      document.removeEventListener("keydown", esc);
+    };
+  }, [open]);
+
+  return (
+    <div ref={wrap} className="relative">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+        className={`nav-link inline-flex items-center gap-1.5 font-franklin text-[15px] font-medium transition-colors ${active ? "text-ink" : "text-[#576689] hover:text-ink"}`}
+      >
+        Devices
+        <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div role="menu" className="absolute left-1/2 top-[calc(100%+14px)] z-50 w-56 -translate-x-1/2 rounded-2xl border border-slate-100 bg-white p-2 shadow-[0_24px_60px_-20px_rgba(15,23,42,.35)]">
+          {DEVICE_LINKS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) => `block rounded-xl px-3 py-2.5 font-franklin text-[14px] font-medium transition-colors ${isActive ? "bg-brand/10 text-brand" : "text-ink hover:bg-soft"}`}
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function LoginMenu({ onNavigate }: { onNavigate?: () => void }) {
   const [open, setOpen] = useState(false);
@@ -76,10 +129,14 @@ function LoginMenu({ onNavigate }: { onNavigate?: () => void }) {
 
 export default function Navbar() {
   const [drawer, setDrawer] = useState(false);
+  const [devicesOpen, setDevicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
 
-  useEffect(() => setDrawer(false), [pathname]);
+  useEffect(() => {
+    setDrawer(false);
+    setDevicesOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 8);
@@ -114,7 +171,9 @@ export default function Navbar() {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-6 xl:gap-10 lg:flex">
-          {NAV.map((n) => (
+          {NAV.map((n) => n.label === "Devices" ? (
+            <DevicesMenu key={n.to} />
+          ) : (
             <NavLink
               key={n.to}
               to={n.to}
@@ -154,7 +213,33 @@ export default function Navbar() {
         }`}
       >
         <nav aria-label="Mobile" className="flex flex-col p-3">
-          {NAV.map((n) => (
+          {NAV.map((n) => n.label === "Devices" ? (
+            <div key={n.to}>
+              <button
+                type="button"
+                aria-expanded={devicesOpen}
+                aria-controls="mobile-devices-menu"
+                onClick={() => setDevicesOpen((value) => !value)}
+                className={`flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left font-franklin text-[16px] font-medium transition-colors ${pathname.startsWith(ROUTES.technologyDevices) || pathname === ROUTES.healthConnect ? "bg-brand/10 text-brand" : "text-ink hover:bg-soft"}`}
+              >
+                Devices
+                <ChevronDown className={`h-5 w-5 transition-transform ${devicesOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+              </button>
+              {devicesOpen && (
+                <div id="mobile-devices-menu" className="ml-4 mt-1 border-l border-slate-200 pl-3">
+                  {DEVICE_LINKS.map((item) => (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      className={({ isActive }) => `block rounded-xl px-4 py-3 font-franklin text-[14px] font-medium transition-colors ${isActive ? "text-brand" : "text-[#576689] hover:bg-soft hover:text-ink"}`}
+                    >
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
             <NavLink
               key={n.to}
               to={n.to}
